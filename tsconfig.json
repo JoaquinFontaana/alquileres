@@ -3,6 +3,8 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
+    // 1. AÑADIR ESTA LÍNEA. Es obligatoria para que los alias funcionen.
+    "baseUrl": "./",
     "strict": true,
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": true,
@@ -13,7 +15,12 @@
     "experimentalDecorators": true,
     "importHelpers": true,
     "target": "ES2022",
-    "module": "preserve"
+    "module": "preserve",
+    "paths": {
+      "@models": ["src/app/models/index.ts"],
+      "@vehicles/*": ["src/app/vehicles/*"],
+      "@shared/*": ["src/app/shared/*"],
+    }
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

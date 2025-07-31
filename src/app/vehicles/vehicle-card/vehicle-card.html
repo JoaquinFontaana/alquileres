@@ -1,0 +1,5 @@
+@let localVehicle = this.vehicle();
+<app-card [title]="this.title()" [imgUrl]="localVehicle.imgUrl">
+    <ng-content content select="[content]"/>
+    <ng-content actions select="[actions]"/>
+</app-card>
