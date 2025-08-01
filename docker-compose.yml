@@ -34,9 +34,6 @@ services:
         - action: sync
           path: ./frontend/src
           target: /app/src
-          ignore:
-            - "**/*.log"
-            - "**/.angular"
         - action: sync
           path: ./frontend/package.json
           target: /app/package.json

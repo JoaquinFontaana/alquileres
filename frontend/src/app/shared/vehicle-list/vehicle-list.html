@@ -1,9 +1,9 @@
 @let localvehicles = this.vehicles();
 @for(vehicle of localvehicles; track vehicle.patente){
     <app-vehicle-card [vehicle]="vehicle">
-        <div content> 
+        <<ng-container content> 
             <span> Precio por dia: {{vehicle.precioPorDia}}</span>
-        </div>
+        </ng-container>
     </app-vehicle-card>
 }@empty {
     No hay vehiculos para listar....
