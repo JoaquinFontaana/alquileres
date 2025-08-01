@@ -39,6 +39,7 @@ build/
 # FRONTEND (Angular)
 /frontend
 # =========================
+.vscode/
 
 /frontend/dist/
 /frontend/tmp/

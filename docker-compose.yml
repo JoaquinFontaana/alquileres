@@ -1,0 +1,55 @@
+services:
+  java_app:
+    container_name: java.app
+    image: appimage
+    build: ./backend
+    ports:
+      - "8080:8080"
+    env_file:
+      - ./backend/.env
+    depends_on:
+      java_db:
+        condition: service_healthy
+  java_db:
+    container_name: java_db
+    image: mysql:8.0
+    ports:
+      - "3306:3306"
+    env_file:
+      - ./backend/.env
+    volumes:
+      - db_data:/var/lib/mysql
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "java_db" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+  frontend:
+    container_name: angular.app
+    build:
+      context: ./frontend
+    develop:
+      watch:
+        - action: sync
+          path: ./frontend/src
+          target: /app/src
+          ignore:
+            - "**/*.log"
+            - "**/.angular"
+        - action: sync
+          path: ./frontend/package.json
+          target: /app/package.json
+        - action: sync
+          path: ./frontend/angular.json
+          target: /app/angular.json
+    image: frontendimage
+    ports:
+      - "3000:3000"
+    volumes:
+      - /app/node_modules
+    command: [ "npm", "run", "start" ]
+    stdin_open: true
+    tty: true
+volumes:
+  db_data:
