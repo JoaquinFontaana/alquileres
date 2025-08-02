@@ -4,19 +4,15 @@ import inge2.com.alquileres.backend.dto.auto.AutoDTOListar;
 import inge2.com.alquileres.backend.model.Alquiler;
 import inge2.com.alquileres.backend.service.helper.AlquilerHelperService;
 import inge2.com.alquileres.backend.service.helper.AutoHelperService;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
+@Service @AllArgsConstructor
 public class SugerirVehiculosSimilaresUseCase {
     private final AlquilerHelperService alquilerHelperService;
     private final AutoHelperService autoHelperService;
-
-    public SugerirVehiculosSimilaresUseCase(AlquilerHelperService alquilerHelperService, AutoHelperService autoHelperService) {
-        this.alquilerHelperService = alquilerHelperService;
-        this.autoHelperService = autoHelperService;
-    }
 
     public List<AutoDTOListar> sugerirSimilares(Long codigoAlquiler) {
         Alquiler alquiler = this.alquilerHelperService.findById(codigoAlquiler);

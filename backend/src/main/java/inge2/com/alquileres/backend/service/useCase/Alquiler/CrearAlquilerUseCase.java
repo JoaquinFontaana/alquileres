@@ -11,9 +11,10 @@ import inge2.com.alquileres.backend.service.helper.AlquilerHelperService;
 import inge2.com.alquileres.backend.service.helper.AutoHelperService;
 import inge2.com.alquileres.backend.service.helper.ClienteHelperService;
 import jakarta.transaction.Transactional;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-@Service
+@Service @AllArgsConstructor
 public class CrearAlquilerUseCase {
 
     private final AlquilerHelperService alquilerHelperService;
@@ -22,13 +23,6 @@ public class CrearAlquilerUseCase {
     private final ClienteHelperService clienteHelperService;
     private final AlquilerService alquilerService;
 
-    public CrearAlquilerUseCase(AlquilerHelperService alquilerHelperService, AutoHelperService autoHelperService, SucursalService sucursalService, ClienteHelperService clienteHelperService, AlquilerService alquilerService) {
-        this.alquilerHelperService = alquilerHelperService;
-        this.autoHelperService = autoHelperService;
-        this.sucursalService = sucursalService;
-        this.clienteHelperService = clienteHelperService;
-        this.alquilerService = alquilerService;
-    }
 
     @Transactional
     public Alquiler crearAlquiler(AlquilerDTOCrear alquilerDTO, String mail){

@@ -3,6 +3,7 @@ package inge2.com.alquileres.backend.service;
 import inge2.com.alquileres.backend.model.Alquiler;
 import inge2.com.alquileres.backend.repository.IAlquilerRepository;
 import inge2.com.alquileres.backend.service.helper.AlquilerHelperService;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -10,21 +11,12 @@ import java.time.LocalDate;
 import java.util.List;
 
 
-@Service
+@Service @AllArgsConstructor
 public class AlquilerService {
-
     private final IAlquilerRepository repository;
-
     private final AlquilerHelperService alquilerHelperService;
     private final RembolsoService rembolsoService;
     private final EmailService emailService;
-
-    public AlquilerService(IAlquilerRepository repository, AlquilerHelperService alquilerHelperService, RembolsoService rembolsoService, EmailService emailService) {
-        this.repository = repository;
-        this.alquilerHelperService = alquilerHelperService;
-        this.rembolsoService = rembolsoService;
-        this.emailService = emailService;
-    }
 
     @Transactional
     public void cancelarReserva(Long codigoAlquiler) {

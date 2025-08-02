@@ -8,6 +8,7 @@ import inge2.com.alquileres.backend.model.enums.EstadoPago;
 import inge2.com.alquileres.backend.repository.IPagoRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 
@@ -15,16 +16,11 @@ import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.util.List;
 
-@Service
+@Service @AllArgsConstructor
 public class PagoService {
 
     private final IPagoRepository pagoRepository;
     private final AlquilerService alquilerService;
-
-    public PagoService(IPagoRepository pagoRepository, AlquilerService alquilerService) {
-        this.pagoRepository = pagoRepository;
-        this.alquilerService = alquilerService;
-    }
 
     @Transactional
     public Pago crearPago(Preference preference, Alquiler alquiler){

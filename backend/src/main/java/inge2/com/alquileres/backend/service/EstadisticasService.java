@@ -7,16 +7,17 @@ import inge2.com.alquileres.backend.model.Auto;
 import inge2.com.alquileres.backend.model.Cliente;
 import inge2.com.alquileres.backend.model.enums.CategoriaAuto;
 import inge2.com.alquileres.backend.repository.IAlquilerRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
 
-@Service
+@Service @AllArgsConstructor
 public class EstadisticasService {
-    @Autowired
-    private IAlquilerRepository alquilerRepository;
+
+    private final IAlquilerRepository alquilerRepository;
 
     // 5. Ingresos en un periodo de tiempo
     public EstadisticaIngresoPeriodoDTO obtenerIngresosPeriodo(LocalDate fechaInicio, LocalDate fechaFin) {

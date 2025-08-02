@@ -7,22 +7,16 @@ import inge2.com.alquileres.backend.model.Sucursal;
 import inge2.com.alquileres.backend.repository.IAutoRepository;
 import inge2.com.alquileres.backend.service.helper.AutoHelperService;
 import jakarta.transaction.Transactional;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-@Service
+@Service @AllArgsConstructor
 public class AutoService {
     private final IAutoRepository autoRepository;
     private final SucursalService sucursalService;
     private final AutoHelperService autoHelperService;
     private final FileStorageService fileStorageService;
 
-
-    public AutoService(IAutoRepository autoRepository, SucursalService sucursalService, AutoHelperService autoHelperService, FileStorageService fileStorageService) {
-        this.autoRepository = autoRepository;
-        this.sucursalService = sucursalService;
-        this.autoHelperService = autoHelperService;
-        this.fileStorageService = fileStorageService;
-    }
 
     @Transactional
     public void crearAuto(AutoDTOCrear autoDto){

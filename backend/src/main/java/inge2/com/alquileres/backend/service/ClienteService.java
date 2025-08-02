@@ -9,11 +9,12 @@ import inge2.com.alquileres.backend.model.Cliente;
 import inge2.com.alquileres.backend.repository.IClienteRepository;
 import inge2.com.alquileres.backend.service.helper.ClienteHelperService;
 import jakarta.transaction.Transactional;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
+@Service @AllArgsConstructor
 public class ClienteService {
 
     private final EncryptService encryptService;
@@ -21,14 +22,6 @@ public class ClienteService {
     private final RolService rolService ;
     private final ClienteHelperService clienteHelperService;
     private final EmailService emailService;
-
-    public ClienteService(EncryptService encryptService, IClienteRepository clienteRepository, RolService rolService, ClienteHelperService clienteHelperService, EmailService emailService) {
-        this.encryptService = encryptService;
-        this.clienteRepository = clienteRepository;
-        this.rolService = rolService;
-        this.clienteHelperService = clienteHelperService;
-        this.emailService = emailService;
-    }
 
     @Transactional
     public void crearCliente(PersonaDTOPassword clienteDTO){

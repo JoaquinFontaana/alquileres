@@ -3,28 +3,21 @@ package inge2.com.alquileres.backend.controller;
 import inge2.com.alquileres.backend.dto.CheckOutAlquilerDTO;
 import inge2.com.alquileres.backend.dto.CheckOutAlquilerPresencialDTO;
 import inge2.com.alquileres.backend.dto.DatosPagoDTO;
+import inge2.com.alquileres.backend.service.AuthService;
 import inge2.com.alquileres.backend.service.checkOut.CheckOutAlquilerService;
 import inge2.com.alquileres.backend.service.checkOut.CheckOutMultaService;
-import inge2.com.alquileres.backend.service.helper.AuthHelperService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@RestController
+@RestController @AllArgsConstructor
 @RequestMapping("/checkOut")
 public class CheckOutController {
 
     private final CheckOutAlquilerService checkOutAlquilerService;
     private final CheckOutMultaService checkOutMultaService;
-    private final AuthHelperService authHelperService;
-    @Autowired
-    public CheckOutController(CheckOutAlquilerService checkOutAlquilerService, CheckOutMultaService checkOutMultaService, AuthHelperService authHelperService) {
-        this.checkOutAlquilerService = checkOutAlquilerService;
-        this.checkOutMultaService = checkOutMultaService;
-        this.authHelperService = authHelperService;
-    }
-
+    private final AuthService authService;
     /*
         ** Ejemplo de peticion
         *  {
@@ -46,7 +39,7 @@ public class CheckOutController {
      }   */
     @PostMapping("/cliente/registrarAlquiler")
     public String registrarAlquilerCliente(@Valid @RequestBody CheckOutAlquilerDTO checkOutAlquilerDTO){
-        return this.checkOutAlquilerService.registrarAlquiler(checkOutAlquilerDTO,this.authHelperService.getMailOfContext());
+        return this.checkOutAlquilerService.registrarAlquiler(checkOutAlquilerDTO,this.authService.getMailOfContext());
     }
 
 

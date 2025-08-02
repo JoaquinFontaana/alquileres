@@ -5,17 +5,17 @@ import inge2.com.alquileres.backend.model.Sucursal;
 import inge2.com.alquileres.backend.service.SucursalService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
+@RestController @AllArgsConstructor
 @RequestMapping("/sucursal")
 public class SucursalController {
-    @Autowired
-    private SucursalService service;
+    private final SucursalService service;
 
     @PostMapping("/admin/crear")
     public ResponseEntity<String> crearSucursal(@Valid @RequestBody Sucursal sucursal){

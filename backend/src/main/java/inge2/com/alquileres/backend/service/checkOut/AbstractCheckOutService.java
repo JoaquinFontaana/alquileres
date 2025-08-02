@@ -1,25 +1,19 @@
 package inge2.com.alquileres.backend.service.checkOut;
 
 import com.mercadopago.resources.payment.Payment;
+import inge2.com.alquileres.backend.service.AuthService;
 import inge2.com.alquileres.backend.service.builder.MpPreferenceBuilder;
-import inge2.com.alquileres.backend.service.helper.AuthHelperService;
 import inge2.com.alquileres.backend.service.helper.CheckOutHelperService;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.beans.factory.annotation.Autowired;
 
-@Getter @Setter
+@Getter @Setter @AllArgsConstructor
 public abstract class AbstractCheckOutService {
 
-    private CheckOutHelperService checkOutHelper;
-    private MpPreferenceBuilder mpPreferenceBuilder;
-    private AuthHelperService authHelperService;
-    @Autowired
-    public AbstractCheckOutService(CheckOutHelperService checkOutHelper, MpPreferenceBuilder mpPreferenceBuilder, AuthHelperService authHelperService) {
-        this.checkOutHelper = checkOutHelper;
-        this.mpPreferenceBuilder = mpPreferenceBuilder;
-        this.authHelperService = authHelperService;
-    }
+    private final CheckOutHelperService checkOutHelper;
+    private final MpPreferenceBuilder mpPreferenceBuilder;
+    private final AuthService authService;
 
     public void procesarNotificacion(String dataId, String type) {
         if (!"payment".equals(type)){

@@ -7,12 +7,13 @@ import inge2.com.alquileres.backend.model.Empleado;
 import inge2.com.alquileres.backend.repository.IEmpleadoRepository;
 import inge2.com.alquileres.backend.service.helper.EmpleadoHelperService;
 import jakarta.transaction.Transactional;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
+@Service @AllArgsConstructor
 public class EmpleadoService {
 
     private final IEmpleadoRepository repository;
@@ -21,16 +22,6 @@ public class EmpleadoService {
     private final RolService rolService;
     private final EncryptService encryptService;
     private final EmailService emailService;
-
-    @Autowired
-    public EmpleadoService(IEmpleadoRepository repository, EmpleadoHelperService empleadoHelper, SucursalService sucursalService, RolService rolService, EncryptService encryptService, EmailService emailService) {
-        this.repository = repository;
-        this.empleadoHelper = empleadoHelper;
-        this.sucursalService = sucursalService;
-        this.rolService = rolService;
-        this.encryptService = encryptService;
-        this.emailService = emailService;
-    }
 
 
     @Transactional

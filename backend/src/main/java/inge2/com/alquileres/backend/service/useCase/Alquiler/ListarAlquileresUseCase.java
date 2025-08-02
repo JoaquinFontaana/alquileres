@@ -6,21 +6,16 @@ import inge2.com.alquileres.backend.model.Alquiler;
 import inge2.com.alquileres.backend.service.AlquilerService;
 import inge2.com.alquileres.backend.service.SucursalService;
 import inge2.com.alquileres.backend.service.builder.AlquilerFilterBuilder;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
+@Service @AllArgsConstructor
 public class ListarAlquileresUseCase {
     private final AlquilerFilterBuilder filterBuilder;
     private final SucursalService sucursalService;
     private final AlquilerService alquilerService;
-
-    public ListarAlquileresUseCase(AlquilerFilterBuilder filterBuilder, SucursalService sucursalService, AlquilerService alquilerService) {
-        this.filterBuilder = filterBuilder;
-        this.sucursalService = sucursalService;
-        this.alquilerService = alquilerService;
-    }
 
     public List<AlquilerDTOListar> listarAlquileres(AlquilerDTOFilter filtros) {
         return filterBuilder.buildFilter(filtros)

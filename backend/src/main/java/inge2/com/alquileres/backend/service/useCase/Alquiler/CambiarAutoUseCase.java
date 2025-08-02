@@ -7,23 +7,17 @@ import inge2.com.alquileres.backend.model.Auto;
 import inge2.com.alquileres.backend.service.AlquilerService;
 import inge2.com.alquileres.backend.service.helper.AlquilerHelperService;
 import inge2.com.alquileres.backend.service.helper.AutoHelperService;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
+@Service @AllArgsConstructor
 public class CambiarAutoUseCase {
     private final AlquilerHelperService alquilerHelperService;
     private final AutoHelperService autoHelperService;
     private final AlquilerService alquilerService;
     private final SugerirVehiculosSimilaresUseCase sugerirVehiculosSimilares;
-    
-    public CambiarAutoUseCase(AlquilerHelperService alquilerHelperService, AutoHelperService autoHelperService, AlquilerService alquilerService, SugerirVehiculosSimilaresUseCase sugerirVehiculosSimilares) {
-        this.alquilerHelperService = alquilerHelperService;
-        this.autoHelperService = autoHelperService;
-        this.alquilerService = alquilerService;
-        this.sugerirVehiculosSimilares = sugerirVehiculosSimilares;
-    }
 
     public void cambiarAuto(AlquilerDTOCambiarAuto alquilerDTOCambiarAuto){
         Auto auto = this.autoHelperService.findAutoByPatente(alquilerDTOCambiarAuto.getPatenteAutoNuevo());

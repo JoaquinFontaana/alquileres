@@ -5,20 +5,15 @@ import inge2.com.alquileres.backend.service.AlquilerService;
 import inge2.com.alquileres.backend.service.AutoService;
 import inge2.com.alquileres.backend.service.helper.AlquilerHelperService;
 import jakarta.transaction.Transactional;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-@Service
+@Service @AllArgsConstructor
 public class GestionAlquilerAutoUseCase {
 
     private final AlquilerHelperService alquilerHelperService;
     private final AutoService autoService;
     private final AlquilerService alquilerService;
-
-    public GestionAlquilerAutoUseCase(AlquilerHelperService alquilerHelperService, AutoService autoService, AlquilerService alquilerService) {
-        this.alquilerHelperService = alquilerHelperService;
-        this.autoService = autoService;
-        this.alquilerService = alquilerService;
-    }
 
     @Transactional
     public void iniciarAlquiler(Long codigoAlquiler) {
@@ -35,6 +30,5 @@ public class GestionAlquilerAutoUseCase {
         this.alquilerHelperService.findById(multaAlquilerDTO.getCodigoAlquiler())
                 .finalizarConMantenimiento(alquilerService,autoService,multaAlquilerDTO.getMontoMulta());
     }
-
 
 }

@@ -4,9 +4,9 @@ import com.mercadopago.resources.payment.Payment;
 import com.mercadopago.resources.preference.Preference;
 import inge2.com.alquileres.backend.dto.CheckOutAlquilerDTO;
 import inge2.com.alquileres.backend.model.Alquiler;
+import inge2.com.alquileres.backend.service.AuthService;
 import inge2.com.alquileres.backend.service.PagoService;
 import inge2.com.alquileres.backend.service.builder.MpPreferenceBuilder;
-import inge2.com.alquileres.backend.service.helper.AuthHelperService;
 import inge2.com.alquileres.backend.service.helper.CheckOutHelperService;
 import inge2.com.alquileres.backend.service.useCase.Alquiler.CrearAlquilerUseCase;
 import jakarta.transaction.Transactional;
@@ -18,8 +18,8 @@ public class CheckOutAlquilerService extends AbstractCheckOutService {
     private final PagoService pagoService;
     private final CrearAlquilerUseCase crearAlquilerUseCase;
 
-    public CheckOutAlquilerService(CheckOutHelperService checkOutHelper, MpPreferenceBuilder mpPreferenceBuilder, AuthHelperService authHelperService, PagoService pagoService, CrearAlquilerUseCase crearAlquilerUseCase) {
-        super(checkOutHelper, mpPreferenceBuilder, authHelperService);
+    public CheckOutAlquilerService(CheckOutHelperService checkOutHelper, MpPreferenceBuilder mpPreferenceBuilder, AuthService authService, PagoService pagoService, CrearAlquilerUseCase crearAlquilerUseCase) {
+        super(checkOutHelper, mpPreferenceBuilder, authService);
         this.pagoService = pagoService;
         this.crearAlquilerUseCase = crearAlquilerUseCase;
     }

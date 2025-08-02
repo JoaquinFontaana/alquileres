@@ -5,36 +5,21 @@ import inge2.com.alquileres.backend.repository.IUsuarioRepository;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Random;
 
-@Service
+@Service @AllArgsConstructor
 public class UsuarioService {
     private final IUsuarioRepository usuarioRepository;
     private final RolService rolService;
     private final EncryptService encryptService;
     private final PasswordGenerator passwordGenerator;
     private final EmailService emailService;
-    private final Random random = new Random();
-    private final List<Integer> codigos = List.of(1234, 5678, 9012, 3456, 7890);
 
-    @Autowired
-    public UsuarioService(RolService rolService, IUsuarioRepository usuarioRepository, EncryptService encryptService,
-                          PasswordGenerator passwordGenerator, EmailService emailService) {
-        this.rolService = rolService;
-        this.usuarioRepository = usuarioRepository;
-        this.encryptService = encryptService;
-        this.passwordGenerator = passwordGenerator;
-        this.emailService = emailService;
-    }
-
-    public Usuario findUsuarioById(Long id) {
-        return usuarioRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("El usuario con id " + id + " no existe"));
-    }
 
     @Transactional
     public void crearAdmin(String mail,String password){
