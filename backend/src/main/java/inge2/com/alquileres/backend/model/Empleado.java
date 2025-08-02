@@ -26,7 +26,9 @@ public class Empleado extends Persona {
         }
         super.actualizarDatos(empleadoDTO);
     }
-
+    public boolean isActivo() {
+        return this.estado.isActivo();
+    }
     public void actualizarDatos(EmpleadoDTOActualizar empleadoDTO,Sucursal sucursal){
         this.actualizarDatos(empleadoDTO);
         this.setTrabajaEnSucursal(sucursal);

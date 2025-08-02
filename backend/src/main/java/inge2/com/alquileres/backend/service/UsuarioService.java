@@ -31,6 +31,11 @@ public class UsuarioService {
         this.emailService = emailService;
     }
 
+    public Usuario findUsuarioById(Long id) {
+        return usuarioRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("El usuario con id " + id + " no existe"));
+    }
+
     @Transactional
     public void crearAdmin(String mail,String password){
         String encryptedPassword = encryptService.encryptPassword(password);
@@ -60,18 +65,4 @@ public class UsuarioService {
         usuarioRepository.save(user);
     }
 
-    public void sendDobleAutenticacion(String mail){
-        if (this.findByEmail(mail).isAdmin()){
-            this.emailService.sendDobleAutenticacionAdmin(mail, codigos.get(random.nextInt(codigos.size())));
-        }
-    }
-
-    public boolean confirmarCodigo(int cod){
-        if(this.codigos.contains(cod)){
-            return true;
-        }
-        else{
-            throw new RuntimeException("Codigo incorrecto");
-        }
-    }
 }

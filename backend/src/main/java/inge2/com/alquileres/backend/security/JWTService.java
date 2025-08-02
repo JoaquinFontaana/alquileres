@@ -1,60 +1,76 @@
 package inge2.com.alquileres.backend.security;
 
-import inge2.com.alquileres.backend.configuration.JWTConfig;
 import inge2.com.alquileres.backend.model.Empleado;
 import inge2.com.alquileres.backend.service.EmpleadoService;
+import inge2.com.alquileres.backend.service.UsuarioService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.stereotype.Component;
 import org.springframework.security.core.Authentication;
+import org.springframework.stereotype.Service;
 
 import java.security.Key;
 import java.util.Date;
 import java.util.stream.Collectors;
 
-@Component
-public class JWTGenerator {
+@Service
+public class JWTService {
+    @Value("${JWT_SECRET_KEY}")
+    private String jwtSecret;
+    @Value("${TOKEN_EXPIRATION}")
+    private Long tokenExpiration;
+    @Value("${REFRESH_TOKEN_EXPIRATION}")
+    private Long refreshTokenExpiration;
 
-    private final JWTConfig jwtConfig;
     private final EmpleadoService empleadoService;
+    private final UsuarioService usuarioService;
 
-    public JWTGenerator(JWTConfig JWTConfig, EmpleadoService empleadoService) {
-        this.jwtConfig = JWTConfig;
+    public JWTService(EmpleadoService empleadoService, UsuarioService usuarioService) {
         this.empleadoService = empleadoService;
+        this.usuarioService = usuarioService;
     }
 
     public String generateToken(Authentication authentication){
 
         UserDetailsImpl userPrincipal = (UserDetailsImpl) authentication.getPrincipal();
-        String username = authentication.getName();
         Date currentDate = new Date();
-        Date expireDate = new Date(currentDate.getTime() + jwtConfig.getTOKEN_EXPIRATION());
+        Date expireDate = new Date(currentDate.getTime() + this.tokenExpiration);
 
-        String roles = userPrincipal.getAuthorities()
-                .stream()
-                .map(GrantedAuthority::getAuthority)
-                .collect(Collectors.joining(","));
+        JwtBuilder builder = this.getBuilderToken(userPrincipal.getUsername(), expireDate, getRoles(userPrincipal));
 
-        // Generar el token
-        JwtBuilder builder = Jwts.builder()
-                .setSubject(username)
-                .setIssuedAt(currentDate)
-                .setExpiration(expireDate)
-                .claim("roles", roles);
+        agregarSucursalEmpleado(getRoles(userPrincipal), userPrincipal.getId(), builder);
 
-        // Agregar sucursal si el rol es EMPLEADO
-        agregarSucursalEmpleado(roles, userPrincipal, builder);
+        return this.getCompacted(builder);
 
+    }
+
+    private String getCompacted(JwtBuilder builder) {
         return builder.signWith(this.getSigningKey()).compact();
     }
 
-    private void agregarSucursalEmpleado(String roles, UserDetailsImpl userPrincipal, JwtBuilder builder) {
+
+    private static String getRoles(UserDetailsImpl userPrincipal) {
+        return userPrincipal.getAuthorities()
+                .stream()
+                .map(GrantedAuthority::getAuthority)
+                .collect(Collectors.joining(","));
+    }
+
+    private JwtBuilder getBuilderToken(String mail, Date expireDate, String roles) {
+        return Jwts.builder()
+                .setSubject(mail)
+                .setIssuedAt(new Date())
+                .setExpiration(expireDate)
+                .claim("roles", roles);
+    }
+
+    private void agregarSucursalEmpleado(String roles, Long userId, JwtBuilder builder) {
         if (roles.contains("EMPLEADO")) {
-            Empleado empleado = this.empleadoService.findEmpleadoById(userPrincipal.getId());
+            Empleado empleado = this.empleadoService.findEmpleadoById(userId);
                 builder.claim("sucursal", empleado.getTrabajaEnSucursal().getCiudad());
             }
     }
@@ -69,7 +85,7 @@ public class JWTGenerator {
     }
 
     private Key getSigningKey() {
-        byte[] keyBytes = Decoders.BASE64.decode(jwtConfig.getJWT_SECRET_KEY());
+        byte[] keyBytes = Decoders.BASE64.decode(this.jwtSecret);
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
