@@ -34,17 +34,9 @@ services:
         - action: sync
           path: ./frontend/src
           target: /app/src
-        - action: sync
-          path: ./frontend/package.json
-          target: /app/package.json
-        - action: sync
-          path: ./frontend/angular.json
-          target: /app/angular.json
     image: frontendimage
     ports:
       - "3000:3000"
-    volumes:
-      - /app/node_modules
     command: [ "npm", "run", "start" ]
     stdin_open: true
     tty: true

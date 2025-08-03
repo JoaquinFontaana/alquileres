@@ -40,6 +40,6 @@ public class CustomDetailsService implements UserDetailsService {
     }
 
     private Collection<GrantedAuthority> mapRolesToAuthorities(Rol rol){
-        return Collections.singleton(new SimpleGrantedAuthority("ROLE_" + rol.getNombre()));
+        return Collections.singleton(new SimpleGrantedAuthority(rol.getNombre()));
     }
 }

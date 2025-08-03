@@ -22,5 +22,5 @@ export class VehiclesData {
       return this.httpClient.get<Vehicle[]>(url, { params })
   }
 
-
+  
 }

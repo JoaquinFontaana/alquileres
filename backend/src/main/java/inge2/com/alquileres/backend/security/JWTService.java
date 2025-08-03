@@ -23,15 +23,11 @@ public class JWTService {
     private String jwtSecret;
     @Value("${TOKEN_EXPIRATION}")
     private Long tokenExpiration;
-    @Value("${REFRESH_TOKEN_EXPIRATION}")
-    private Long refreshTokenExpiration;
 
     private final EmpleadoService empleadoService;
-    private final UsuarioService usuarioService;
 
-    public JWTService(EmpleadoService empleadoService, UsuarioService usuarioService) {
+    public JWTService(EmpleadoService empleadoService) {
         this.empleadoService = empleadoService;
-        this.usuarioService = usuarioService;
     }
 
     public String generateToken(Authentication authentication){
