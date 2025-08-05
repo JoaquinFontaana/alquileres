@@ -6,11 +6,8 @@ import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Random;
 
 @Service @AllArgsConstructor
 public class UsuarioService {
@@ -40,6 +37,10 @@ public class UsuarioService {
         if(usuarioRepository.existsByMail(mail)){
             throw new EntityExistsException("El mail "+ mail + " ya se encuentra registrado");
         }
+    }
+
+    public boolean existsByMail(String mail){
+        return usuarioRepository.existsByMail(mail);
     }
 
     public void recuperarPassword(String mail){

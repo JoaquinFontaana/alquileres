@@ -8,7 +8,6 @@ import inge2.com.alquileres.backend.model.Cliente;
 import inge2.com.alquileres.backend.model.enums.CategoriaAuto;
 import inge2.com.alquileres.backend.repository.IAlquilerRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;

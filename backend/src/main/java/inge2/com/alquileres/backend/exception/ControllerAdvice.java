@@ -1,6 +1,5 @@
-package inge2.com.alquileres.backend.controller;
+package inge2.com.alquileres.backend.exception;
 
-import inge2.com.alquileres.backend.exception.ValidationException;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
 import jakarta.persistence.EntityExistsException;

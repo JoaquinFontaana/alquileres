@@ -1,42 +1,52 @@
 package inge2.com.alquileres.backend.controller;
 
-import inge2.com.alquileres.backend.dto.alquiler.AlquilerDTOCambiarAuto;
-import inge2.com.alquileres.backend.dto.user.PersonaDTO;
+import inge2.com.alquileres.backend.dto.user.EmpleadoDTO;
+import inge2.com.alquileres.backend.dto.user.EmpleadoDTOActualizar;
+import inge2.com.alquileres.backend.dto.user.EmpleadoDTOListar;
 import inge2.com.alquileres.backend.service.ClienteService;
+import inge2.com.alquileres.backend.service.EmpleadoService;
 import inge2.com.alquileres.backend.service.useCase.Alquiler.CambiarAutoUseCase;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
 @RestController
-@RequestMapping("/empleado")
+@RequestMapping("/empleados") @AllArgsConstructor
 public class EmpleadoController {
-    private final ClienteService clienteService;
-    private final CambiarAutoUseCase cambiarAutoUseCase;
+    private final EmpleadoService empleadoService;
 
-    public EmpleadoController(ClienteService clienteService, CambiarAutoUseCase cambiarAutoUseCase) {
-        this.clienteService = clienteService;
-        this.cambiarAutoUseCase = cambiarAutoUseCase;
+
+    @PostMapping()
+    @PreAuthorize( "hasAuthority('ADMIN')")
+    public ResponseEntity<String> crearEmpleado(@RequestBody @Valid EmpleadoDTO empleadoDTO){
+        this.empleadoService.crearEmpleado(empleadoDTO);
+        return new ResponseEntity<>("Empleado registrado con exito", HttpStatus.CREATED);
     }
 
-    @PostMapping("/registrar/cliente")
-    public ResponseEntity<String> registrarCliente(@RequestBody @Valid PersonaDTO clienteDTO){
-        this.clienteService.registrarClientePresencial(clienteDTO);
-        return new ResponseEntity<>("Cliente registrado con exito", HttpStatus.CREATED);
+    //Solo mandar los datos a actualizar y el mail actual del empleado (obligatorio)
+    @PutMapping()
+    @PreAuthorize( "hasAuthority('ADMIN')")
+    public ResponseEntity<String> actualizarDatosEmpleado(@RequestBody @Valid EmpleadoDTOActualizar empleadoDTO){
+        this.empleadoService.actualizarEmpleado(empleadoDTO);
+        return new ResponseEntity<>("Empleado actualizado con exito",HttpStatus.OK);
     }
 
-    @GetMapping("/existe/cliente")
-    public ResponseEntity<String>  existeCliente(@RequestParam @NotBlank String mail) {
-        this.clienteService.checkNotExistsCliente(mail);
-        return new ResponseEntity<>("El cliente no se encuentra registrado", HttpStatus.OK);
+    @GetMapping()
+    @PreAuthorize( "hasAuthority('ADMIN')")
+    public List<EmpleadoDTOListar> listarEmpleados(){
+        return this.empleadoService.listarEmpleados();
     }
 
-    @PutMapping("/cambiarAuto")
-    public ResponseEntity<String> cambiarAuto(@Valid @RequestBody AlquilerDTOCambiarAuto alquilerDTOCambiarAuto){
-        this.cambiarAutoUseCase.cambiarAuto(alquilerDTOCambiarAuto);
-        return ResponseEntity.ok("Auto cambiado exitosamente");
+    @DeleteMapping("/{mail}")
+    @PreAuthorize( "hasAuthority('ADMIN')")
+    public ResponseEntity<String> eliminarEmpleado(@PathVariable String mail){
+        this.empleadoService.eliminarEmpleado(mail);
+        return new ResponseEntity<>("Empleado eliminado con exito", HttpStatus.OK);
     }
 }

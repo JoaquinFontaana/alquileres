@@ -5,10 +5,12 @@ import inge2.com.alquileres.backend.service.EncryptService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -18,7 +20,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 
 @Configuration
-@EnableWebSecurity
+@EnableWebSecurity @EnableMethodSecurity
 public class SecurityConfig {
 
     private final JWTAuthEntryPoint authEntryPoint;
@@ -41,29 +43,16 @@ public class SecurityConfig {
                 .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/admin/**").hasAuthority("ADMIN")
-                        .requestMatchers("/sucursal/admin/**").hasAuthority("ADMIN")
-                        .requestMatchers("/sucursal/listar").permitAll()
-                        .requestMatchers("/alquiler/cancelarReserva").hasAuthority("CLIENT")
-                        .requestMatchers("/alquiler/listar").hasAnyAuthority("ADMIN","EMPLEADO")
-                        .requestMatchers("/alquiler/get/extras").permitAll()
-                        .requestMatchers("/alquiler/empleado/*").hasAuthority("EMPLEADO")
-                        .requestMatchers("/estadisticas/**").hasAuthority("ADMIN")
-                        .requestMatchers("/cliente/registrar").permitAll()
-                        .requestMatchers("/cliente/multa").hasAuthority("CLIENT")
-                        .requestMatchers("/auto/listar").permitAll()
-                        .requestMatchers("/auto/reparado").hasAuthority("EMPLEADO")
-                        .requestMatchers("/auto/admin/**").hasAuthority("ADMIN")
-                        .requestMatchers("/auto/get/**").permitAll()
-                        .requestMatchers("/alquileres/pendientes").hasAuthority("EMPLEADO")
-                        .requestMatchers("/cliente/listar/**").hasAuthority("CLIENT")
-                        .requestMatchers("/checkOut/cliente/**").hasAuthority("CLIENT")
+                    .requestMatchers("/auth/login").permitAll()
+                    .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
+                        .requestMatchers("/alquileres/extras").permitAll()
+                        .requestMatchers(HttpMethod.GET,"/autos").permitAll()
+                        .requestMatchers("/autos/categorias").permitAll()
+                        .requestMatchers("/autos/estados").permitAll()
+                        .requestMatchers("/autos/estados").permitAll()
                         .requestMatchers("/checkOut/notificacion/**").permitAll()
-                        .requestMatchers("/checkOut/empleado/**").hasAuthority("EMPLEADO")
-                        .requestMatchers("/auth/login").permitAll()
-                        .requestMatchers("/usuario/**").permitAll()
-                        .requestMatchers("/auth/dobleAutenticacion").hasAuthority("ADMIN")
-                        .requestMatchers("/empleado/**").hasAuthority("EMPLEADO")
+                        .requestMatchers("/estadisticas/**").hasAnyAuthority("ADMIN", "EMPLEADO")
+                        .requestMatchers(HttpMethod.POST,"/clientes").permitAll()
                         .anyRequest().authenticated())
                 .httpBasic(Customizer.withDefaults());
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);

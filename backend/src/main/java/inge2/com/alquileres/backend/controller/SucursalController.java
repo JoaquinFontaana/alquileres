@@ -6,29 +6,31 @@ import inge2.com.alquileres.backend.service.SucursalService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController @AllArgsConstructor
-@RequestMapping("/sucursal")
+@RequestMapping("/sucursales")
 public class SucursalController {
     private final SucursalService service;
 
-    @PostMapping("/admin/crear")
+    @PostMapping()
+    @PreAuthorize( "hasAuthority('ADMIN')")
     public ResponseEntity<String> crearSucursal(@Valid @RequestBody Sucursal sucursal){
         service.crearSucursal(sucursal);
         return ResponseEntity.ok("Sucursal creada con exito");
     }
 
-    @GetMapping("/admin/empleados")
+    @GetMapping("/empleados")
+    @PreAuthorize( "hasAuthority('ADMIN')")
     public List<EmpleadoDTO> listarEmpleados(@NotBlank @RequestParam String ciudad){
         return this.service.listarEmpleadosSucursal(ciudad);
     }
 
-    @GetMapping("/listar")
+    @GetMapping()
     public List<String> listarSucursales(){
         return service.listarSucursales();
     }

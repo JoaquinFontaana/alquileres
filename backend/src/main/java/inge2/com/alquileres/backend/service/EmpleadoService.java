@@ -8,7 +8,6 @@ import inge2.com.alquileres.backend.repository.IEmpleadoRepository;
 import inge2.com.alquileres.backend.service.helper.EmpleadoHelperService;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

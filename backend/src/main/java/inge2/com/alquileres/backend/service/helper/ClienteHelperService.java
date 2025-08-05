@@ -27,7 +27,9 @@ public class ClienteHelperService {
     public void checkNotExistMail(String mail){
         this.usuarioService.checkNotExistsMail(mail);
     }
-
+    public boolean existByMail(String mail){
+        return this.usuarioService.existsByMail(mail);
+    }
     public void checkNotExistsCliente(String dni,String mail){
         this.checkNotExistDni(dni);
         this.checkNotExistMail(mail);

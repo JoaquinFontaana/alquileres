@@ -75,7 +75,8 @@ public class ClienteService {
                 .map(RembolsoDTO::new)
                 .toList();
     }
-    public void checkNotExistsCliente(String mail) {
-        this.clienteHelperService.checkNotExistMail(mail);
+    public boolean existsCliente(String mail) {
+        return this.clienteHelperService.existByMail(mail);
     }
+
 }

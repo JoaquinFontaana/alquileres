@@ -2,7 +2,6 @@ package inge2.com.alquileres.backend.security;
 
 import inge2.com.alquileres.backend.model.Empleado;
 import inge2.com.alquileres.backend.service.EmpleadoService;
-import inge2.com.alquileres.backend.service.UsuarioService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
