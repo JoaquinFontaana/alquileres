@@ -35,7 +35,7 @@ public class AlquilerController {
     private final AuthService authService;
     private final ClienteService clienteService;
 
-    @PatchMapping("/{id}/cancelado")
+    @PutMapping("/{id}/cancelado")
     @PreAuthorize("hasAuthority('CLIENT')")
     public ResponseEntity<String> cancelarReserva(@Valid @NotNull(message = "El codigo del alquiler es obligatorio") @PathVariable Long id){
         this.alquilerService.cancelarReserva(id);

@@ -30,7 +30,7 @@ public class EmpleadoController {
     }
 
     //Solo mandar los datos a actualizar y el mail actual del empleado (obligatorio)
-    @PutMapping()
+    @PatchMapping()
     @PreAuthorize( "hasAuthority('ADMIN')")
     public ResponseEntity<String> actualizarDatosEmpleado(@RequestBody @Valid EmpleadoDTOActualizar empleadoDTO){
         this.empleadoService.actualizarEmpleado(empleadoDTO);
