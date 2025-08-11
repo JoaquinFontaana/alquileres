@@ -7,9 +7,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.time.LocalTime;
 import java.util.Map;
 
@@ -51,15 +48,12 @@ public class FileStorageService {
         return nombreImagen + "_" + LocalTime.now();
     }
 
-
-    public void borrarArchivoSiExiste(String rutaAbsoluta) {
-        if (rutaAbsoluta == null || rutaAbsoluta.isBlank()) {
-            return;
-        }
+    public void deleteImage(String urlImagen) {
         try {
-            Path ruta = Paths.get(rutaAbsoluta).normalize();
-            Files.deleteIfExists(ruta);
-        } catch (IOException ignored) {
+            this.cloudinary.uploader().destroy(getPublicIdFromUrl(urlImagen), Map.of("resource_type", "image"));
+        }
+        catch (IOException e){
+            throw new UncheckedIOException("Ocurrio un error al borrar la imagen", e);
         }
     }
 
@@ -67,5 +61,22 @@ public class FileStorageService {
         if (imagen == null || imagen.isEmpty()) {
             throw new IllegalArgumentException("Para crear un auto la imagen es obligatoria");
         }
+    }
+    private static String getPublicIdFromUrl(String url) {
+        // Dividir la URL por "/upload/" y obtener la segunda parte
+        String[] parts = url.split("/upload/");
+        if (parts.length < 2) {
+            throw new IllegalArgumentException("La URL no contiene '/upload/'");
+        }
+
+        String path = parts[1];
+
+        // Remover versión (por ejemplo: v1693000000/)
+        path = path.replaceFirst("^v\\d+/", "");
+
+        // Remover la extensión (por ejemplo: .jpg, .png, etc.)
+        path = path.replaceFirst("\\.[^/.]+$", "");
+
+        return path;
     }
 }

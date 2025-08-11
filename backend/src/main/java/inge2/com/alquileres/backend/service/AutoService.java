@@ -41,7 +41,7 @@ public class AutoService {
         Sucursal sucursal = this.sucursalService.findSucursalByCiudad(autoActualizado.getSucursal());
         Auto auto = this.autoHelperService.findAutoByPatente(autoActualizado.getPatente());
         if(autoActualizado.getImagen() != null){
-            fileStorageService.borrarArchivoSiExiste(auto.getRutaImagen());
+            fileStorageService.deleteImage(auto.getRutaImagen());
             auto.actualizarAutoImagen(autoActualizado,sucursal,fileStorageService.guardarImagen(autoActualizado.getImagen()));
         }
         else{

@@ -49,7 +49,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET,"/autos").permitAll()
                         .requestMatchers("/autos/categorias").permitAll()
                         .requestMatchers("/autos/estados").permitAll()
-                        .requestMatchers("/autos/estados").permitAll()
+                        .requestMatchers("/autos/rembolsos").permitAll()
                         .requestMatchers("/checkOut/notificacion/**").permitAll()
                         .requestMatchers("/estadisticas/**").hasAnyAuthority("ADMIN", "EMPLEADO")
                         .requestMatchers(HttpMethod.POST,"/clientes").permitAll()

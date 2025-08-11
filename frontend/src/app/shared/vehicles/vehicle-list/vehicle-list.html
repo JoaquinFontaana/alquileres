@@ -1,0 +1,13 @@
+@let localvehicles = this.vehicles();
+@for(vehicle of localvehicles; track vehicle.patente){
+    <app-vehicle-card [vehicle]="vehicle">
+        <ng-container content> 
+            <span>{{vehicle.precioPorDia}} ARS/Día</span>
+        </ng-container>
+        <ng-container actions>
+            <app-button label="Alquilar" [action]="getRentAction(vehicle)" ></app-button>
+        </ng-container>
+    </app-vehicle-card>
+}@empty {
+    No hay vehiculos para listar....
+}
