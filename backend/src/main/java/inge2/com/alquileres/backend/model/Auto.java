@@ -16,11 +16,12 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
 @Entity
-@Getter @Setter
+@Getter @Setter @NoArgsConstructor
 @EntityListeners(EstadoAutoListener.class)
 public class Auto {
     @Id
@@ -54,11 +55,6 @@ public class Auto {
     private String rutaImagen;
     @Transient
     private EstadoAuto state;
-
-    public Auto(){
-        // Constructor por defecto requerido por Hibernate
-    }
-
 
     public Auto(AutoDTO dto, Sucursal sucursal, String rutaImagen) {
         this.asignarDTOaAuto(dto);
@@ -96,7 +92,7 @@ public class Auto {
         this.precioPorDia = dto.getPrecioPorDia();
         this.categoria = dto.getCategoria();
         this.rembolso = dto.getRembolso();
-        this.estado = dto.getEstado();
+        this.estado = EstadoAutoEnum.DISPONIBLE;
     }
     public boolean disponibleEnRangoFechas(RangoFecha rango){
         return this.getReservas().stream().filter(alquiler -> alquiler.getEstadoAlquilerEnum() != EstadoAlquilerEnum.CANCELADO).allMatch(alquiler -> alquiler.sinSolapamiento(rango));

@@ -7,6 +7,7 @@ import inge2.com.alquileres.backend.model.enums.TiposRembolso;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import lombok.Getter;
 import lombok.Setter;
@@ -24,16 +25,18 @@ public abstract class AutoDTO {
     @NotBlank(message = "El modelo es obligatorio")
     private String modelo;
     @Positive(message = "El precio por dia debe ser positivo")
+    @NotNull(message = "El precio por dia es obligatorio")
     private double precioPorDia;
     @Enumerated(EnumType.STRING)
+    @NotNull(message = "La categoria es obligatoria")
     private CategoriaAuto categoria;
     @Enumerated(EnumType.STRING)
+    @NotNull(message = "El rembolso es obligatorio")
     private TiposRembolso rembolso;
     @Enumerated(EnumType.STRING)
     private EstadoAutoEnum estado;
     @NotBlank(message = "La sucursal es obligatoria")
     private String sucursal;
-    private LocalDate fechaBaja;
 
     public AutoDTO(){
         

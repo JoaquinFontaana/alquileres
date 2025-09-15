@@ -25,7 +25,7 @@ public class AlquilerService {
 
     public void sendEmailBajaAuto(Alquiler alquiler, String body) {
         String subject = "Su auto reservado "+ alquiler.getAuto().getModelo() + " ya no se encuentra disponible";
-        this.emailService.sendEmail(alquiler.getCliente().getMail(), subject, body);
+        this.emailService.sendEmail(alquiler.getCliente().getEmail(), subject, body);
     }
 
     @Transactional

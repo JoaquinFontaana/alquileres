@@ -1,4 +1,4 @@
-import { computed, inject } from "@angular/core";
+import { computed, inject, afterNextRender } from "@angular/core";
 import { AuthenticatedUser, JwtPayload, LoginRequest, LoginResponse } from "@models";
 import { signalStore, withMethods, withState, patchState, withHooks, withComputed} from "@ngrx/signals";
 import {jwtDecode } from "jwt-decode"
@@ -34,8 +34,10 @@ function extractUserFromToken(token:string):AuthenticatedUser{
 
 function isTokenValid(token: string | null): boolean {
   if (!token) return false;
+  else{
     const payload = decodeJwt(token);
     return payload.exp * 1000 > Date.now();
+  }
 }
 
 function getStoredToken(): string | null {
@@ -49,7 +51,7 @@ export const AuthStore = signalStore(
     
     withComputed(({user}) =>({
         userRole: computed(() => user()?.rol || ''),
-        userMail: computed(() => user()?.mail || ''),
+        userEmail: computed(() => user()?.email || ''),
     })),
 
     withMethods((store,authService = inject(AuthService)) =>({
@@ -61,10 +63,10 @@ export const AuthStore = signalStore(
                     authService.login(credentials).pipe(
                         tapResponse({
                             next: (response:LoginResponse) => { 
-                                const {token} = response
-                                const user = extractUserFromToken(token)
-                                localStorage.setItem(TOKEN_KEY, token);
-                                patchState(store,{token, user});
+                                const {accessToken} = response
+                                const user = extractUserFromToken(accessToken)
+                                localStorage.setItem(TOKEN_KEY, accessToken);
+                                patchState(store,{token:accessToken, user});
                             },
                             error: (error: HttpErrorResponse) => {
                                 patchState(store, { error: `Error al realizar el login: ${error.message}` });
@@ -94,17 +96,21 @@ export const AuthStore = signalStore(
                 return false;
             }
             return true;
-        }
+        },
+        
     })),
     withHooks({
         onInit(store) {
-            const token = getStoredToken();
-            if (token && isTokenValid(token)) {
-                const user = extractUserFromToken(token);
-                patchState(store,{ token, user });
-            } else {
-                store.clearAuthState()
-            }
+            // Usar afterNextRender para asegurar que estamos en el cliente
+            afterNextRender(() => {
+                const token = getStoredToken();
+                if (token && isTokenValid(token)) {
+                    const user = extractUserFromToken(token);
+                    patchState(store, { token, user });
+                } else {
+                    store.clearAuthState();
+                }
+            });
         }
-  }),
+    }), 
 )

@@ -25,7 +25,7 @@ public class CrearAlquilerUseCase {
 
 
     @Transactional
-    public Alquiler crearAlquiler(AlquilerDTOCrear alquilerDTO, String mail){
+    public Alquiler crearAlquiler(AlquilerDTOCrear alquilerDTO, String email){
         this.alquilerHelperService.checkDuracionAlquiler(alquilerDTO.getRangoFecha());
         this.alquilerHelperService.checkDisponibilidadConductor(alquilerDTO.getRangoFecha(),alquilerDTO.getLicenciaConductor());
 
@@ -34,7 +34,7 @@ public class CrearAlquilerUseCase {
 
         Sucursal sucursal = this.sucursalService.findSucursalByCiudad(alquilerDTO.getSucursal());
 
-        Cliente cliente = this.clienteHelperService.findClienteByEmail(mail);
+        Cliente cliente = this.clienteHelperService.findClienteByEmail(email);
 
         Alquiler alquiler = new Alquiler(alquilerDTO,auto,cliente,sucursal);
 

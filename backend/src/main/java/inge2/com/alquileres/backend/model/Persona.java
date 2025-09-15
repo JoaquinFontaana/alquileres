@@ -3,7 +3,6 @@ package inge2.com.alquileres.backend.model;
 import inge2.com.alquileres.backend.dto.user.PersonaDTO;
 import inge2.com.alquileres.backend.dto.user.PersonaDTOActualizar;
 import inge2.com.alquileres.backend.dto.user.PersonaDTOPassword;
-import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -16,8 +15,6 @@ public abstract class Persona extends Usuario {
     private String nombre;
     @NotBlank(message = "El apellido es obligatorio")
     private String apellido;
-    @NotBlank(message = "El mail es obligatorio")
-    @Column(unique = true,length = 11)
     @NotBlank(message = "El DNI es obligatorio")
     @Size(min = 8, max = 11, message = "El dni debe tener 8 o 9 caracteres")
     private String dni;
@@ -38,7 +35,7 @@ public abstract class Persona extends Usuario {
         this.nombre = dto.getNombre();
         this.apellido = dto.getApellido();
         this.dni = dto.getDni();
-        this.setMail(dto.getMail());
+        this.setEmail(dto.getEmail());
         this.setRol(rol);
         this.setPassword(dto.getPassword());
     }
@@ -46,7 +43,7 @@ public abstract class Persona extends Usuario {
         this.nombre = dto.getNombre();
         this.apellido = dto.getApellido();
         this.dni = dto.getDni();
-        this.setMail(dto.getMail());
+        this.setEmail(dto.getEmail());
         this.setRol(rol);
         this.setPassword(password);
     }

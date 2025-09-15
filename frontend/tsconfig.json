@@ -20,7 +20,8 @@
       "@models": ["src/app/models/index.ts"],
       "@vehicles/*": ["src/app/shared/vehicles/*"],
       "@shared/*": ["src/app/shared/*"],
-      "@const": ["src/app/shared/consts"]
+      "@const": ["src/app/shared/consts"],
+      "@auth-store": ["src/app/user/store/auth-store.ts"]
     }
   },
   "angularCompilerOptions": {

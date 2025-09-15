@@ -30,21 +30,21 @@ public class EmailService {
     }
 
     @Async
-    public void sendNewPassword(String password, String mail){
+    public void sendNewPassword(String password, String email){
         String subject = "Recuperar Contraseña";
         String body = "Su nueva contraseña es: "+ password;
-        this.sendEmail(mail, subject, body);
+        this.sendEmail(email, subject, body);
     }
 
     @Async
-    public void sendDobleAutenticacionAdmin(String mail, int cod){
+    public void sendDobleAutenticacionAdmin(String email, int cod){
         String subject = "Doble autenticación";
         String body = "El código es: " + cod;
-        this.sendEmail(mail, subject, body);
+        this.sendEmail(email, subject, body);
     }
-    public String sendContraseñaAutoGenerada(String mail){
+    public String sendContraseñaAutoGenerada(String email){
         String password = this.passwordGenerator.generatePassword();
-        this.sendEmail(mail,"Contraseña de su nueva cuenta en Alquileres maria","Contraseña: "+ password);
+        this.sendEmail(email,"Contraseña de su nueva cuenta en Alquileres maria","Contraseña: "+ password);
         return password;
     }
 }

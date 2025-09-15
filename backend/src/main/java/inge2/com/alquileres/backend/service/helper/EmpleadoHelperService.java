@@ -25,18 +25,18 @@ public class EmpleadoHelperService {
         }
     }
 
-    public void checkNotExistMail(String mail){
-        this.usuarioService.checkNotExistsMail(mail);
+    public void checkNotExistMail(String email){
+        this.usuarioService.checkNotExistsEmail(email);
     }
 
     public void checkNotExistsEmpleado(PersonaDTO dto){
         this.checkNotExistsDNI(dto.getDni());
-        this.checkNotExistMail(dto.getMail());
+        this.checkNotExistMail(dto.getEmail());
     }
 
-    public Empleado findByMail(String mail){
-        return this.empleadoRepository.findByMail(mail)
-                .orElseThrow(() -> new EntityNotFoundException("El empleado con mail " + mail + " no existe"));
+    public Empleado findByMail(String email){
+        return this.empleadoRepository.findByEmail(email)
+                .orElseThrow(() -> new EntityNotFoundException("El empleado con email " + email + " no existe"));
     }
 
     public void checkDTO(EmpleadoDTOActualizar empleadoDTO){

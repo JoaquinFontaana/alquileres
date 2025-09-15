@@ -25,7 +25,7 @@ public class ClienteService {
 
     @Transactional
     public void crearCliente(PersonaDTOPassword clienteDTO){
-        this.clienteHelperService.checkNotExistsCliente(clienteDTO.getDni(),clienteDTO.getMail());
+        this.clienteHelperService.checkNotExistsCliente(clienteDTO.getDni(),clienteDTO.getEmail());
 
         clienteDTO.setPassword(encryptService.encryptPassword(clienteDTO.getPassword()));
         Cliente cliente = new Cliente(clienteDTO, rolService.findRolByNombre("CLIENT"));
@@ -35,12 +35,12 @@ public class ClienteService {
 
     @Transactional
     public void registrarClientePresencial(PersonaDTO clienteDTO){
-        this.clienteHelperService.checkNotExistsCliente(clienteDTO.getDni(),clienteDTO.getMail());
+        this.clienteHelperService.checkNotExistsCliente(clienteDTO.getDni(),clienteDTO.getEmail());
 
         Cliente cliente = new Cliente(
                 clienteDTO,
                 rolService.findRolByNombre("CLIENT"),
-                encryptService.encryptPassword(this.emailService.sendContraseñaAutoGenerada(clienteDTO.getMail()))
+                encryptService.encryptPassword(this.emailService.sendContraseñaAutoGenerada(clienteDTO.getEmail()))
         );
         this.clienteRepository.save(cliente);
     }
@@ -52,8 +52,8 @@ public class ClienteService {
         this.clienteRepository.save(cliente);
     }
 
-    public List<AlquilerDTOListar> listarAlquileres(String mail){
-        return this.clienteHelperService.findClienteByEmail(mail)
+    public List<AlquilerDTOListar> listarAlquileres(String email){
+        return this.clienteHelperService.findClienteByEmail(email)
                 .getAlquileres()
                 .stream()
                 .map(AlquilerDTOListar::new)
@@ -64,19 +64,19 @@ public class ClienteService {
         return this.clienteRepository.findAll().stream().map(PersonaDTO::new).toList();
     }
 
-    public double getMulta(String mail){
-        return this.clienteHelperService.findClienteByEmail(mail).getMontoMulta();
+    public double getMulta(String email){
+        return this.clienteHelperService.findClienteByEmail(email).getMontoMulta();
     }
 
-    public List<RembolsoDTO> listarRembolsos(String mail){
-        return this.clienteHelperService.findClienteByEmail(mail)
+    public List<RembolsoDTO> listarRembolsos(String email){
+        return this.clienteHelperService.findClienteByEmail(email)
                 .getRembolsos()
                 .stream()
                 .map(RembolsoDTO::new)
                 .toList();
     }
-    public boolean existsCliente(String mail) {
-        return this.clienteHelperService.existByMail(mail);
+    public boolean existsCliente(String email) {
+        return this.clienteHelperService.existByMail(email);
     }
 
 }

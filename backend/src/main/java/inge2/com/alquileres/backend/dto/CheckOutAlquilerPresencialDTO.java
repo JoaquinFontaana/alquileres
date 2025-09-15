@@ -6,10 +6,11 @@ import lombok.Setter;
 
 @Getter @Setter
 public class CheckOutAlquilerPresencialDTO extends CheckOutAlquilerDTO{
-    @NotBlank(message = "El mail del cliente es obligatorio")
-    private String mailCliente;
+    @NotBlank(message = "El email del cliente es obligatorio")
+    private String emailCliente;
 
     public CheckOutAlquilerPresencialDTO() {
         super();
     }
 }
+

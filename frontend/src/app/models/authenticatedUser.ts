@@ -1,4 +1,4 @@
 export interface AuthenticatedUser {
-    mail: string;
+    email: string;
     rol: string;
 }

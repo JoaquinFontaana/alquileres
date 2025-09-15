@@ -70,7 +70,7 @@ public class AlquilerController {
     @PostMapping("/presencial")
     @PreAuthorize("hasAuthority('EMPLEADO')")
     public String registrarAlquilerPresencial(@Valid @RequestBody CheckOutAlquilerPresencialDTO checkOutAlquilerDTO)  {
-        return this.checkOutAlquilerService.registrarAlquiler(checkOutAlquilerDTO,checkOutAlquilerDTO.getMailCliente());
+        return this.checkOutAlquilerService.registrarAlquiler(checkOutAlquilerDTO,checkOutAlquilerDTO.getEmailCliente());
     }
 
     @GetMapping()

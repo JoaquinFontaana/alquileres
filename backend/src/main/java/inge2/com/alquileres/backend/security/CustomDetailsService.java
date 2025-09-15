@@ -28,15 +28,15 @@ public class CustomDetailsService implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername (String mail) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername (String email) throws UsernameNotFoundException {
         boolean cuentaActiva = true;
-        Usuario user = this.usuarioService.findByEmail(mail);
+        Usuario user = this.usuarioService.findByEmail(email);
 
         if(user.getRol().equals("EMPLEADO")){
             cuentaActiva = this.empleadoService.findEmpleadoById(user.getId()).isActivo();
         }
 
-         return new UserDetailsImpl(user.getId(), user.getMail(), user.getPassword(), cuentaActiva,this.mapRolesToAuthorities(user.getRol()));
+         return new UserDetailsImpl(user.getId(), user.getEmail(), user.getPassword(), cuentaActiva,this.mapRolesToAuthorities(user.getRol()));
     }
 
     private Collection<GrantedAuthority> mapRolesToAuthorities(Rol rol){

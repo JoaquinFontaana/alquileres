@@ -24,20 +24,20 @@ public class ClienteHelperService {
         }
     }
 
-    public void checkNotExistMail(String mail){
-        this.usuarioService.checkNotExistsMail(mail);
+    public void checkNotExistMail(String email){
+        this.usuarioService.checkNotExistsEmail(email);
     }
-    public boolean existByMail(String mail){
-        return this.usuarioService.existsByMail(mail);
+    public boolean existByMail(String email){
+        return this.usuarioService.existsByEmail(email);
     }
-    public void checkNotExistsCliente(String dni,String mail){
+    public void checkNotExistsCliente(String dni,String email){
         this.checkNotExistDni(dni);
-        this.checkNotExistMail(mail);
+        this.checkNotExistMail(email);
     }
 
-    public Cliente findClienteByEmail(String mail){
-        return this.clienteRepository.findByMail(mail)
-                .orElseThrow(() -> new EntityNotFoundException("El cliente con el mail " + mail + " no existe"));
+    public Cliente findClienteByEmail(String email){
+        return this.clienteRepository.findByEmail(email)
+                .orElseThrow(() -> new EntityNotFoundException("El cliente con el email " + email + " no existe"));
     }
     public Cliente findClienteById(Long id){
         return this.clienteRepository.findById(id)

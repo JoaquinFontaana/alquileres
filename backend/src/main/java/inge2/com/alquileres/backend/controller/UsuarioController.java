@@ -16,8 +16,8 @@ public class UsuarioController {
     }
 
     @PostMapping("/recuperarPassword")
-    public ResponseEntity<String> recuperarPassword(@RequestParam String mail){
-        this.service.recuperarPassword(mail);
-        return ResponseEntity.ok("Contraseña autogenerada enviada al mail");
+    public ResponseEntity<String> recuperarPassword(@RequestParam String email){
+        this.service.recuperarPassword(email);
+        return ResponseEntity.ok("Contraseña autogenerada enviada al email");
     }
 }

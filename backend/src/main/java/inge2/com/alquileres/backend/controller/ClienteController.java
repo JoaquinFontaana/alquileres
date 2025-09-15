@@ -56,10 +56,10 @@ public class ClienteController {
         return this.checkOutMultaService.pagarMulta(datosPagoDTO);
     }
 
-    @GetMapping("/{mail}/existe")
+    @GetMapping("/{email}/existe")
     @PreAuthorize( "hasAuthority('EMPLEADO')")
-    public boolean existeCliente(@PathVariable @NotBlank String mail) {
-        return this.clienteService.existsCliente(mail);
+    public boolean existeCliente(@PathVariable @NotBlank String email) {
+        return this.clienteService.existsCliente(email);
     }
 
 }

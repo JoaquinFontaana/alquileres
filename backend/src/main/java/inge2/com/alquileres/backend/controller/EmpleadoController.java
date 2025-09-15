@@ -29,7 +29,7 @@ public class EmpleadoController {
         return new ResponseEntity<>("Empleado registrado con exito", HttpStatus.CREATED);
     }
 
-    //Solo mandar los datos a actualizar y el mail actual del empleado (obligatorio)
+    //Solo mandar los datos a actualizar y el email actual del empleado (obligatorio)
     @PatchMapping()
     @PreAuthorize( "hasAuthority('ADMIN')")
     public ResponseEntity<String> actualizarDatosEmpleado(@RequestBody @Valid EmpleadoDTOActualizar empleadoDTO){
@@ -43,10 +43,10 @@ public class EmpleadoController {
         return this.empleadoService.listarEmpleados();
     }
 
-    @DeleteMapping("/{mail}")
+    @DeleteMapping("/{email}")
     @PreAuthorize( "hasAuthority('ADMIN')")
-    public ResponseEntity<String> eliminarEmpleado(@PathVariable String mail){
-        this.empleadoService.eliminarEmpleado(mail);
+    public ResponseEntity<String> eliminarEmpleado(@PathVariable String email){
+        this.empleadoService.eliminarEmpleado(email);
         return new ResponseEntity<>("Empleado eliminado con exito", HttpStatus.OK);
     }
 }

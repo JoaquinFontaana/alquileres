@@ -16,7 +16,7 @@ public class ClienteFilterDecorator extends AlquilerDecorator{
     @Override
     public List<Alquiler> filtrar(List<Alquiler> alquileres) {
         return alquileres.stream()
-                .filter(a -> a.getCliente().getMail().equals(clienteMail))
+                .filter(a -> a.getCliente().getEmail().equals(clienteMail))
                 .toList();
     }
 }

@@ -30,8 +30,8 @@ public class CheckOutAlquilerService extends AbstractCheckOutService {
     }
 
     @Transactional
-    public String registrarAlquiler(CheckOutAlquilerDTO checkOutAlquilerDTO, String mail) {
-        Alquiler alquiler = this.crearAlquilerUseCase.crearAlquiler(checkOutAlquilerDTO.getAlquilerDTO(),mail);
+    public String registrarAlquiler(CheckOutAlquilerDTO checkOutAlquilerDTO, String email) {
+        Alquiler alquiler = this.crearAlquilerUseCase.crearAlquiler(checkOutAlquilerDTO.getAlquilerDTO(),email);
 
         Preference preference = this.getMpPreferenceBuilder().crearPreferenceAlquiler(alquiler,checkOutAlquilerDTO.getDatosPagoDTO());
 

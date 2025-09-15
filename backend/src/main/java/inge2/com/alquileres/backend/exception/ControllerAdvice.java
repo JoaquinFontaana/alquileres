@@ -60,7 +60,7 @@ public class ControllerAdvice extends ResponseEntityExceptionHandler {
     }
     @ExceptionHandler(AuthenticationCredentialsNotFoundException.class)
     public ResponseEntity<String> handlerCredentialsNotFound(AuthenticationCredentialsNotFoundException ex){
-        return new ResponseEntity<String>("El usuario no esta autenticado no se puede obtener el mail del context", HttpStatus.UNAUTHORIZED);
+        return new ResponseEntity<String>("El usuario no esta autenticado no se puede obtener el email del context", HttpStatus.UNAUTHORIZED);
     }
     @ExceptionHandler(UncheckedIOException.class)
     public ResponseEntity<String> ioExceptionHandler(IOException ex){

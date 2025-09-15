@@ -23,7 +23,7 @@ public class AuthService {
     @Transactional
     public AuthResponseDTO login (LoginDTO loginDto){
         Authentication authentication = authenticationManager
-                .authenticate(new UsernamePasswordAuthenticationToken(loginDto.getMail(), loginDto.getPassword()));
+                .authenticate(new UsernamePasswordAuthenticationToken(loginDto.getEmail(), loginDto.getPassword()));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
@@ -33,14 +33,14 @@ public class AuthService {
     public String getMailOfContext(){
         Authentication authContext = SecurityContextHolder.getContext().getAuthentication();
         if(!authContext.isAuthenticated()){
-            throw new AuthenticationCredentialsNotFoundException("El usuario no esta autenticado no se puede obtener el mail del context");
+            throw new AuthenticationCredentialsNotFoundException("El usuario no esta autenticado no se puede obtener el email del context");
         }
         Object principal = authContext.getPrincipal();
 
         if (principal instanceof UserDetailsImpl) {
             return ((UserDetailsImpl) principal).getUsername();
         } else {
-            throw new AuthenticationCredentialsNotFoundException("Principal no válido. No se puede obtener el mail.");
+            throw new AuthenticationCredentialsNotFoundException("Principal no válido. No se puede obtener el email.");
         }
     }
 }

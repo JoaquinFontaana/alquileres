@@ -22,7 +22,7 @@ public class Empleado extends Persona {
 
     public void actualizarDatos(EmpleadoDTOActualizar empleadoDTO){
         if(empleadoDTO.getNuevoMail() != null){
-            this.setMail(empleadoDTO.getNuevoMail());
+            this.setEmail(empleadoDTO.getNuevoMail());
         }
         super.actualizarDatos(empleadoDTO);
     }

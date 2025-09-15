@@ -16,7 +16,7 @@ public class AlquilerDTOListar {
     @Embedded
     private RangoFecha rangoFecha;
     private String licenciaConductor;
-    private String clienteMail;
+    private String clienteEmail;
     private AutoDTOListar auto;
     private String sucursal;
     private double monto;
@@ -30,7 +30,7 @@ public class AlquilerDTOListar {
     public AlquilerDTOListar(Alquiler alquiler){
         this.rangoFecha = alquiler.getRangoFecha();
         this.licenciaConductor = alquiler.getLicenciaConductor();
-        this.clienteMail = alquiler.getCliente().getMail();
+        this.clienteEmail = alquiler.getCliente().getEmail();
         this.auto = new AutoDTOListar(alquiler.getAuto());
         this.sucursal = alquiler.getSucursal().getCiudad();
         this.estadoPago = alquiler.getPago().getEstadoPago();

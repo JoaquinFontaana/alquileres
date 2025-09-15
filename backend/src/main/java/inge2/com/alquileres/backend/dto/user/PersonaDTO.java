@@ -13,9 +13,9 @@ public class PersonaDTO {
     private String nombre;
     @NotBlank(message = "El apellido es obligatorio")
     private String apellido;
-    @NotBlank(message = "El mail es obligatorio")
+    @NotBlank(message = "El email es obligatorio")
     @Email(message = "Ingresa un email valido")
-    private String mail;
+    private String email;
     @NotBlank(message = "El DNI es obligatorio")
     @Size(min = 8, max = 9, message = "El dni debe tener 8 o 9 caracteres")
     private String dni;
@@ -24,7 +24,7 @@ public class PersonaDTO {
     public PersonaDTO(Persona persona) {
         this.nombre = persona.getNombre();
         this.apellido = persona.getApellido();
-        this.mail = persona.getMail();
+        this.email = persona.getEmail();
         this.dni = persona.getDni();
     }
     public PersonaDTO(){

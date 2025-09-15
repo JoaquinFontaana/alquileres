@@ -55,9 +55,9 @@ public class JWTService {
                 .collect(Collectors.joining(","));
     }
 
-    private JwtBuilder getBuilderToken(String mail, Date expireDate, String roles) {
+    private JwtBuilder getBuilderToken(String email, Date expireDate, String roles) {
         return Jwts.builder()
-                .setSubject(mail)
+                .setSubject(email)
                 .setIssuedAt(new Date())
                 .setExpiration(expireDate)
                 .claim("roles", roles);

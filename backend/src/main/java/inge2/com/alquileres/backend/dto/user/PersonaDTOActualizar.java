@@ -12,8 +12,8 @@ public class PersonaDTOActualizar {
     private String nuevoNombre;
     private String nuevoApellido;
     @Email(message = "Ingresa un email valido")
-    @NotBlank(message = "El mail actual es obligatorio")
-    private String mail;
+    @NotBlank(message = "El email actual es obligatorio")
+    private String email;
     @Size(min = 8, max = 9, message = "El dni debe tener 8 o 9 caracteres")
     private String nuevoDni;
     @Email(message = "Ingresa un email valido")

@@ -1,19 +1,15 @@
 package inge2.com.alquileres.backend.dto.auto;
 
-import inge2.com.alquileres.backend.model.Auto;
+import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.web.multipart.MultipartFile;
-@Getter @Setter
-public class AutoDTOCrear extends AutoDTO{
 
+@Getter @Setter @AllArgsConstructor @NoArgsConstructor
+public class AutoDTOCrear extends AutoDTO{
+    @NotNull(message = "La imagen es obligatoria")
     private MultipartFile imagen;
 
-    public AutoDTOCrear(Auto auto, MultipartFile imagen) {
-        super(auto);
-        this.imagen = imagen;
-    }
-    public AutoDTOCrear(){
-        super();
-    }
 }

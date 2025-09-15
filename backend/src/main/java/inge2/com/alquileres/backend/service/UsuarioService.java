@@ -19,34 +19,34 @@ public class UsuarioService {
 
 
     @Transactional
-    public void crearAdmin(String mail,String password){
+    public void crearAdmin(String email,String password){
         String encryptedPassword = encryptService.encryptPassword(password);
-        this.usuarioRepository.save(new Usuario(encryptedPassword,mail,this.rolService.findRolByNombre("ADMIN")));
+        this.usuarioRepository.save(new Usuario(encryptedPassword,email,this.rolService.findRolByNombre("ADMIN")));
     }
 
     public boolean checkNotExistsAdmin(){
         return this.usuarioRepository.findUsuarioByRolNombre("ADMIN").isEmpty();
     }
 
-    public Usuario findByEmail(String mail) {
-        return usuarioRepository.findByMail(mail)
-                .orElseThrow(()-> new EntityNotFoundException("El usuario con mail "+ mail + " no se encontro"));
+    public Usuario findByEmail(String email) {
+        return usuarioRepository.findByEmail(email)
+                .orElseThrow(()-> new EntityNotFoundException("El usuario con email "+ email + " no se encontro"));
     }
 
-    public void checkNotExistsMail(String mail){
-        if(usuarioRepository.existsByMail(mail)){
-            throw new EntityExistsException("El mail "+ mail + " ya se encuentra registrado");
+    public void checkNotExistsEmail(String email){
+        if(usuarioRepository.existsByEmail(email)){
+            throw new EntityExistsException("El email "+ email + " ya se encuentra registrado");
         }
     }
 
-    public boolean existsByMail(String mail){
-        return usuarioRepository.existsByMail(mail);
+    public boolean existsByEmail(String email){
+        return usuarioRepository.existsByEmail(email);
     }
 
-    public void recuperarPassword(String mail){
-        Usuario user = this.findByEmail(mail);
+    public void recuperarPassword(String email){
+        Usuario user = this.findByEmail(email);
         String password = passwordGenerator.generatePassword();
-        emailService.sendNewPassword(password, mail);
+        emailService.sendNewPassword(password, email);
         user.modificarPassword(encryptService.encryptPassword(password));
         usuarioRepository.save(user);
     }

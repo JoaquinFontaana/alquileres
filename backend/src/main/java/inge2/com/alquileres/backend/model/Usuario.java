@@ -16,7 +16,7 @@ public class Usuario {
     private String password;
     @Email(message = "Ingresa un email valido")
     @Column(unique = true, nullable = false)
-    private String mail;
+    private String email;
     @ManyToOne(optional = false)
     @JoinColumn(name = "rol_id")
     private Rol rol;
@@ -25,9 +25,9 @@ public class Usuario {
 
     }
 
-    public Usuario(String password, String mail, Rol rol) {
+    public Usuario(String password, String email, Rol rol) {
         this.password = password;
-        this.mail = mail;
+        this.email = email;
         this.rol = rol;
     }
 
@@ -40,6 +40,6 @@ public class Usuario {
     }
 
     public void borrarMail() {
-        this.setMail("*" + this.getMail() + "*");
+        this.setEmail("*" + this.getEmail() + "*");
     }
 }
