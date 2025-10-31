@@ -13,12 +13,9 @@ export class VehicleList {
   protected store = inject(VehiclesStore)
   protected vehicles:Signal<Vehicle[]> = this.store.entities
 
-  onRentVehicle(vehicle: Vehicle) {
-    // TODO: Implement rental logic
+  rentVehicle(vehicle: Vehicle) {
+
     console.log('Renting vehicle:', vehicle);
   }
 
-  getRentAction(vehicle: Vehicle): () => void {
-    return () => this.onRentVehicle(vehicle);
-  }
 }

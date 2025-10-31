@@ -1,0 +1,41 @@
+@use '../../../styles/variables' as *;
+
+.vehicle-details {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.vehicle-category {
+    color: #4a5568;
+    font-size: 0.875rem;
+    margin: 0;
+    text-transform: capitalize;
+}
+
+.vehicle-specs {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.spec {
+    font-size: 0.875rem;
+    color: $text-primary;
+    background-color: #f7fafc;
+    padding: 0.25rem 0.75rem;
+    border-radius: 4px;
+}
+
+.vehicle-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.vehicle-price {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: $primary-color;
+}

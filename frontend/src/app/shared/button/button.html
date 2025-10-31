@@ -1,3 +1,7 @@
-<button [class]="class()" (click)="onClick($event)" type="submit">
+<button 
+  [class]="class()" 
+  (click)="onClick($event)" 
+  [type]="type()"
+  [disabled]="disabled()">
   {{ label() }}
 </button>

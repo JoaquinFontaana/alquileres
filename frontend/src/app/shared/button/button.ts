@@ -9,10 +9,17 @@ import { Component, input } from '@angular/core';
 export class Button {
   class = input<string>()
   label = input.required<string>()
-  action = input.required<() => void>()
+  action = input<void>()
+  disabled = input<boolean>(false)
+  type = input<'button' | 'submit' | 'reset'>('button');
 
-  onClick(e: Event){
-    e.preventDefault()
-    this.action()()
+  onClick(e: Event): void {
+    if (!this.disabled()) {
+      
+      if (this.type() !== 'submit') {
+        e.preventDefault();
+      }
+      this.action()
+    }
   }
 }

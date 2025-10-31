@@ -1,5 +1,23 @@
-<form [formGroup]="form" (ngSubmit)="onSubmit()"> 
-    <input type="email" formControlName="email" placeholder="Email"/>
-    <input type="password" formControlName="password" placeholder="Contraseña"/>
-    <button type="submit" [disabled]="!form.valid">Submit</button>
-</form>
+<div class="login-container">
+<h2>Iniciar Sesión</h2>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()"> 
+        <div class="input-container">
+        <input id="email" formControlName="email" placeholder="Email"/>
+        @if (form.get('email')?.invalid && form.get('email')?.touched) {
+          <span class="error-message">Email inválido</span>
+        }
+        </div>
+        <div class="input-container"> 
+        <input id="password" formControlName="password" placeholder="Contraseña" type="password"/>
+        @if (form.get('password')?.invalid && form.get('password')?.touched) {
+            <span class="error-message">La contraseña es requerida</span>
+        }
+        </div>
+        <app-button 
+            [label]="authStore.isLoading() ? 'Iniciando sesión...' : 'Iniciar sesión'"
+            [disabled]="form.invalid || authStore.isLoading()"
+            (action)="onSubmit()"
+        />
+      
+    </form>
+</div>

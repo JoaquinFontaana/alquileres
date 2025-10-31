@@ -4,6 +4,8 @@
 // Learn more about theming and how to use it for your application's
 // custom components at https://material.angular.dev/guide/theming
 @use '@angular/material' as mat;
+@use './styles/variables' as *;
+@use './styles/mixins' as *;
 
 html {
   @include mat.theme((
@@ -31,16 +33,31 @@ html {
 @import 'normalize.css';
 
 
-html, body { height: 100%; }
+html, body { 
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+  width: 100%;
+  overflow-x: hidden;
+}
+
 body { 
-  font-family: Roboto, "Helvetica Neue", sans-serif;
-  background-color: rgb(34, 34, 34);
-  display: flex;
-  flex-direction: column;
+  font-family: $font-family;
+  background-color: $bg-dark;
+}
+input,
+textarea,
+select,
+button {
+  // Remover estilos por defecto
+  all: unset;
+  box-sizing: border-box;
+  display: inline-block;
+  font: inherit;
+  color: inherit;
 }
 
 main{
-  display: flex;
-  flex-direction: column;
-  padding: 15px;
+  flex: 1;
+  padding: 1rem;
 }

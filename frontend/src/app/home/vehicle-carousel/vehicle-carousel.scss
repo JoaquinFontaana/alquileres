@@ -1,0 +1,140 @@
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
+
+.carousel-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+  position: relative;
+}
+
+.carousel {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.carousel-track {
+  flex: 1;
+  overflow: hidden;
+}
+
+.carousel-slides {
+  display: flex;
+  gap: 1.5rem;
+  transition: transform 0.5s ease-in-out;
+}
+
+.carousel-slide {
+  flex: 0 0 calc(33.333% - 1rem);
+  min-width: 0;
+}
+
+// Botones de navegación
+.carousel-button {
+  @include flex-center;
+  background-color: rgba($bg-light, 0.95);
+  border: none;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: all $transition;
+  flex-shrink: 0;
+  z-index: 2;
+
+  svg {
+    color: $text-primary;
+  }
+
+  &:hover {
+    background-color: $primary-color;
+    box-shadow: 0 6px 16px rgba(61, 93, 236, 0.4);
+    transform: scale(1.1);
+
+    svg {
+      color: $text-white;
+    }
+  }
+
+  &:active {
+    transform: scale(1);
+  }
+}
+
+// Botón de alquilar dentro del carousel
+::ng-deep app-vehicle-card {
+  height: 100%;
+
+  .rent-button {
+    padding: 0.5rem 1.25rem;
+    background-color: $primary-color;
+    color: $text-white;
+    border: none;
+    border-radius: $border-radius;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all $transition;
+
+    &:hover {
+      background-color: $primary-hover;
+    }
+  }
+}
+
+// Indicadores
+.carousel-indicators {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 2rem;
+}
+
+.indicator {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: none;
+  background-color: rgba(255, 255, 255, 0.3);
+  cursor: pointer;
+  transition: all $transition;
+  padding: 0;
+
+  &.active {
+    background-color: $primary-color;
+    width: 32px;
+    border-radius: $border-radius;
+  }
+}
+
+// Estado vacío
+.no-vehicles {
+  text-align: center;
+  padding: 4rem 2rem;
+  color: #a0aec0;
+  font-size: 1.125rem;
+}
+
+// Responsive
+@media (max-width: 1024px) {
+  .carousel-slide {
+    flex: 0 0 calc(50% - 0.75rem);
+  }
+}
+
+@media (max-width: 768px) {
+  .carousel-slide {
+    flex: 0 0 100%;
+  }
+
+  .carousel-button {
+    width: 40px;
+    height: 40px;
+  }
+
+  .carousel {
+    gap: 0.5rem;
+  }
+}

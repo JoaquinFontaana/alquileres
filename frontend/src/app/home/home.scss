@@ -1,0 +1,153 @@
+@use '../../styles/variables' as *;
+
+:host {
+  display: block;
+  background-color: $bg-dark;
+}
+
+.home-container {
+  min-height: calc(100vh - 80px);
+}
+
+// Hero Section
+.hero-section {
+  background-color: $bg-dark;
+  padding: 3rem 2rem;
+  text-align: center;
+}
+
+.hero-content {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.hero-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin: 0 0 1rem 0;
+  letter-spacing: -1px;
+  color: $text-white;
+}
+
+.hero-subtitle {
+  font-size: 1.125rem;
+  color: $text-gray-light;
+  margin: 0;
+}
+
+// Featured Section
+.featured-section {
+  padding: 3rem 2rem 4rem;
+  background-color: $bg-dark;
+}
+
+.section-title {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 700;
+  color: $text-white;
+  margin: 0 0 3rem 0;
+}
+
+.loading {
+  text-align: center;
+  padding: 4rem 0;
+  color: $text-gray-light;
+  font-size: 1.125rem;
+}
+
+.error {
+  text-align: center;
+  padding: 4rem 0;
+  color: $error-color;
+  font-size: 1.125rem;
+  font-weight: 500;
+  background-color: rgba($error-color, 0.1);
+  border-radius: $border-radius;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+// CTA Section
+.cta-section {
+  background-color: $bg-dark-lighter;
+  padding: 4rem 2rem;
+  text-align: center;
+  border-top: 1px solid rgba($text-white, 0.1);
+}
+
+.cta-content {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 0 1rem;
+
+  h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin: 0 0 1rem 0;
+    color: $text-white;
+  }
+
+  p {
+    font-size: 1.125rem;
+    color: $text-gray-light;
+    margin: 0 0 2rem 0;
+  }
+}
+
+.cta-button {
+  display: inline-block;
+  padding: 1rem 2rem;
+  background-color: $primary-color;
+  color: $text-white;
+  text-decoration: none;
+  border-radius: $border-radius;
+  font-size: 1.125rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all $transition;
+  border: none;
+  box-shadow: 0 4px 12px rgba(61, 93, 236, 0.3);
+
+  &:hover {
+    background-color: $primary-hover;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(61, 93, 236, 0.4);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+// Responsive
+@media (max-width: 768px) {
+  .hero-title {
+    font-size: 2rem;
+  }
+
+  .hero-subtitle {
+    font-size: 1rem;
+  }
+
+  .section-title {
+    font-size: 1.875rem;
+  }
+
+  .cta-content h2 {
+    font-size: 1.5rem;
+  }
+
+  .hero-section {
+    padding: 2rem 1rem;
+  }
+
+  .featured-section {
+    padding: 2rem 1rem 3rem;
+  }
+
+  .cta-section {
+    padding: 3rem 1rem;
+  }
+}
