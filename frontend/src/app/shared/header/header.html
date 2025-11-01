@@ -1,22 +1,31 @@
 <header class="header">
   <div class="logo">
-    <a routerLink="/" aria-label="Ir a la página principal de Alquileres">
-      <h3 class="logo-text">RentCar</h3>
-    </a>
+    <app-button label="RentCar" aria-label="Ir a la página principal de Alquileres" (action)="toHome()" class="logo-button">
+    </app-button>
   </div>
     
     @if (authStore.isAuthenticated()) {
     <div class="user-menu">
-      <button aria-label="Menú de usuario">
-        Cuenta
-      </button>
+      <app-button 
+        label="Cuenta"
+        class="header-button"
+        aria-label="Menú de usuario"
+      />
+      
+      <div class="dropdown-menu">
+        <app-button 
+          label="Cerrar sesión"
+          (action)="logout()"
+          class="dropdown-item"
+        />
+      </div>
     </div>
     }
     @else {
         <app-button 
           label="Iniciar sesión" 
           (action)="toLogin()"
-          class="login-button"
+          class="header-button"
         />
     }
 

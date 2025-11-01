@@ -1,11 +1,11 @@
 import { Component, inject } from '@angular/core';
 import { AuthStore } from '@auth-store';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 import { Button } from '@shared/button/button';
 
 @Component({
   selector: 'app-header',
-  imports: [Button, RouterLink],
+  imports: [Button],
   templateUrl: './header.html',
   styleUrl: './header.scss'
 })
@@ -15,5 +15,14 @@ export class Header {
 
   toLogin(): void {
     this.router.navigate(['/login'])
+  }
+
+  logout(): void {
+    this.authStore.logout();
+    this.router.navigate(['/']);
+  }
+
+    toHome(): void {
+    this.router.navigate(['/'])
   }
 }

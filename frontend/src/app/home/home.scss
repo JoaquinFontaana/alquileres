@@ -1,8 +1,10 @@
 @use '../../styles/variables' as *;
 
 :host {
-  display: block;
+  display: flex;
+  flex-direction: column;
   background-color: $bg-dark;
+  width: 100%;
 }
 
 .home-container {

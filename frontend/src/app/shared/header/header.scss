@@ -22,18 +22,18 @@
     cursor: pointer;
 }
 
-.logo-text{
+.logo-button{
     color: $text-white;
     font-size: 1.5rem;
     font-weight: 500;
 }
 
-// Estilos para el botón de login en el header
-::ng-deep app-button.login-button {
+// Estilos compartidos para botones del header (Iniciar sesión y Cuenta)
+::ng-deep app-button.header-button {
     button {
         padding: 0.5rem 1.5rem;
         background-color: $text-white;
-        color: $primary-color;
+        color: red;
         border: 2px solid $text-white;
         border-radius: $border-radius;
         font-size: 1rem;
@@ -42,33 +42,77 @@
         transition: all $transition;
 
         &:hover {
-            background-color: transparent;
-            color: $text-white;
-            border-color: $text-white;
-            transform: translateY(-2px);
-        }
-
-        &:active {
-            transform: translateY(0);
+            color: $text-primary;
         }
     }
 }
 
+// Contenedor del menú de usuario con dropdown
 .user-menu {
-    button {
-        padding: 0.5rem 1.5rem;
-        background-color: transparent;
-        color: $text-white;
-        border: 2px solid $text-white;
-        border-radius: $border-radius;
-        font-size: 1rem;
-        font-weight: 600;
-        cursor: pointer;
-        transition: all $transition;
+    position: relative;
 
-        &:hover {
-            background-color: $text-white;
-            color: red;
+    .dropdown-menu {
+        position: absolute;
+        top: calc(100% + 0.5rem);
+        right: 0;
+        background-color: $bg-light;
+        border-radius: $border-radius;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        min-width: 160px;
+        z-index: 1001;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-10px);
+        transition: opacity $transition, transform $transition, visibility $transition;
+    }
+
+    // Mostrar dropdown al hacer hover sobre el contenedor
+    &:hover .dropdown-menu {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+    }
+
+    // Estilos específicos para items del dropdown
+    ::ng-deep app-button.dropdown-item {
+        width: 100%;
+        display: block;
+
+        button {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background-color: transparent;
+            color: $text-primary;
+            border: none;
+            text-align: left;
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all $transition;
+
+            &:hover {
+                background-color: rgba($error-color, 0.1);
+                color: $error-color;
+            }
         }
+
+        &:first-child button {
+            border-radius: $border-radius $border-radius 0 0;
+        }
+
+        &:last-child button {
+            border-radius: 0 0 $border-radius $border-radius;
+        }
+    }
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
     }
 }
