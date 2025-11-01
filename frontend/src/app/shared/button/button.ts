@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 
 @Component({
   selector: 'app-button',
@@ -9,17 +9,16 @@ import { Component, input } from '@angular/core';
 export class Button {
   class = input<string>()
   label = input.required<string>()
-  action = input<void>()
+  action = output<void>()
   disabled = input<boolean>(false)
   type = input<'button' | 'submit' | 'reset'>('button');
 
   onClick(e: Event): void {
     if (!this.disabled()) {
-      
       if (this.type() !== 'submit') {
         e.preventDefault();
       }
-      this.action()
+      this.action.emit()
     }
   }
 }

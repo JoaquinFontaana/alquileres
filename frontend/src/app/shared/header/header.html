@@ -13,7 +13,11 @@
     </div>
     }
     @else {
-        <a>Iniciar sesion</a>
+        <app-button 
+          label="Iniciar sesión" 
+          (action)="toLogin()"
+          class="login-button"
+        />
     }
 
 </header>

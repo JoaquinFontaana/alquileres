@@ -21,7 +21,8 @@
       "@vehicles/*": ["src/app/shared/vehicles/*"],
       "@shared/*": ["src/app/shared/*"],
       "@const": ["src/app/shared/consts"],
-      "@auth-store": ["src/app/user/store/auth-store.ts"]
+      "@auth-store": ["src/app/user/store/auth-store.ts"],
+      "@styles/*": ["src/styles/*"]
     }
   },
   "angularCompilerOptions": {

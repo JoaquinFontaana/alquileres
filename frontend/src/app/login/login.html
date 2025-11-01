@@ -1,6 +1,8 @@
 <div class="login-container">
 <h2>Iniciar Sesión</h2>
     <form [formGroup]="form" (ngSubmit)="onSubmit()"> 
+
+        
         <div class="input-container">
         <input id="email" formControlName="email" placeholder="Email"/>
         @if (form.get('email')?.invalid && form.get('email')?.touched) {
@@ -13,11 +15,16 @@
             <span class="error-message">La contraseña es requerida</span>
         }
         </div>
+        @if (authStore.error()) {
+          <div class="error-banner">
+            <span class="error-message">El email o contraseña es incorrecto</span>
+          </div>
+        }
         <app-button 
             [label]="authStore.isLoading() ? 'Iniciando sesión...' : 'Iniciar sesión'"
             [disabled]="form.invalid || authStore.isLoading()"
             (action)="onSubmit()"
+            class="login-request"
         />
-      
     </form>
 </div>

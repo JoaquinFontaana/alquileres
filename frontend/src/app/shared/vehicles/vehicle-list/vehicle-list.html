@@ -5,7 +5,7 @@
             <span>{{vehicle.precioPorDia}} ARS/Día</span>
         </ng-container>
         <ng-container actions>
-            <app-button label="Alquilar" [action]="rentVehicle(vehicle)" ></app-button>
+            <app-button label="Alquilar" (action)="rentVehicle(vehicle)" ></app-button>
         </ng-container>
     </app-vehicle-card> 
 }@empty {
