@@ -12,7 +12,7 @@ export class Button {
   action = output<void>()
   disabled = input<boolean>(false)
   type = input<'button' | 'submit' | 'reset'>('button');
-
+  
   onClick(e: Event): void {
     if (!this.disabled()) {
       if (this.type() !== 'submit') {

@@ -29,21 +29,19 @@
 }
 
 // Estilos compartidos para botones del header (Iniciar sesión y Cuenta)
-::ng-deep app-button.header-button {
-    button {
-        padding: 0.5rem 1.5rem;
-        background-color: $text-white;
-        color: red;
-        border: 2px solid $text-white;
-        border-radius: $border-radius;
-        font-size: 1rem;
-        font-weight: 600;
-        cursor: pointer;
-        transition: all $transition;
+.header-button {
+    padding: 0.5rem 1.5rem;
+    background-color: $text-white;
+    color: red;
+    border: 2px solid $text-white;
+    border-radius: $border-radius;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all $transition;
 
-        &:hover {
-            color: $text-primary;
-        }
+    &:hover {
+        color: $text-primary;
     }
 }
 
@@ -72,38 +70,18 @@
         visibility: visible;
         transform: translateY(0);
     }
-
-    // Estilos específicos para items del dropdown
-    ::ng-deep app-button.dropdown-item {
-        width: 100%;
-        display: block;
-
-        button {
-            width: 100%;
-            padding: 0.75rem 1rem;
-            background-color: transparent;
-            color: $text-primary;
-            border: none;
-            text-align: left;
-            font-size: 0.875rem;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all $transition;
-
-            &:hover {
-                background-color: rgba($error-color, 0.1);
-                color: $error-color;
-            }
-        }
-
-        &:first-child button {
-            border-radius: $border-radius $border-radius 0 0;
-        }
-
-        &:last-child button {
-            border-radius: 0 0 $border-radius $border-radius;
-        }
     }
+.dropdown-item {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    background-color: transparent;
+    color: $text-primary;
+    border: none;
+    text-align: left;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all $transition;
 }
 
 @keyframes slideDown {
