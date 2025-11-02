@@ -21,5 +21,9 @@ export class VehiclesData {
       return this.httpClient.get<Vehicle[]>(this.baseUrl, { params })
   }
 
+  getCategorias(): Observable<string[]>{
+    const url = this.baseUrl.concat("/categorias")
+    return this.httpClient.get<string[]>(url)
+  }
   
 }

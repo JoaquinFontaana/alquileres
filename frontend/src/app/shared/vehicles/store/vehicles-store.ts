@@ -11,11 +11,13 @@ import { HttpErrorResponse } from "@angular/common/http";
 interface VehiclesState  {
     error: string | null;
     isLoading: boolean;
+    categorias: string[];
 };
 
 const initialState: VehiclesState = {
     isLoading: false,
     error: null as string | null,
+    categorias: []
 };
 
 const vehicleConfig = entityConfig({
@@ -57,12 +59,32 @@ export const VehiclesStore = signalStore(
         )
       )
     ),
-
+    loadCategorias: rxMethod<void>(
+      pipe(
+        tap(() => patchState(store, { isLoading: true, error: null })),
+        switchMap(() =>
+          vehiclesService.getCategorias().pipe(
+            tapResponse({
+              next: (categorias: string[]) => {
+                patchState(store, { categorias });
+              },
+              error: (error: HttpErrorResponse) => {
+                patchState(store, { error: `Error al cargar categorías: ${error.message}` });
+              },
+              finalize: () => {
+                patchState(store, { isLoading: false });
+              }
+            })
+          )
+        )
+      )
+    )
   })),
   //withHooks para manejar el ciclo de vida del store.
   withHooks({
     onInit(store) {
       store.loadVehicles(undefined);
+      store.loadCategorias();
     },
   })
 );

@@ -3,9 +3,10 @@ import { Vehicle } from '@models';
 import { Button } from '@shared/button/button';
 import { VehiclesStore } from '@vehicles/store/vehicles-store'
 import { VehicleCard } from '@vehicles/vehicle-card/vehicle-card';
+import { VehicleFilter } from '@vehicles/vehicle-filter/vehicle-filter';
 @Component({
   selector: 'app-vehicle-list',
-  imports: [VehicleCard, Button],
+  imports: [VehicleCard, Button, VehicleFilter],
   templateUrl: './vehicle-list.html',
   styleUrl: './vehicle-list.scss'
 })
