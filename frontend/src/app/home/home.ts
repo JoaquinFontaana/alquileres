@@ -1,7 +1,7 @@
 import { Component, inject, computed } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { VehicleCarousel } from './vehicle-carousel/vehicle-carousel';
-import { VehiclesStore } from '@vehicles/store/vehicles-store';
+import { VehiclesStore } from '@vehicles/vehicles-store';
 
 @Component({
   selector: 'app-home',

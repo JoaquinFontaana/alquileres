@@ -5,6 +5,21 @@
     width: 100%;
 }
 
+.rent-button {
+  padding: 0.5rem 1.25rem;
+  background-color: $primary-color;
+  color: $text-white;
+  border: none;
+  border-radius: $border-radius;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all $transition;
+
+  &:hover {
+    background-color: $primary-hover;
+  }
+}
+
 .custom-card {
     width: 100%;
     max-width: 400px;
@@ -34,6 +49,7 @@
     mat-card-actions {
         padding: 0 1.5rem 1.5rem;
         display: flex;
+        gap: 0.75rem;
         justify-content: space-between;
         align-items: center;
     }

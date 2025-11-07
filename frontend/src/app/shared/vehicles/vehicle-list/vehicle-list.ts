@@ -1,22 +1,32 @@
-import { Component, inject, Signal } from '@angular/core';
+import { Component, computed, inject, signal, Signal } from '@angular/core';
 import { Vehicle } from '@models';
 import { Button } from '@shared/button/button';
-import { VehiclesStore } from '@vehicles/store/vehicles-store'
+import { VehiclesStore } from '@vehicles/vehicles-store'
 import { VehicleCard } from '@vehicles/vehicle-card/vehicle-card';
 import { VehicleFilter } from '@vehicles/vehicle-filter/vehicle-filter';
+import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 @Component({
   selector: 'app-vehicle-list',
-  imports: [VehicleCard, Button, VehicleFilter],
+  imports: [VehicleCard, Button, VehicleFilter,MatPaginatorModule],
   templateUrl: './vehicle-list.html',
   styleUrl: './vehicle-list.scss'
 })
 export class VehicleList {
-  protected store = inject(VehiclesStore)
-  protected vehicles:Signal<Vehicle[]> = this.store.entities
+  private readonly store = inject(VehiclesStore)
+  private readonly vehicles:Signal<Vehicle[]> = this.store.entities
+
+  readonly pageIndex = signal(0);
+  readonly pageSize = signal(20);
 
   rentVehicle(vehicle: Vehicle) {
 
     console.log('Renting vehicle:', vehicle);
   }
-
+  private readonly start: Signal<number> = computed(() => this.pageIndex() * this.pageSize())
+  readonly pagedVehicles: Signal<Vehicle[]> = computed(() => this.vehicles().slice(this.start(), this.start() + this.pageSize()))
+  
+  onPageChange(event: PageEvent) {
+    this.pageIndex.set(event.pageIndex);
+    this.pageSize.set(event.pageSize);
+  }
 }

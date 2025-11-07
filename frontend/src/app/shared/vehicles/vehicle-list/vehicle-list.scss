@@ -4,4 +4,15 @@
 }
 .vehicle-list{
     display: flex;
+    padding: 25px;
+    height: 80vh;
+}
+.mat-mdc-paginator{
+    display: flex;
+    justify-content: center;
+
+}
+.mat-mdc-paginator-container{
+    background-color: rgb(194, 57, 57);
+    color: white;
 }

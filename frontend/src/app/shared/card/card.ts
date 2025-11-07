@@ -8,6 +8,6 @@ import { MatCardModule } from '@angular/material/card';
   styleUrl: './card.scss'
 })
 export class Card {
-  title = input.required<string>()
-  imgUrl = input.required<string>()
+  title = input.required<string>();
+  imgUrl = input.required<string>();
 }

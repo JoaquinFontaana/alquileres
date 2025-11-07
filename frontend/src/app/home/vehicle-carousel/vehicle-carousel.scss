@@ -64,27 +64,6 @@
   }
 }
 
-// Botón de alquilar dentro del carousel
-app-vehicle-card {
-  height: 100%;
-  display: block;
-}
-
-.rent-button {
-  padding: 0.5rem 1.25rem;
-  background-color: $primary-color;
-  color: $text-white;
-  border: none;
-  border-radius: $border-radius;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all $transition;
-
-  &:hover {
-    background-color: $primary-hover;
-  }
-}
-
 // Indicadores
 .carousel-indicators {
   display: flex;

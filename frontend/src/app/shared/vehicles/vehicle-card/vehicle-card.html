@@ -9,6 +9,17 @@
     </div>
     <div actions class="vehicle-actions">
         <span class="vehicle-price">${{ localVehicle.precioPorDia }}/día</span>
-        <ng-content select="[actions]"/>
+        @if (actions().length > 0) {
+            @for (action of actions(); track action) {
+                @let config = getActionConfig(action);
+                <app-button 
+                    [label]="config.label"
+                    (action)="onActionClick(action)"
+                    [class]="'vehicle-action-' + config.type"
+                />
+            }
+        } @else {
+            <ng-content select="[actions]"/>
+        }
     </div>
 </app-card>

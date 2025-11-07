@@ -16,9 +16,10 @@
         <div class="carousel-slides">
           @for (vehicle of visibleVehicles(); track vehicle.patente) {
             <div class="carousel-slide">
-              <app-vehicle-card [vehicle]="vehicle">
-                <button actions class="rent-button">Alquilar</button>
-              </app-vehicle-card>
+              <app-vehicle-card 
+                [vehicle]="vehicle" 
+                [actions]="vehicleActions"
+              />
             </div>
           }
         </div>

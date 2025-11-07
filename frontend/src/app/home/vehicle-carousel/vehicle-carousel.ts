@@ -1,5 +1,5 @@
 import { Component, input, signal, computed, effect, OnDestroy, DestroyRef, inject } from '@angular/core';
-import { Vehicle } from '@models';
+import { Vehicle,CardAction } from '@models';
 import { VehicleCard } from '@vehicles/vehicle-card/vehicle-card';
 
 @Component({
@@ -12,6 +12,9 @@ import { VehicleCard } from '@vehicles/vehicle-card/vehicle-card';
 export class VehicleCarousel implements OnDestroy {
 
   readonly vehicles = input.required<Vehicle[]>();
+  
+  // Acciones disponibles para los vehículos del carousel
+  readonly vehicleActions: CardAction[] = [CardAction.RENT, CardAction.VIEW];
   
   // Signals para estado reactivo
   readonly currentIndex = signal(0);

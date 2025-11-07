@@ -25,5 +25,4 @@ export class VehiclesData {
     const url = this.baseUrl.concat("/categorias")
     return this.httpClient.get<string[]>(url)
   }
-  
 }

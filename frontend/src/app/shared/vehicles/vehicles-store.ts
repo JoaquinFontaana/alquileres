@@ -4,7 +4,7 @@ import { patchState, signalStore, type, withHooks, withMethods, withState } from
 import { entityConfig, setAllEntities, withEntities } from '@ngrx/signals/entities'
 import {rxMethod} from '@ngrx/signals/rxjs-interop'
 import { tapResponse } from '@ngrx/operators';
-import { VehiclesData } from "../services/vehicles-data";
+import { VehiclesData } from "./services/vehicles-data";
 import {pipe, switchMap, tap} from "rxjs";
 import { HttpErrorResponse } from "@angular/common/http";
 
@@ -78,7 +78,8 @@ export const VehiclesStore = signalStore(
           )
         )
       )
-    )
+    ),
+    
   })),
   //withHooks para manejar el ciclo de vida del store.
   withHooks({

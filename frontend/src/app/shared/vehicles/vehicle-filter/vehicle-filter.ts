@@ -1,7 +1,8 @@
 import { Component, inject, signal } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, AbstractControl, ValidationErrors } from '@angular/forms';
 import { Button } from '@shared/button/button';
-import { VehiclesStore } from '@vehicles/store/vehicles-store';
+import { VehiclesStore } from '@vehicles/vehicles-store';
+import {SucursalStore} from '@shared/sucursal/sucursal-store'
 import { VehicleFilter as VehicleFilterModel } from '@models';
 
 @Component({
@@ -13,7 +14,7 @@ import { VehicleFilter as VehicleFilterModel } from '@models';
 export class VehicleFilter {
   private readonly fb = inject(FormBuilder);
   readonly vehicleStore = inject(VehiclesStore);
-
+  readonly sucursalStore = inject(SucursalStore);
   // Fecha mínima (hoy)
   readonly today = new Date().toISOString().split('T')[0];
   
