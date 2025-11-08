@@ -50,6 +50,7 @@ public class SecurityConfig {
                         .requestMatchers("/autos/categorias").permitAll()
                         .requestMatchers("/autos/estados").permitAll()
                         .requestMatchers("/autos/rembolsos").permitAll()
+                        .requestMatchers(HttpMethod.GET,"/sucursales").permitAll()
                         .requestMatchers("/checkOut/notificacion/**").permitAll()
                         .requestMatchers("/estadisticas/**").hasAnyAuthority("ADMIN", "EMPLEADO")
                         .requestMatchers(HttpMethod.POST,"/clientes").permitAll()

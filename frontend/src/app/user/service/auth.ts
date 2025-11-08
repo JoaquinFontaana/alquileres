@@ -11,9 +11,7 @@ export class AuthService {
   private readonly baseUrl:string = `${baseUrlApi}/auth`
 
   login(loginData:LoginRequest):Observable<LoginResponse>{
-    console.log(loginData)
     return this.httpClient.post<LoginResponse>(`${this.baseUrl}/login`,loginData)
   }
-
 
 }

@@ -1,8 +1,9 @@
 import { computed, inject, afterNextRender } from "@angular/core";
-import { AuthenticatedUser, JwtPayload, LoginRequest, LoginResponse } from "@models";
+import { AuthenticatedUser, JwtPayload, LoginRequest, LoginResponse, RegisterClienteRequest } from "@models";
 import { signalStore, withMethods, withState, patchState, withHooks, withComputed} from "@ngrx/signals";
 import {jwtDecode } from "jwt-decode"
 import { AuthService } from "../service/auth";
+import {ClienteService} from "../service/cliente"
 import { rxMethod} from "@ngrx/signals/rxjs-interop";
 import { pipe, switchMap, tap } from 'rxjs';
 import { tapResponse } from "@ngrx/operators";
@@ -55,7 +56,7 @@ export const AuthStore = signalStore(
         isAuthenticated: computed(() => !!user() && !!token() && isTokenValid(token())),
     })),
 
-    withMethods((store,authService = inject(AuthService)) =>({
+    withMethods((store,authService = inject(AuthService),clienteService = inject(ClienteService)) =>({
 
         login: rxMethod<LoginRequest>(
             pipe(
@@ -74,6 +75,26 @@ export const AuthStore = signalStore(
                             },
                             finalize: () => {
                                 patchState(store,{isLoading:false})
+                            }
+                        })
+                    )
+                )
+            )
+        ),
+        registerCliente: rxMethod<RegisterClienteRequest>(
+            pipe(
+                tap(() => patchState(store,{error:null,isLoading:true})),
+                switchMap((registerData) => 
+                    clienteService.registerCliente(registerData).pipe(
+                        tapResponse({
+                            next: () => {return},
+                            error: (error: HttpErrorResponse) => {
+                                patchState(store, { 
+                                    error: `Error al registrar: ${error.message}` 
+                                });
+                            },
+                            finalize: () => {
+                                patchState(store, {isLoading: false});
                             }
                         })
                     )

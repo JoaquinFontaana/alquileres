@@ -1,8 +1,6 @@
 <div class="login-container">
 <h2>Iniciar Sesión</h2>
     <form [formGroup]="form" (ngSubmit)="onSubmit()"> 
-
-        
         <div class="input-container">
         <input id="email" formControlName="email" placeholder="Email"/>
         @if (form.get('email')?.invalid && form.get('email')?.touched) {
@@ -27,4 +25,5 @@
             class="login-request"
         />
     </form>
+    <a class="register-link" routerLink="/register">¿No tienes cuenta? Registrate</a>
 </div>

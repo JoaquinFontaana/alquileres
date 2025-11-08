@@ -3,11 +3,11 @@ import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angula
 import { AuthStore } from '@auth-store'
 import { LoginRequest } from '@models';
 import { Button } from '@shared/button/button';
-import { Router } from '@angular/router';
+import { Router, RouterLink} from '@angular/router';
 
 @Component({
   selector: 'app-login',
-  imports: [ReactiveFormsModule, Button],
+  imports: [ReactiveFormsModule, Button,RouterLink],
   templateUrl: './login.html',
   styleUrl: './login.scss'
 })

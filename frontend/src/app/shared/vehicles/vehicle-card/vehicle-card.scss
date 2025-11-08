@@ -4,7 +4,8 @@
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
-}.vehicle-category {
+}
+.vehicle-category {
     color: #4a5568;
     font-size: 0.875rem;
     margin: 0;
@@ -36,18 +37,18 @@
 
 .vehicle-price {
     font-size: 1.125rem;
-    font-weight: 700;
+    font-weight: 600;
     color: $primary-color;
 }
 
 // Estilos para los botones de acciones del vehículo
-.vehicle-action-primary  {
+::ng-deep .vehicle-action-primary {
     padding: 0.5rem 1.25rem;
     background-color: $primary-color;
     color: $text-white;
     border: none;
     border-radius: $border-radius;
-    font-weight: 600;
+    font-weight: 500;
     cursor: pointer;
     transition: all $transition;
 
@@ -56,13 +57,13 @@
     }
 }
 
-.vehicle-action-secondary  {
+::ng-deep .vehicle-action-secondary {
     padding: 0.5rem 1.25rem;
     background-color: transparent;
     color: $primary-color;
     border: 2px solid $primary-color;
     border-radius: $border-radius;
-    font-weight: 600;
+    font-weight: 500;
     cursor: pointer;
     transition: all $transition;
 
@@ -72,13 +73,13 @@
     }
 }
 
-.vehicle-action-danger {
+::ng-deep .vehicle-action-danger {
     padding: 0.5rem 1.25rem;
     background-color: #dc3545;
     color: $text-white;
     border: none;
     border-radius: $border-radius;
-    font-weight: 600;
+    font-weight: 500;
     cursor: pointer;
     transition: all $transition;
 
