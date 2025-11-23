@@ -1,36 +1,28 @@
 <div class="login-container">
-<h2>Iniciar Sesión</h2>
+<h2>Registrarse</h2>
     <form [formGroup]="form" (ngSubmit)="onSubmit()"> 
-        <div class="input-container">
-        <input class="form-input" id="email" formControlName="email" placeholder="Email"/>
-        @if (form.get('email')?.invalid && form.get('email')?.touched) {
-          <span class="form-input-error-message">Email inválido</span>
-        }
-        </div>
-        <div class="input-container"> 
-        <input class="form-input" id="password" formControlName="password" placeholder="Contraseña" type="password"/>
-        @if (form.get('password')?.invalid && form.get('password')?.touched) {
-            <span class="form-input-error-message">La contraseña es requerida</span>
-        }
-        </div>
-        <div>
-        <input class="form-input" id="Nombre" formControlName="nombre" placeholder="Nombre"/>
-        @if (form.get('password')?.invalid && form.get('password')?.touched) {
-            <span class="form-input-error-message">La contraseña es requerida</span>
-        }
-        </div>
-        <div>
-                <input class="form-input" id="password" formControlName="password" placeholder="Contraseña" type="password"/>
-        @if (form.get('password')?.invalid && form.get('password')?.touched) {
-            <span class="form-input-error-message">La contraseña es requerida</span>
-        }
-        </div>
-        <div>
-                <input class="form-input" id="password" formControlName="password" placeholder="Contraseña" type="password"/>
-        @if (form.get('password')?.invalid && form.get('password')?.touched) {
-            <span class="form-input-error-message">La contraseña es requerida</span>
-        }
-        </div>
+        <app-input  id="email" 
+            [control]="form.controls.email" 
+            placeholder="email@example.com" 
+            label="Email"/>
+        <app-input  id="password" 
+            [control]="form.controls.password" 
+            placeholder="Password" 
+            type="password" 
+            label="Password"/>
+        <app-input  id="nombre" 
+            [control]="form.controls.nombre"
+             placeholder="Nombre" 
+             label="Nombre"/>
+        <app-input  id="apellido" 
+            [control]="form.controls.apellido" 
+            placeholder="Apellido" 
+            label="Apellido"/>
+        <app-input  id="dni" 
+            [control]="form.controls.dni" 
+            placeholder="DNI" 
+            Label="DNI"/>
+
         @if (authStore.error()) {
           <div class="error-banner">
             <span class="form-input-error-message">El email o contraseña es incorrecto</span>
@@ -43,5 +35,4 @@
             class="login-request"
         />
     </form>
-    <a class="register-link" routerLink="/register">¿No tienes cuenta? Registrate</a>
 </div>

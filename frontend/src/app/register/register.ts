@@ -3,9 +3,10 @@ import { AuthStore } from '@auth-store';
 import { NonNullableFormBuilder, ReactiveFormsModule,Validators } from '@angular/forms';
 import { RegisterClienteRequest } from '@models';
 import { Button } from '@shared/button/button';
+import { Input } from '@shared/input/input';
 @Component({
   selector: 'app-register',
-  imports: [ReactiveFormsModule,Button],
+  imports: [ReactiveFormsModule,Button,Input],
   templateUrl: './register.html',
   styleUrl: './register.scss'
 })
