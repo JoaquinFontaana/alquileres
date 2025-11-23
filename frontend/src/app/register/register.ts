@@ -2,9 +2,10 @@ import { Component, inject} from '@angular/core';
 import { AuthStore } from '@auth-store';
 import { NonNullableFormBuilder, ReactiveFormsModule,Validators } from '@angular/forms';
 import { RegisterClienteRequest } from '@models';
+import { Button } from '@shared/button/button';
 @Component({
   selector: 'app-register',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule,Button],
   templateUrl: './register.html',
   styleUrl: './register.scss'
 })

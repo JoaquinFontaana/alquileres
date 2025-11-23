@@ -1,21 +1,22 @@
 <div class="login-container">
 <h2>Iniciar Sesión</h2>
     <form [formGroup]="form" (ngSubmit)="onSubmit()"> 
-        <div class="input-container">
-        <input id="email" formControlName="email" placeholder="Email"/>
-        @if (form.get('email')?.invalid && form.get('email')?.touched) {
-          <span class="error-message">Email inválido</span>
-        }
-        </div>
-        <div class="input-container"> 
-        <input id="password" formControlName="password" placeholder="Contraseña" type="password"/>
-        @if (form.get('password')?.invalid && form.get('password')?.touched) {
-            <span class="error-message">La contraseña es requerida</span>
-        }
-        </div>
+        <app-input
+          placeholder="Email"
+          [control]="form.controls.email"
+          id="email"
+          label="Email"
+        />
+        <app-input
+          [control]="form.controls.password"
+          placeholder="Contraseña"
+          type="password"
+          id="password"
+          label="Password"
+        />
         @if (authStore.error()) {
           <div class="error-banner">
-            <span class="error-message">El email o contraseña es incorrecto</span>
+            <span class="form-input-error-message">El email o contraseña es incorrecto</span>
           </div>
         }
         <app-button 

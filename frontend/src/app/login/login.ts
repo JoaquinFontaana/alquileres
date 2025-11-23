@@ -4,10 +4,10 @@ import { AuthStore } from '@auth-store'
 import { LoginRequest } from '@models';
 import { Button } from '@shared/button/button';
 import { Router, RouterLink} from '@angular/router';
-
+import { Input } from '@shared/input/input';
 @Component({
   selector: 'app-login',
-  imports: [ReactiveFormsModule, Button,RouterLink],
+  imports: [ReactiveFormsModule, Button,RouterLink, Input],
   templateUrl: './login.html',
   styleUrl: './login.scss'
 })
@@ -19,7 +19,7 @@ export class Login {
   
   public form = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
-    password: ['', [Validators.required]]
+    password: ['', [Validators.required,Validators.minLength(6)]]
   })
   
   constructor() {

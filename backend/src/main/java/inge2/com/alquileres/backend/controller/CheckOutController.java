@@ -1,12 +1,7 @@
 package inge2.com.alquileres.backend.controller;
 
-import inge2.com.alquileres.backend.dto.CheckOutAlquilerDTO;
-import inge2.com.alquileres.backend.dto.CheckOutAlquilerPresencialDTO;
-import inge2.com.alquileres.backend.dto.DatosPagoDTO;
-import inge2.com.alquileres.backend.service.AuthService;
 import inge2.com.alquileres.backend.service.checkOut.CheckOutAlquilerService;
 import inge2.com.alquileres.backend.service.checkOut.CheckOutMultaService;
-import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

@@ -60,3 +60,31 @@ button {
 main{
   flex: 1;
 }
+
+// ========================================
+// Estilos globales de formularios
+// ========================================
+
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.error-banner {
+  width: 100%;
+  padding: 1rem;
+  background-color: rgba($error-color, 0.1);
+  border-left: 4px solid $error-color;
+  color: $error-color;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border-radius: 4px;
+  animation: slideDown 0.3s ease;
+}
