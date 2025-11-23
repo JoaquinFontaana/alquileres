@@ -1,7 +1,6 @@
 package inge2.com.alquileres.backend.controller;
 
 import inge2.com.alquileres.backend.dto.DatosPagoDTO;
-import inge2.com.alquileres.backend.dto.alquiler.AlquilerDTOListar;
 import inge2.com.alquileres.backend.dto.user.PersonaDTO;
 import inge2.com.alquileres.backend.dto.user.PersonaDTOPassword;
 import inge2.com.alquileres.backend.service.AuthService;

@@ -1,5 +1,5 @@
-<div class="login-container">
-<h2>Registrarse</h2>
+<div class="register-container">
+    <h2>Registrarse</h2>
     <form [formGroup]="form" (ngSubmit)="onSubmit()"> 
         <app-input  id="email" 
             [control]="form.controls.email" 
@@ -20,16 +20,16 @@
             label="Apellido"/>
         <app-input  id="dni" 
             [control]="form.controls.dni" 
-            placeholder="DNI" 
-            Label="DNI"/>
-
+            placeholder="45123456" 
+            label="DNI"
+            [maxlength]="9"/>
         @if (authStore.error()) {
           <div class="error-banner">
             <span class="form-input-error-message">El email o contraseña es incorrecto</span>
           </div>
         }
         <app-button 
-            [label]="authStore.isLoading() ? 'Iniciando sesión...' : 'Iniciar sesión'"
+            [label]="authStore.isLoading() ? 'Registrando usuario...' : 'Registrarse'"
             [disabled]="form.invalid || authStore.isLoading()"
             (action)="onSubmit()"
             class="login-request"

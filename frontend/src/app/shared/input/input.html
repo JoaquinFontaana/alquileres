@@ -8,6 +8,7 @@
     [type]="type()"
     [placeholder]="placeholder()"
     [formControl]="control()"
+    [maxlength]="maxlength()"
   />
   @if(hint()){
     <mat-hint>{{ hint() }}</mat-hint>
@@ -20,6 +21,9 @@
   }
   @if (control().hasError('minlength')) {
     <mat-error>Mínimo {{ control().getError('minlength').requiredLength }} caracteres</mat-error>
+  }
+  @if (control().hasError('maxlength')) {
+    <mat-error>Máximo {{ control().getError('maxlength').requiredLength }} caracteres</mat-error>
   }
   @if (control().hasError('pattern')) {
     <mat-error>Formato inválido</mat-error>
