@@ -2,8 +2,8 @@ package inge2.com.alquileres.backend.model;
 
 import inge2.com.alquileres.backend.model.enums.EstadoAlquilerEnum;
 import inge2.com.alquileres.backend.model.enums.Extra;
-import inge2.com.alquileres.backend.model.state.Alquiler.EstadoAlquiler;
-import inge2.com.alquileres.backend.model.state.Alquiler.EstadoAlquilerListener;
+import inge2.com.alquileres.backend.model.state.alquiler.EstadoAlquiler;
+import inge2.com.alquileres.backend.model.state.alquiler.EstadoAlquilerListener;
 import inge2.com.alquileres.backend.model.valueObject.RangoFecha;
 import inge2.com.alquileres.backend.service.AlquilerService;
 import inge2.com.alquileres.backend.service.AutoService;

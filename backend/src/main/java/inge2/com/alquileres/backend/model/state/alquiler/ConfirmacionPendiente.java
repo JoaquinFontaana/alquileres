@@ -1,15 +1,17 @@
-package inge2.com.alquileres.backend.model.state.Alquiler;
+package inge2.com.alquileres.backend.model.state.alquiler;
 
 import inge2.com.alquileres.backend.model.Alquiler;
 import inge2.com.alquileres.backend.model.enums.EstadoAlquilerEnum;
 import inge2.com.alquileres.backend.service.AlquilerService;
 import inge2.com.alquileres.backend.service.AutoService;
 
-public class EnUso implements EstadoAlquiler {
+public class ConfirmacionPendiente implements EstadoAlquiler{
+
     @Override
     public void cancelar(Alquiler alquiler, AlquilerService alquilerService) {
-        throw new IllegalStateException("El alquiler se encuentra en uso, no se puede cancelar.");
+        alquilerService.eliminarAlquiler(alquiler);
     }
+
     @Override
     public boolean retiroDisponible(Alquiler alquiler) {
         return false;
@@ -17,41 +19,38 @@ public class EnUso implements EstadoAlquiler {
 
     @Override
     public void iniciar(Alquiler alquiler, AlquilerService alquilerService, AutoService autoService) {
-        throw new IllegalStateException("El alquiler se encuentra en curso, no se puede iniciar nuevamente.");
+        throw new IllegalStateException("El alquiler esta pendiente de confirmación, no se puede iniciar.");
     }
 
     @Override
     public void bajaAuto(Alquiler alquiler, AlquilerService alquilerService) {
-        throw new IllegalStateException("El alquiler se encuentra en curso, no se puede dar de baja el auto.");
+        alquilerService.sendEmailBajaAuto(alquiler,"Su alquiler pendiente de pago se ha cancelado, porque el auto ya no se encuentra disponible para el alquiler.");
+        alquilerService.eliminarAlquiler(alquiler);
     }
 
     @Override
     public void finalizar(AlquilerService alquilerService, AutoService autoService, Alquiler alquiler) {
-        alquiler.cambiarEstado(new Finalizado());
-        alquiler.getAuto().finalizarAlquiler(autoService);
-        alquilerService.saveAlquiler(alquiler);
+        throw new  IllegalStateException("El alquiler esta pendiente de confirmación, no se puede finalizar.");
     }
 
     @Override
     public void finalizarVencido(Alquiler alquiler, AlquilerService alquilerService) {
-         throw new IllegalStateException( "El alquiler se encuentra en curso, no se puede finalizar.");
+        throw  new IllegalStateException("El alquiler esta pendiente de confirmación, no se puede finalizar vencido.");
     }
 
     @Override
     public void finalizarConMantenimiento(Alquiler alquiler, AlquilerService alquilerService, AutoService autoService, int multa) {
-        alquiler.setClienteMulta(multa);
-        alquiler.cambiarEstado(new Finalizado());
-        alquilerService.saveAlquiler(alquiler);
-        alquiler.getAuto().iniciarMantenimiento(autoService,alquilerService);
+        throw new IllegalStateException("El alquiler esta pendiente de confirmación, no se puede finalizar con mantenimiento.");
     }
 
     @Override
     public void procesarPago(Alquiler alquiler, AlquilerService alquilerService) {
-        throw new IllegalStateException("El alquiler ya ha sido pagado.");
+        alquiler.cambiarEstado(new RetiroPendiente());
+        alquilerService.saveAlquiler(alquiler);
     }
 
     @Override
     public EstadoAlquilerEnum getEstadoAlquilerEnum() {
-        return EstadoAlquilerEnum.EN_USO;
+        return EstadoAlquilerEnum.CONFIRMACION_PENDIENTE;
     }
 }

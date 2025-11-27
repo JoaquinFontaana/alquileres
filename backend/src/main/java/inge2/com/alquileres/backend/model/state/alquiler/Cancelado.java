@@ -1,4 +1,4 @@
-package inge2.com.alquileres.backend.model.state.Alquiler;
+package inge2.com.alquileres.backend.model.state.alquiler;
 
 import inge2.com.alquileres.backend.model.Alquiler;
 import inge2.com.alquileres.backend.model.enums.EstadoAlquilerEnum;
