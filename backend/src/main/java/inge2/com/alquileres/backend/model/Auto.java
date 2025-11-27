@@ -56,44 +56,6 @@ public class Auto {
     @Transient
     private EstadoAuto state;
 
-    public Auto(AutoDTO dto, Sucursal sucursal, String rutaImagen) {
-        this.asignarDTOaAuto(dto);
-        this.sucursal = sucursal;
-        this.rutaImagen = rutaImagen;
-    }
-
-    public void actualizarAuto(AutoDTOActualizar dto, Sucursal sucursal){
-        if (dto.getPrecioPorDia() != null) {
-            this.precioPorDia = dto.getPrecioPorDia();
-        }
-        if (dto.getCategoria() != null) {
-            this.categoria = dto.getCategoria();
-        }
-        if (dto.getRembolso() != null) {
-            this.rembolso = dto.getRembolso();
-        }
-        if (dto.getEstado() != null) {
-            this.estado = dto.getEstado();
-        }
-        this.sucursal = sucursal;
-    }
-
-
-    public void actualizarAutoImagen(AutoDTOActualizar dto, Sucursal sucursal,String rutaImagen){
-        this.actualizarAuto(dto,sucursal);
-        this.rutaImagen = rutaImagen;
-    }
-
-    private void asignarDTOaAuto(AutoDTO dto){
-        this.patente = dto.getPatente();
-        this.capacidad = dto.getCapacidad();
-        this.marca = dto.getMarca();
-        this.modelo = dto.getModelo();
-        this.precioPorDia = dto.getPrecioPorDia();
-        this.categoria = dto.getCategoria();
-        this.rembolso = dto.getRembolso();
-        this.estado = EstadoAutoEnum.DISPONIBLE;
-    }
     public boolean disponibleEnRangoFechas(RangoFecha rango){
         return this.getReservas().stream().filter(alquiler -> alquiler.getEstadoAlquilerEnum() != EstadoAlquilerEnum.CANCELADO).allMatch(alquiler -> alquiler.sinSolapamiento(rango));
     }

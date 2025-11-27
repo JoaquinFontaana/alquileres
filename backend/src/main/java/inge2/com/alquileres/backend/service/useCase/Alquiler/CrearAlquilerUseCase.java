@@ -1,6 +1,7 @@
 package inge2.com.alquileres.backend.service.useCase.Alquiler;
 
 import inge2.com.alquileres.backend.dto.alquiler.AlquilerDTOCrear;
+import inge2.com.alquileres.backend.mapper.AlquilerMapper;
 import inge2.com.alquileres.backend.model.Alquiler;
 import inge2.com.alquileres.backend.model.Auto;
 import inge2.com.alquileres.backend.model.Cliente;
@@ -22,7 +23,7 @@ public class CrearAlquilerUseCase {
     private final SucursalService sucursalService;
     private final ClienteHelperService clienteHelperService;
     private final AlquilerService alquilerService;
-
+    private final AlquilerMapper alquilerMapper;
 
     @Transactional
     public Alquiler crearAlquiler(AlquilerDTOCrear alquilerDTO, String email){
@@ -36,7 +37,7 @@ public class CrearAlquilerUseCase {
 
         Cliente cliente = this.clienteHelperService.findClienteByEmail(email);
 
-        Alquiler alquiler = new Alquiler(alquilerDTO,auto,cliente,sucursal);
+        Alquiler alquiler = alquilerMapper.toEntity(alquilerDTO,auto,cliente,sucursal);
 
         return this.alquilerService.saveAlquiler(alquiler);
     }

@@ -2,6 +2,7 @@ package inge2.com.alquileres.backend.service;
 
 import inge2.com.alquileres.backend.dto.auto.AutoDTOActualizar;
 import inge2.com.alquileres.backend.dto.auto.AutoDTOCrear;
+import inge2.com.alquileres.backend.mapper.AutoMapper;
 import inge2.com.alquileres.backend.model.Auto;
 import inge2.com.alquileres.backend.model.Sucursal;
 import inge2.com.alquileres.backend.repository.IAutoRepository;
@@ -16,7 +17,7 @@ public class AutoService {
     private final SucursalService sucursalService;
     private final AutoHelperService autoHelperService;
     private final FileStorageService fileStorageService;
-
+    private final AutoMapper autoMapper;
 
     @Transactional
     public void crearAuto(AutoDTOCrear autoDto){
@@ -27,7 +28,7 @@ public class AutoService {
 
         String rutaImagen = fileStorageService.guardarImagen(autoDto.getImagen());
 
-        Auto auto = new Auto(autoDto,sucursal,rutaImagen);
+        Auto auto = this.autoMapper.toEntiity(autoDto,sucursal,rutaImagen);
         autoRepository.save(auto);
     }
 
@@ -42,11 +43,9 @@ public class AutoService {
         Auto auto = this.autoHelperService.findAutoByPatente(autoActualizado.getPatente());
         if(autoActualizado.getImagen() != null){
             fileStorageService.deleteImage(auto.getRutaImagen());
-            auto.actualizarAutoImagen(autoActualizado,sucursal,fileStorageService.guardarImagen(autoActualizado.getImagen()));
+            auto.setRutaImagen(fileStorageService.guardarImagen(autoActualizado.getImagen()));
         }
-        else{
-            auto.actualizarAuto(autoActualizado,sucursal);
-        }
+        autoMapper.updateFromDtoActualizar(autoActualizado,sucursal,auto);
         this.autoRepository.save(auto);
     }
 

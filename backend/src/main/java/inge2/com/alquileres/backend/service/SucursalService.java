@@ -5,19 +5,16 @@ import inge2.com.alquileres.backend.model.Sucursal;
 import inge2.com.alquileres.backend.repository.ISucursalRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 
-@Service
+@Service @AllArgsConstructor
 public class SucursalService {
 
     private final ISucursalRepository sucursalRepository;
-
-    public SucursalService(ISucursalRepository sucursalRepository) {
-        this.sucursalRepository = sucursalRepository;
-    }
 
     @Transactional
     public void crearSucursal(Sucursal sucursal){

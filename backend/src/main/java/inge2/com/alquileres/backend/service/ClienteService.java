@@ -5,6 +5,7 @@ import inge2.com.alquileres.backend.dto.alquiler.RembolsoDTO;
 import inge2.com.alquileres.backend.dto.alquiler.AlquilerDTOListar;
 import inge2.com.alquileres.backend.dto.user.PersonaDTO;
 import inge2.com.alquileres.backend.dto.user.PersonaDTOPassword;
+import inge2.com.alquileres.backend.mapper.AlquilerMapper;
 import inge2.com.alquileres.backend.model.Cliente;
 import inge2.com.alquileres.backend.repository.IClienteRepository;
 import inge2.com.alquileres.backend.service.helper.ClienteHelperService;
@@ -22,7 +23,7 @@ public class ClienteService {
     private final RolService rolService ;
     private final ClienteHelperService clienteHelperService;
     private final EmailService emailService;
-
+    private final AlquilerMapper alquilerMapper;
     @Transactional
     public void crearCliente(PersonaDTOPassword clienteDTO){
         this.clienteHelperService.checkNotExistsCliente(clienteDTO.getDni(),clienteDTO.getEmail());
@@ -53,11 +54,7 @@ public class ClienteService {
     }
 
     public List<AlquilerDTOListar> listarAlquileres(String email){
-        return this.clienteHelperService.findClienteByEmail(email)
-                .getAlquileres()
-                .stream()
-                .map(AlquilerDTOListar::new)
-                .toList();
+        return this.alquilerMapper.toDtoListListar(this.clienteHelperService.findClienteByEmail(email).getAlquileres());
     }
 
     public List<PersonaDTO> listarClientes(){

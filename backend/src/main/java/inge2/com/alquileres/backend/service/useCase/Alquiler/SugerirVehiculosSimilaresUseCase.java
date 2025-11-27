@@ -1,6 +1,7 @@
 package inge2.com.alquileres.backend.service.useCase.Alquiler;
 
 import inge2.com.alquileres.backend.dto.auto.AutoDTOListar;
+import inge2.com.alquileres.backend.mapper.AutoMapper;
 import inge2.com.alquileres.backend.model.Alquiler;
 import inge2.com.alquileres.backend.service.helper.AlquilerHelperService;
 import inge2.com.alquileres.backend.service.helper.AutoHelperService;
@@ -13,14 +14,14 @@ import java.util.List;
 public class SugerirVehiculosSimilaresUseCase {
     private final AlquilerHelperService alquilerHelperService;
     private final AutoHelperService autoHelperService;
+    private final AutoMapper autoMapper;
 
     public List<AutoDTOListar> sugerirSimilares(Long codigoAlquiler) {
         Alquiler alquiler = this.alquilerHelperService.findById(codigoAlquiler);
         this.autoHelperService.checkAutoNoDisponible(alquiler.getAuto());
-        return this.autoHelperService.findSimilaresPorPrecioOCategoria(alquiler.getAuto())
+        return this.autoMapper.toDtoListListar(this.autoHelperService.findSimilaresPorPrecioOCategoria(alquiler.getAuto())
                 .stream()
                 .filter(auto -> auto.disponibleEnRangoFechas(alquiler.getRangoFecha()))
-                .map(AutoDTOListar::new)
-                .toList();
+                .toList());
     }
 }

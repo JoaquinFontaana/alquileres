@@ -14,7 +14,6 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity @Getter @Setter
@@ -56,21 +55,6 @@ public class Alquiler {
     @Column(name = "extra")
     private List<Extra> extras;
 
-    public Alquiler (AlquilerDTOCrear alquilerDTOCrear,Auto auto,Cliente cliente,Sucursal sucursal){
-        this.auto = auto;
-        this.cliente = cliente;
-        this.sucursal = sucursal;
-        this.licenciaConductor = alquilerDTOCrear.getLicenciaConductor();
-        this.rangoFecha = alquilerDTOCrear.getRangoFecha();
-        this.estadoAlquilerEnum = EstadoAlquilerEnum.CONFIRMACION_PENDIENTE;
-        this.rembolso = null;
-        this.extras = new ArrayList<>();
-        this.addExtras(alquilerDTOCrear.getExtras());
-    }
-
-    public Alquiler(){
-
-    }
 
     public void iniciar(AlquilerService alquilerService, AutoService autoService) {
         this.state.iniciar(this, alquilerService, autoService);

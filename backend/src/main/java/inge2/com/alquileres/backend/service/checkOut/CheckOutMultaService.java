@@ -25,7 +25,7 @@ public class CheckOutMultaService extends AbstractCheckOutService {
     @Transactional
     public String pagarMulta(DatosPagoDTO datosPagoDTO) {
         Cliente cliente = this.clienteHelperService.findClienteByEmail(this.getAuthService().getMailOfContext());
-        if(cliente.getMontoMulta() == 0){
+        if(cliente.getMontoMulta() <= 0){
             throw new IllegalStateException("El monto de la multa es 0, no hay multa a pagar");
         }
         return this.getMpPreferenceBuilder().crearPreferenceMulta(cliente, datosPagoDTO).getInitPoint();

@@ -13,7 +13,7 @@ import java.util.List;
 public class AlquilerDTOCrear {
     @Embedded
     private RangoFecha rangoFecha;
-    @NotBlank(message = "La licen del conductor es obligatorio")
+    @NotBlank(message = "La licencia del conductor es obligatorio")
     private String licenciaConductor;
     @NotBlank(message = "Patente del auto es obligatorio")
     private String patenteAuto;
