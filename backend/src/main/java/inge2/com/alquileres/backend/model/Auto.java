@@ -1,7 +1,4 @@
 package inge2.com.alquileres.backend.model;
-
-import inge2.com.alquileres.backend.dto.auto.AutoDTO;
-import inge2.com.alquileres.backend.dto.auto.AutoDTOActualizar;
 import inge2.com.alquileres.backend.model.enums.CategoriaAuto;
 import inge2.com.alquileres.backend.model.enums.EstadoAlquilerEnum;
 import inge2.com.alquileres.backend.model.enums.EstadoAutoEnum;

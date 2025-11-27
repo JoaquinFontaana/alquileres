@@ -21,6 +21,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.web.multipart.MultipartFile;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -43,8 +44,8 @@ class AutoServiceTest {
     private Sucursal sucursalMock;
     private MultipartFile imagenMock;
 
-    private String PATENTE = "123ABC";
-    private String CIUDAD = "La plata";
+    private final String PATENTE = "123ABC";
+    private final String CIUDAD = "La plata";
 
     @BeforeEach
     public void setUp(){
@@ -68,16 +69,16 @@ class AutoServiceTest {
 
     @Test
     @DisplayName("Crear auto: Debe guardar el auto correctamente cuando todos los datos son válidos")
-    void crearAutoExitoso(){
+    void crearAuto_Success(){
         //Defino comportamiento
         when(sucursalService.findSucursalByCiudad(CIUDAD)).thenReturn(sucursalMock);
         when(fileStorageService.guardarImagen(imagenMock)).thenReturn("ruta/valida/imagen.jpg");
+
         //ACT
         autoService.crearAuto(dto);
         //Assert
         verify(fileStorageService).checkImagen(imagenMock);
         verify(autoHelperService).checkPatenteNotExists(PATENTE);
-        verify(autoRepository).save(any(Auto.class));
 
         ArgumentCaptor<Auto> autoCaptor = ArgumentCaptor.forClass(Auto.class);
         verify(autoRepository).save(autoCaptor.capture());
@@ -87,5 +88,20 @@ class AutoServiceTest {
         assertEquals(sucursalMock, autoGuardado.getSucursal());
         assertEquals(EstadoAutoEnum.DISPONIBLE,autoGuardado.getEstado());
         assertEquals(TiposRembolso.SIN_REMBOLSO,autoGuardado.getRembolso());
+    }
+
+    @Test
+    @DisplayName("Crear auto: Debe fallar por patente duplicada y no guardar ningun vehiculo")
+    public void crearAuto_PatenteDuplicada_Exception(){
+        doThrow(new RuntimeException("La patente ya existe"))
+                .when(autoHelperService)
+                .checkPatenteNotExists(PATENTE);
+
+        Exception exception = assertThrows(RuntimeException.class, () -> {
+            autoService.crearAuto(dto);
+        });
+
+        assertEquals("La patente ya existe", exception.getMessage());
+        verify(autoRepository, never()).save(any());
     }
 }

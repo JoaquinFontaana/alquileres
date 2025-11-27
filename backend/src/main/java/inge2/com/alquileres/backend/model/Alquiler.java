@@ -1,6 +1,5 @@
 package inge2.com.alquileres.backend.model;
 
-import inge2.com.alquileres.backend.dto.alquiler.AlquilerDTOCrear;
 import inge2.com.alquileres.backend.model.enums.EstadoAlquilerEnum;
 import inge2.com.alquileres.backend.model.enums.Extra;
 import inge2.com.alquileres.backend.model.state.Alquiler.EstadoAlquiler;
