@@ -34,7 +34,7 @@ public class Mantenimiento implements EstadoAuto{
 
     @Override
     public void finalizarMantenimiento(Auto auto, AutoService autoService) {
-        auto.cambiarEstado(new Mantenimiento());
+        auto.cambiarEstado(new Disponible());
         autoService.saveAuto(auto);
     }
 
