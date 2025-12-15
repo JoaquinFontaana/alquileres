@@ -3,7 +3,10 @@
 
 <section class="vehicle-list">
     @for(vehicle of localvehicles; track vehicle.patente){
-        <app-vehicle-card [vehicle]="vehicle" [actions]="actionsList">
+        <app-vehicle-card 
+          [vehicle]="vehicle" 
+          [actions]="actionsList"
+          (actionClicked)="handleAction($event, vehicle)">
         </app-vehicle-card> 
     }@empty {
         No hay vehiculos para listar....

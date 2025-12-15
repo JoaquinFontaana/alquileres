@@ -1,8 +1,10 @@
 import { Routes } from '@angular/router';
-import {VehicleList } from '@vehicles/vehicle-list/vehicle-list'
+import {VehicleList } from 'src/app/cliente/vehicle-list/vehicle-list'
 import { Login } from './login/login';
 import { Home } from './home/home';
 import { Register } from './register/register';
+import { RentVehicle } from './cliente/rent-vehicle/rent-vehicle';
+
 export const routes: Routes = [
     {
         path: '',
@@ -19,5 +21,9 @@ export const routes: Routes = [
     {
         path:'register',
         component:Register
+    },
+    {
+        path: 'cliente/rent-vehicle/:id',
+        component: RentVehicle
     }
 ];

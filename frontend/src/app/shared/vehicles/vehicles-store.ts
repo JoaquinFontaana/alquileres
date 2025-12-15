@@ -1,5 +1,5 @@
-import { inject } from "@angular/core";
-import { Vehicle, VehicleFilter } from "@models"
+import { inject, computed } from "@angular/core";
+import { Vehicle, VehicleFilter, RangoFecha } from "@models"
 import { patchState, signalStore, type, withHooks, withMethods, withState } from '@ngrx/signals'
 import { entityConfig, setAllEntities, withEntities } from '@ngrx/signals/entities'
 import {rxMethod} from '@ngrx/signals/rxjs-interop'
@@ -12,12 +12,14 @@ interface VehiclesState  {
     error: string | null;
     isLoading: boolean;
     categorias: string[];
+    disponibilidad: boolean | null;
 };
 
 const initialState: VehiclesState = {
     isLoading: false,
     error: null as string | null,
-    categorias: []
+    categorias: [],
+    disponibilidad: null
 };
 
 const vehicleConfig = entityConfig({
@@ -79,6 +81,33 @@ export const VehiclesStore = signalStore(
         )
       )
     ),
+    
+    // ✅ Consultar disponibilidad de un vehículo (retorna solo boolean)
+    checkDisponibilidad: rxMethod<{ id: number; rangoFecha: RangoFecha }>(
+      pipe(
+        tap(() => patchState(store, { isLoading: true, error: null, disponibilidad: null })),
+        switchMap(({ id, rangoFecha }) =>
+          vehiclesService.checkDisponibilidad(id, rangoFecha).pipe(
+            tapResponse({
+              next: (disponible: boolean) => {
+                patchState(store, { disponibilidad: disponible });
+              },
+              error: () => {
+                patchState(store, { error: `Error al consultar disponibilidad` });
+              },
+              finalize: () => {
+                patchState(store, { isLoading: false });
+              }
+            })
+          )
+        )
+      )
+    ),
+    
+    // Método para obtener un vehículo por ID desde el store (caché)
+    getVehicleById: (id: number) => {
+      return computed(() => store.entityMap()[id]);
+    },
     
   })),
   //withHooks para manejar el ciclo de vida del store.

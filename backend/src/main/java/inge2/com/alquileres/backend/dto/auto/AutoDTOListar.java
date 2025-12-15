@@ -7,6 +7,7 @@ import lombok.Setter;
 @Getter @Setter
 public class AutoDTOListar extends AutoDTO{
     private String imgUrl;
+    private long id;
     public AutoDTOListar(Auto auto) {
         super(auto);
         this.imgUrl = auto.getRutaImagen();

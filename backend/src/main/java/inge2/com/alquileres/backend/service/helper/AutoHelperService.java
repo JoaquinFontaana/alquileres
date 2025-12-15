@@ -46,4 +46,7 @@ public class AutoHelperService {
     public List<Auto> findSimilaresPorPrecioOCategoria(Auto auto) {
         return autoRepository.findSimilaresPorPrecioOCategoria(auto.getSucursal().getId(), auto.getPrecioPorDia(), 2000, auto.getCategoria(), auto.getId());
     }
+    public Auto findById(Long id){
+        return this.autoRepository.findById(id).orElseThrow(()-> new EntityNotFoundException("El vehiculo con el id solicitado no existe"));
+    }
 }

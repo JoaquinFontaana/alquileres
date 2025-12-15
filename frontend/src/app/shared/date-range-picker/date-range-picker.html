@@ -1,0 +1,20 @@
+<mat-form-field>
+  <mat-label>Selecciona el rango de fechas</mat-label>
+  <mat-date-range-input [rangePicker]="picker" [min]="minDate">
+    <input matStartDate matInput [formControl]="fechaInicio()" placeholder="Fecha inicio">
+    <input matEndDate matInput [formControl]="fechaFin()" placeholder="Fecha fin">
+  </mat-date-range-input>
+  <mat-hint>Máximo 14 días</mat-hint>
+  <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+  <mat-date-range-picker #picker></mat-date-range-picker>
+
+  @if (fechaInicio().hasError('matStartDateInvalid')) {
+    <mat-error>Fecha de inicio inválida</mat-error>
+  }
+  @if (fechaFin().hasError('matEndDateInvalid')) {
+    <mat-error>Fecha de fin inválida</mat-error>
+  }
+  @if (rangoExcedido()) {
+    <mat-error>El rango máximo permitido es de 14 días</mat-error>
+  }
+</mat-form-field>

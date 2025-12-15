@@ -5,9 +5,11 @@ import inge2.com.alquileres.backend.dto.auto.AutoDTOActualizar;
 import inge2.com.alquileres.backend.dto.auto.AutoDTOCrear;
 import inge2.com.alquileres.backend.dto.auto.AutoDTOListar;
 import inge2.com.alquileres.backend.dto.auto.AutoFilterDTO;
+import inge2.com.alquileres.backend.model.Auto;
 import inge2.com.alquileres.backend.model.enums.CategoriaAuto;
 import inge2.com.alquileres.backend.model.enums.EstadoAutoEnum;
 import inge2.com.alquileres.backend.model.enums.TiposRembolso;
+import inge2.com.alquileres.backend.model.valueObject.RangoFecha;
 import inge2.com.alquileres.backend.service.AutoService;
 import inge2.com.alquileres.backend.service.useCase.Alquiler.CambiarAutoUseCase;
 import inge2.com.alquileres.backend.service.useCase.Auto.EliminarAutoUseCase;
@@ -15,6 +17,7 @@ import inge2.com.alquileres.backend.service.useCase.Auto.ListarAutosUseCase;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -36,6 +39,12 @@ public class AutoController {
     public ResponseEntity<String> eliminarAuto(@PathVariable @NotBlank String patente){
         this.eliminarAutoUseCase.eliminarAuto(patente);
         return ResponseEntity.ok("Auto eliminado con exito");
+    }
+    @GetMapping("/disponibilidad/{id}")
+    @PreAuthorize("hasAnyAuthority('CLIENTE','EMPLEADO')")
+    public ResponseEntity<Boolean> getDisponibilidad(@PathVariable @NotBlank Long id,@ModelAttribute RangoFecha rangoFecha){
+        boolean res = autoService.disponibilidad(rangoFecha,id);
+        return new ResponseEntity<>(res, HttpStatus.OK);
     }
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -101,6 +110,7 @@ public class AutoController {
     public List<AutoDTOListar> listarAutos(@ModelAttribute AutoFilterDTO opcionesFiltrado){
         return this.listarAutosUseCase.listarAutos(opcionesFiltrado);
     }
+
 
     @PatchMapping("/{patente}/reparacion-finalizada")
     @PreAuthorize("hasAuthority('EMPLEADO')")

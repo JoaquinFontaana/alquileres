@@ -5,6 +5,7 @@ import inge2.com.alquileres.backend.dto.auto.AutoDTOCrear;
 import inge2.com.alquileres.backend.mapper.AutoMapper;
 import inge2.com.alquileres.backend.model.Auto;
 import inge2.com.alquileres.backend.model.Sucursal;
+import inge2.com.alquileres.backend.model.valueObject.RangoFecha;
 import inge2.com.alquileres.backend.repository.IAutoRepository;
 import inge2.com.alquileres.backend.service.helper.AutoHelperService;
 import jakarta.transaction.Transactional;
@@ -28,7 +29,7 @@ public class AutoService {
 
         String rutaImagen = fileStorageService.guardarImagen(autoDto.getImagen());
 
-        Auto auto = this.autoMapper.toEntiity(autoDto,sucursal,rutaImagen);
+        Auto auto = this.autoMapper.toEntity(autoDto,sucursal,rutaImagen);
         autoRepository.save(auto);
     }
 
@@ -52,5 +53,9 @@ public class AutoService {
     @Transactional
     public void finalizarMantenimiento(String patente) {
         this.autoHelperService.findAutoByPatente(patente).finalizarMantenimiento(this);
+    }
+    public boolean disponibilidad(RangoFecha rangoFecha, Long id){
+        Auto auto = autoHelperService.findById(id);
+        return auto.disponibleEnRangoFechas(rangoFecha);
     }
 }

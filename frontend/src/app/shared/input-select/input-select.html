@@ -1,0 +1,23 @@
+<mat-form-field >
+  @if (label()) {
+    <mat-label>{{ label() }}</mat-label>
+  }
+  
+  <mat-select [formControl]="control()" [placeholder]="placeHolder()">
+    <mat-option value="">
+      @if(placeHolder()){
+       {{placeHolder()}}
+      }
+      @else {
+        None
+      }
+    </mat-option>
+    @for (option of options(); track option) {
+      <mat-option [value]="option">{{ option }}</mat-option>
+    }
+  </mat-select>
+  
+  @if (control().hasError('required')) {
+    <mat-error>{{ label() || 'Este campo' }} es requerido</mat-error>
+  }
+</mat-form-field>

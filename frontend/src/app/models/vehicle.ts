@@ -1,4 +1,5 @@
 export interface Vehicle{
+    id:string,
     patente: string;
     marca: string;
     modelo: string;

@@ -1,5 +1,5 @@
 import { ApplicationConfig, provideBrowserGlobalErrorListeners, provideZonelessChangeDetection } from '@angular/core';
-import { provideRouter } from '@angular/router';
+import { provideRouter, withComponentInputBinding } from '@angular/router';
 import { CustomErrorStateMatcher } from '@shared/custom-error-state-matcher';
 import { routes } from './app.routes';
 import { provideClientHydration, withEventReplay, withIncrementalHydration } from '@angular/platform-browser';
@@ -11,7 +11,7 @@ export const appConfig: ApplicationConfig = {
     provideBrowserGlobalErrorListeners(),
     provideZonelessChangeDetection(),
     provideHttpClient(withFetch()),
-    provideRouter(routes), 
+    provideRouter(routes, withComponentInputBinding()), // ✅ Habilita input binding
     provideClientHydration(withEventReplay(), withIncrementalHydration()),
     {provide:ErrorStateMatcher, useClass:CustomErrorStateMatcher}
   ]

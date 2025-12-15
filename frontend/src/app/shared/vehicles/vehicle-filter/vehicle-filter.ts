@@ -1,13 +1,15 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, signal, computed } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, AbstractControl, ValidationErrors } from '@angular/forms';
 import { Button } from '@shared/button/button';
 import { VehiclesStore } from '@vehicles/vehicles-store';
 import {SucursalStore} from '@shared/sucursal/sucursal-store'
 import { VehicleFilter as VehicleFilterModel } from '@models';
+import { DateRangePicker } from '@shared/date-range-picker/date-range-picker';
+import { InputSelect } from '@shared/input-select/input-select';
 
 @Component({
   selector: 'app-vehicle-filter',
-  imports: [ReactiveFormsModule, Button],
+  imports: [ReactiveFormsModule, Button, DateRangePicker, InputSelect],
   templateUrl: './vehicle-filter.html',
   styleUrl: './vehicle-filter.scss'
 })
@@ -28,6 +30,9 @@ export class VehicleFilter {
     fechaHasta: ['']
   }, { validators: [this.dateRangeValidator()] });
 
+  //Exponer las fechas del filtro públicamente
+  readonly fechaInicio = computed(() => this.form.controls.fechaHasta.value);
+  readonly fechaFin = computed(() => this.form.controls.fechaDesde.value);
 
   // Validador personalizado para el rango de fechas
   private dateRangeValidator() {

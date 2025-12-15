@@ -28,6 +28,6 @@ public interface AutoMapper {
     @Mapping(source = "sucursal", target = "sucursal")
     @Mapping(source = "rutaImagen",target = "rutaImagen")
     @Mapping(target = "estado", expression = "java(EstadoAutoEnum.DISPONIBLE)")
-    Auto toEntiity(AutoDTO dto,Sucursal sucursal, String rutaImagen);
+    Auto toEntity(AutoDTO dto,Sucursal sucursal, String rutaImagen);
 
 }
