@@ -1,4 +1,4 @@
-import { Component, inject, signal, computed } from '@angular/core';
+import { Component, inject, signal, computed, effect } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, AbstractControl, ValidationErrors } from '@angular/forms';
 import { Button } from '@shared/button/button';
 import { VehiclesStore } from '@vehicles/vehicles-store';
@@ -30,9 +30,29 @@ export class VehicleFilter {
     fechaHasta: ['']
   }, { validators: [this.dateRangeValidator()] });
 
-  //Exponer las fechas del filtro públicamente
-  readonly fechaInicio = computed(() => this.form.controls.fechaHasta.value);
-  readonly fechaFin = computed(() => this.form.controls.fechaDesde.value);
+  //Exponer las fechas del filtro públicamente (ya formateadas)
+  readonly fechaInicio = computed(() => {
+    const fecha = this.form.controls.fechaDesde.value;
+    return this.formatDate(fecha);
+  });
+  
+  readonly fechaFin = computed(() => {
+    const fecha = this.form.controls.fechaHasta.value;
+    return this.formatDate(fecha);
+  });
+
+  // Effect para aplicar filtro automáticamente cuando se seleccionen ambas fechas
+  constructor() {
+    effect(() => {
+      const fechaDesde = this.form.controls.fechaDesde.value;
+      const fechaHasta = this.form.controls.fechaHasta.value;
+      
+      // Si ambas fechas están seleccionadas y el form es válido, aplicar filtro
+      if (fechaDesde && fechaHasta && this.form.valid) {
+        this.applyFilters();
+      }
+    });
+  }
 
   // Validador personalizado para el rango de fechas
   private dateRangeValidator() {
@@ -77,6 +97,17 @@ export class VehicleFilter {
     };
   }
 
+  // Convertir fecha a formato ISO (YYYY-MM-DD) para el backend
+  private formatDate(date: Date | string | null): string | null {
+    if (!date) return null;
+    if (typeof date === 'string') return date;
+    const d = new Date(date);
+    const year = d.getFullYear();
+    const month = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  }
+
   applyFilters(): void {
     this.errorMessage.set(null);
 
@@ -110,11 +141,17 @@ export class VehicleFilter {
     }
     
     if (formValue.fechaDesde) {
-      filter.setFechaDesde(formValue.fechaDesde);
+      const fechaFormateada = this.formatDate(formValue.fechaDesde);
+      if (fechaFormateada) {
+        filter.setFechaDesde(fechaFormateada);
+      }
     }
     
     if (formValue.fechaHasta) {
-      filter.setFechaHasta(formValue.fechaHasta);
+      const fechaFormateada = this.formatDate(formValue.fechaHasta);
+      if (fechaFormateada) {
+        filter.setFechaHasta(fechaFormateada);
+      }
     }
     
     this.vehicleStore.loadVehicles(filter);
