@@ -7,6 +7,7 @@ import { tapResponse } from '@ngrx/operators';
 import { VehiclesData } from "./services/vehicles-data";
 import {pipe, switchMap, tap} from "rxjs";
 import { HttpErrorResponse } from "@angular/common/http";
+import { AuthStore } from "@auth-store";
 
 interface VehiclesState  {
     error: string | null;
@@ -24,7 +25,7 @@ const initialState: VehiclesState = {
 
 const vehicleConfig = entityConfig({
     entity: type<Vehicle>(),
-    selectId: (vehicle: Vehicle) => vehicle.patente
+    selectId: (vehicle: Vehicle) => vehicle.id
 })
 
 export const VehiclesStore = signalStore(
@@ -35,7 +36,7 @@ export const VehiclesStore = signalStore(
   withState({
     ...initialState
   }),
-  withMethods((store, vehiclesService = inject(VehiclesData)) => ({
+  withMethods((store, vehiclesService = inject(VehiclesData), authStore = inject(AuthStore)) => ({
     
     loadVehicles: rxMethod<VehicleFilter | undefined>(
       pipe(
@@ -86,8 +87,9 @@ export const VehiclesStore = signalStore(
     checkDisponibilidad: rxMethod<{ id: number; rangoFecha: RangoFecha }>(
       pipe(
         tap(() => patchState(store, { isLoading: true, error: null, disponibilidad: null })),
-        switchMap(({ id, rangoFecha }) =>
-          vehiclesService.checkDisponibilidad(id, rangoFecha).pipe(
+        switchMap(({ id, rangoFecha }) => {
+          const token = authStore.token() || ''
+          return vehiclesService.checkDisponibilidad(id, rangoFecha, token).pipe(
             tapResponse({
               next: (disponible: boolean) => {
                 patchState(store, { disponibilidad: disponible });
@@ -100,7 +102,7 @@ export const VehiclesStore = signalStore(
               }
             })
           )
-        )
+        })
       )
     ),
     

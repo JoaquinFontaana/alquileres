@@ -1,0 +1,154 @@
+.rent-vehicle-container {
+  padding: 2rem;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.title {
+  margin: 0 0 2rem;
+  font-size: 2rem;
+  font-weight: 600;
+  color: #333;
+  text-align: center;
+}
+
+.payment-card {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+
+  h2 {
+    margin: 0 0 1.5rem;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #333;
+  }
+}
+
+.vehicle-card-wrapper {
+  margin-bottom: 1.5rem;
+  
+  app-vehicle-card {
+    display: block;
+  }
+}
+
+.rental-info {
+  margin-bottom: 1.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.detail-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.75rem 0;
+
+  .label {
+    font-weight: 500;
+    color: #666;
+  }
+
+  .value {
+    color: #333;
+    font-weight: 400;
+  }
+}
+
+.total-section {
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+}
+
+.total-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 1.5rem;
+  font-weight: 600;
+
+  .label {
+    color: #333;
+  }
+
+  .value {
+    color: #1976d2;
+  }
+}
+
+.warning-message {
+  background-color: #fff3cd;
+  border: 1px solid #ffc107;
+  border-radius: 4px;
+  padding: 1rem;
+  margin: 1rem 0;
+
+  p {
+    margin: 0.5rem 0;
+    color: #856404;
+    text-align: center;
+
+    &:first-child {
+      font-weight: 600;
+    }
+  }
+}
+
+.loading-message {
+  background-color: #e3f2fd;
+  border: 1px solid #2196f3;
+  border-radius: 4px;
+  padding: 1rem;
+  margin: 1rem 0;
+  text-align: center;
+
+  p {
+    margin: 0;
+    color: #1976d2;
+    font-weight: 500;
+  }
+}
+
+.error-message {
+  text-align: center;
+  padding: 2rem;
+
+  p {
+    color: #d32f2f;
+    font-size: 1.125rem;
+  }
+}
+
+.actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.5rem;
+
+  app-button {
+    flex: 1;
+  }
+
+  ::ng-deep .back-button button {
+    background-color: #6c757d;
+
+    &:hover:not(:disabled) {
+      background-color: #5a6268;
+    }
+  }
+
+  ::ng-deep .payment-button button {
+    background-color: #28a745;
+
+    &:hover:not(:disabled) {
+      background-color: #218838;
+    }
+
+    &:disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
+      opacity: 0.6;
+    }
+  }
+}

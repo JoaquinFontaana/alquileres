@@ -4,7 +4,8 @@ import { Login } from './login/login';
 import { Home } from './home/home';
 import { Register } from './register/register';
 import { RentVehicle } from './cliente/rent-vehicle/rent-vehicle';
-
+import { authGuard } from './guards/auth-guard';
+import { clienteGuard } from './guards/cliente-guard';
 export const routes: Routes = [
     {
         path: '',
@@ -24,6 +25,7 @@ export const routes: Routes = [
     },
     {
         path: 'cliente/rent-vehicle/:id',
-        component: RentVehicle
+        component: RentVehicle,
+        canActivate:[authGuard,clienteGuard]
     }
 ];

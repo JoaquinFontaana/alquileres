@@ -25,7 +25,7 @@
             [maxlength]="9"/>
         @if (authStore.error()) {
           <div class="error-banner">
-            <span class="form-input-error-message">El email o contraseña es incorrecto</span>
+            <span class="form-input-error-message">{{authStore.error()}}</span>
           </div>
         }
         <app-button 

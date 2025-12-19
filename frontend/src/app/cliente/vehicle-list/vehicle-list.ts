@@ -35,7 +35,7 @@ export class VehicleList {
     const filter = this.filterComponent();
     const fechaInicio = filter.fechaInicio();
     const fechaFin = filter.fechaFin();
-    
+    console.log(fechaFin,fechaInicio)
     // Validar que las fechas estén seleccionadas
     if (!fechaInicio || !fechaFin) {
       alert('Por favor, selecciona las fechas de alquiler primero');

@@ -1,4 +1,4 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { baseUrlApi } from '../../consts';
 import { RangoFecha, Vehicle, VehicleFilter } from '@models';
@@ -28,11 +28,15 @@ export class VehiclesData {
   }
 
   // Consultar disponibilidad de un vehículo (retorna solo boolean)
-  checkDisponibilidad(id: number, rangoFecha: RangoFecha): Observable<boolean> {
+  checkDisponibilidad(id: number, rangoFecha: RangoFecha, token: string): Observable<boolean> {
     const params = new HttpParams()
-      .append('fechaInicio', rangoFecha.fechaInicio.toISOString().split('T')[0])
-      .append('fechaFin', rangoFecha.fechaFin.toISOString().split('T')[0]);
+      .append('fechaDesde', rangoFecha.fechaInicio.toISOString().split('T')[0])
+      .append('fechaHasta', rangoFecha.fechaFin.toISOString().split('T')[0]);
     
-    return this.httpClient.get<boolean>(`${this.baseUrl}/disponibilidad/${id}`, { params });
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    
+    return this.httpClient.get<boolean>(`${this.baseUrl}/disponibilidad/${id}`, { params, headers });
   }
 }

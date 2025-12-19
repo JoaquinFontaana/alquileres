@@ -11,7 +11,10 @@ export class ClienteService {
   private readonly httpClient = inject(HttpClient)
   
   registerCliente(registerData:RegisterClienteRequest):Observable<string>{
-    return this.httpClient.post<string>(this.baseUrl,registerData);
+    console.log(registerData)
+    return this.httpClient.post(this.baseUrl, registerData, { 
+      responseType: 'text' 
+    });
   }
 
 }

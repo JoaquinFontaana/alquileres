@@ -33,6 +33,7 @@ export class VehicleFilter {
   //Exponer las fechas del filtro públicamente (ya formateadas)
   readonly fechaInicio = computed(() => {
     const fecha = this.form.controls.fechaDesde.value;
+    console.log(fecha)
     return this.formatDate(fecha);
   });
   

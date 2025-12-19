@@ -1,15 +1,19 @@
 import { Component, input, computed, effect, inject } from '@angular/core';
+import { Router } from '@angular/router';
 import { RangoFecha } from '@models';
 import { VehiclesStore } from '@shared/vehicles/vehicles-store';
+import { Button } from '@shared/button/button';
+import { VehicleCard } from '@shared/vehicles/vehicle-card/vehicle-card';
 
 @Component({
   selector: 'app-rent-vehicle',
-  imports: [],
+  imports: [Button, VehicleCard],
   templateUrl: './rent-vehicle.html',
   styleUrl: './rent-vehicle.scss'
 })
 export class RentVehicle {
   private readonly vehiclesStore = inject(VehiclesStore);
+  private readonly router = inject(Router);
   
   // Route param con transformación automática a number
   readonly id = input.required<number, string>({
@@ -43,7 +47,6 @@ export class RentVehicle {
   // Obtiene el vehículo del store (ya cargado del listado previo)
   readonly vehicle = computed(() => {
     const id = this.id();
-
     return this.vehiclesStore.getVehicleById(id)
   });
   
@@ -56,4 +59,22 @@ export class RentVehicle {
     
     return rango.cantidadDias() * vehiculo().precioPorDia;
   });
+  
+  goBack(): void {
+    this.router.navigate(['/cliente/vehicle-list']);
+  }
+  
+  proceedToPayment(): void {
+    if (!this.disponible()) {
+      return;
+    }
+    
+    // TODO: Implementar navegación a página de pago
+    console.log('Proceder al pago:', {
+      vehiculoId: this.id(),
+      fechaInicio: this.fechaInicio(),
+      fechaFin: this.fechaFin(),
+      precioTotal: this.precioTotal()
+    });
+  }
 }

@@ -1,1 +1,70 @@
-<p>rent-vehicle works!</p>
+<div class="rent-vehicle-container">
+  <h1 class="title">Confirmación de Alquiler</h1>
+  
+  @if (vehicle(); as vehiculo) {
+    <div class="payment-card">
+      <h2>Detalles del Alquiler</h2>
+      
+      <!-- Card del vehículo -->
+      <div class="vehicle-card-wrapper">
+        <app-vehicle-card 
+          [vehicle]="vehiculo()" 
+          [actions]="[]"
+        />
+      </div>
+      
+      <div class="rental-info">
+        <div class="detail-row">
+          <span class="label">Fecha de Inicio:</span>
+          <span class="value">{{ fechaInicio() }}</span>
+        </div>
+        <div class="detail-row">
+          <span class="label">Fecha de Fin:</span>
+          <span class="value">{{ fechaFin() }}</span>
+        </div>
+        <div class="detail-row">
+          <span class="label">Duración:</span>
+          <span class="value">{{ rangoFechas().cantidadDias() }} días</span>
+        </div>
+      </div>
+      
+      <div class="total-section">
+        <div class="total-row">
+          <span class="label">Total a Pagar:</span>
+          <span class="value">${{ precioTotal() }}</span>
+        </div>
+      </div>
+      
+      @if (disponible() === false) {
+        <div class="warning-message">
+          <p>⚠️ Este vehículo no está disponible para las fechas seleccionadas.</p>
+          <p>Por favor, selecciona otro rango de fechas o elige un vehículo diferente.</p>
+        </div>
+      }
+      
+      @if (disponible() === null) {
+        <div class="loading-message">
+          <p>Verificando disponibilidad...</p>
+        </div>
+      }
+      
+      <div class="actions">
+        <app-button 
+          label="Volver"
+          (action)="goBack()"
+          class="back-button"
+        />
+        <app-button 
+          label="Proceder al Pago"
+          (action)="proceedToPayment()"
+          [disabled]="!disponible()"
+          class="payment-button"
+        />
+      </div>
+    </div>
+  } @else {
+    <div class="error-message">
+      <p>No se pudo cargar la información del vehículo.</p>
+    </div>
+  }
+</div>
