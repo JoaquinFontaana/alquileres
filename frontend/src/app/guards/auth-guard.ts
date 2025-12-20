@@ -4,5 +4,6 @@ import { AuthStore } from '@auth-store';
 
 export const authGuard: CanActivateFn = (route, state) => {
   const authStore = inject(AuthStore);
-  return authStore.isAuthenticated()
+  console.log(authStore.isTokenValid())
+  return authStore.isAuthenticated() && authStore.isTokenValid()
 };

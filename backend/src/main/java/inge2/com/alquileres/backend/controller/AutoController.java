@@ -16,6 +16,7 @@ import inge2.com.alquileres.backend.service.useCase.Auto.EliminarAutoUseCase;
 import inge2.com.alquileres.backend.service.useCase.Auto.ListarAutosUseCase;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -41,8 +42,8 @@ public class AutoController {
         return ResponseEntity.ok("Auto eliminado con exito");
     }
     @GetMapping("/disponibilidad/{id}")
-    @PreAuthorize("hasAnyAuthority('CLIENTE','EMPLEADO')")
-    public ResponseEntity<Boolean> getDisponibilidad(@PathVariable @NotBlank Long id,@ModelAttribute RangoFecha rangoFecha){
+    @PreAuthorize("hasAnyAuthority('CLIENT','EMPLEADO')")
+    public ResponseEntity<Boolean> getDisponibilidad(@PathVariable @NotNull Long id, @ModelAttribute RangoFecha rangoFecha){
         boolean res = autoService.disponibilidad(rangoFecha,id);
         return new ResponseEntity<>(res, HttpStatus.OK);
     }

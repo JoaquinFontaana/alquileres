@@ -94,7 +94,8 @@ export const VehiclesStore = signalStore(
               next: (disponible: boolean) => {
                 patchState(store, { disponibilidad: disponible });
               },
-              error: () => {
+              error: (error: HttpErrorResponse ) => {
+                console.warn(error.message,error.status)
                 patchState(store, { error: `Error al consultar disponibilidad` });
               },
               finalize: () => {
