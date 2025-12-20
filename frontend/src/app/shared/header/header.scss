@@ -62,6 +62,8 @@
         visibility: hidden;
         transform: translateY(-10px);
         transition: opacity $transition, transform $transition, visibility $transition;
+        display: flex;
+        flex-direction: column;
     }
 
     // Mostrar dropdown al hacer hover sobre el contenedor
