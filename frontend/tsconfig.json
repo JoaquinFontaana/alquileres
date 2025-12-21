@@ -22,7 +22,9 @@
       "@shared/*": ["src/app/shared/*"],
       "@const": ["src/app/shared/consts"],
       "@auth-store": ["src/app/user/store/auth-store.ts"],
-      "@styles/*": ["src/styles/*"]
+      "@styles/*": ["src/styles/*"],
+      "@guards/*": ["src/app/guards/*"],
+      "@admin/*": ["src/app/admin/*"]
     }
   },
   "angularCompilerOptions": {

@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-
+import { Component, inject } from '@angular/core';
+import { AuthStore } from '@auth-store';
 @Component({
   selector: 'app-sidenav',
   imports: [],
@@ -7,5 +7,5 @@ import { Component } from '@angular/core';
   styleUrl: './sidenav.scss'
 })
 export class Sidenav {
-
+  readonly authStore = inject(AuthStore)
 }

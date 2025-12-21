@@ -1,1 +1,12 @@
-<p>sidenav works!</p>
+@if(authStore.hasRole("ADMIN")){
+    <span class="sidenav-item">Sucursales</span>
+    <span class="sidenav-item">Empleados</span>
+    <span class="sidenav-item">Vehiculos</span>
+    <span class="sidenav-item">Estadisticas</span>
+}
+@if (authStore.hasRole("EMPLEADO")) {
+    <span class="sidenav-item">Alquileres</span>
+    <span class="sidenav-item">Vehiculos</span>
+    <span class="sidenav-item">Registrar cliente</span>
+    <span class="sidenav-item">Mantenimiento</span>
+}
