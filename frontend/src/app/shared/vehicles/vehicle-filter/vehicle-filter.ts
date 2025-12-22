@@ -3,7 +3,7 @@ import { ReactiveFormsModule, FormBuilder, AbstractControl, ValidationErrors } f
 import { Button } from '@shared/button/button';
 import { VehiclesStore } from '@vehicles/vehicles-store';
 import {SucursalStore} from '@shared/sucursal/sucursal-store'
-import { VehicleFilter as VehicleFilterModel } from '@models';
+import { VehicleFilter as VehicleFilterModel, VehicleFilterFormData } from '@models';
 import { DateRangePicker } from '@shared/date-range-picker/date-range-picker';
 import { InputSelect } from '@shared/input-select/input-select';
 import { AuthStore } from '@auth-store';
@@ -115,51 +115,31 @@ export class VehicleFilter {
     this.errorMessage.set(null);
 
     if (this.form.invalid) {
-      const errors = this.form.errors;
-      
-      if (errors?.['ambasFechasRequeridas']) {
-        this.errorMessage.set('Si seleccionas una fecha, debes completar ambas');
-      } else if (errors?.['fechaPasada']) {
-        this.errorMessage.set('La fecha de inicio debe ser hoy o posterior');
-      } else if (errors?.['fechaInvalida']) {
-        this.errorMessage.set('La fecha hasta debe ser posterior a la fecha desde');
-      } else if (errors?.['rangoExcedido']) {
-        this.errorMessage.set('El rango máximo permitido es de 14 días');
-      } else {
-        this.errorMessage.set('Por favor, verifica los campos del formulario');
-      }
-      
+      this.handleFormErrors();
       return;
     }
 
-    const formValue = this.form.value;
-    const filter = new VehicleFilterModel();
+    const formData = this.form.value as VehicleFilterFormData;
+    const isAdmin = this.authStore.hasRole("ADMIN") && this.authStore.isAuthenticated();
+    const filter = VehicleFilterModel.fromFormData(formData, this.formatDate.bind(this), isAdmin);
     
-    if (formValue.nombreSucursal) {
-      filter.setNombreSucursal(formValue.nombreSucursal);
-    }
-    
-    if (formValue.categorias) {
-      filter.setCategoria(formValue.categorias);
-    }
-    
-    if (formValue.fechaDesde) {
-      const fechaFormateada = this.formatDate(formValue.fechaDesde);
-      if (fechaFormateada) {
-        filter.setFechaDesde(fechaFormateada);
-      }
-    }
-    
-    if (formValue.fechaHasta) {
-      const fechaFormateada = this.formatDate(formValue.fechaHasta);
-      if (fechaFormateada) {
-        filter.setFechaHasta(fechaFormateada);
-      }
-    }
-    if(formValue.estados && this.authStore.hasRole("ADMIN") && this.authStore.isAuthenticated()){
-      filter.setEstado(formValue.estados) 
-    }
     this.vehicleStore.loadVehicles(filter);
+  }
+
+  private handleFormErrors(): void {
+    const errors = this.form.errors;
+    
+    if (errors?.['ambasFechasRequeridas']) {
+      this.errorMessage.set('Si seleccionas una fecha, debes completar ambas');
+    } else if (errors?.['fechaPasada']) {
+      this.errorMessage.set('La fecha de inicio debe ser hoy o posterior');
+    } else if (errors?.['fechaInvalida']) {
+      this.errorMessage.set('La fecha hasta debe ser posterior a la fecha desde');
+    } else if (errors?.['rangoExcedido']) {
+      this.errorMessage.set('El rango máximo permitido es de 14 días');
+    } else {
+      this.errorMessage.set('Por favor, verifica los campos del formulario');
+    }
   }
 
   clearFilters(): void {
