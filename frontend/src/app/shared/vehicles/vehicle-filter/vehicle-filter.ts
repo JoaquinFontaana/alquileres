@@ -6,6 +6,7 @@ import {SucursalStore} from '@shared/sucursal/sucursal-store'
 import { VehicleFilter as VehicleFilterModel } from '@models';
 import { DateRangePicker } from '@shared/date-range-picker/date-range-picker';
 import { InputSelect } from '@shared/input-select/input-select';
+import { AuthStore } from '@auth-store';
 
 @Component({
   selector: 'app-vehicle-filter',
@@ -19,7 +20,7 @@ export class VehicleFilter {
   readonly sucursalStore = inject(SucursalStore);
   // Fecha mínima (hoy)
   readonly today = new Date().toISOString().split('T')[0];
-  
+  readonly authStore = inject(AuthStore);
   // Mensaje de error
   readonly errorMessage = signal<string | null>(null);
 
@@ -27,7 +28,8 @@ export class VehicleFilter {
     nombreSucursal: [''],
     categorias: [''],
     fechaDesde: [''],
-    fechaHasta: ['']
+    fechaHasta: [''],
+    estados:['']
   }, { validators: [this.dateRangeValidator()] });
 
   //Exponer las fechas del filtro públicamente (ya formateadas)
@@ -154,7 +156,9 @@ export class VehicleFilter {
         filter.setFechaHasta(fechaFormateada);
       }
     }
-    
+    if(formValue.estados && this.authStore.hasRole("ADMIN") && this.authStore.isAuthenticated()){
+      filter.setEstado(formValue.estados) 
+    }
     this.vehicleStore.loadVehicles(filter);
   }
 

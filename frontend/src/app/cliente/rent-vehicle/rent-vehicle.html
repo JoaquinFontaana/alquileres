@@ -1,37 +1,43 @@
+<h1 class="title">Confirmación de Alquiler</h1>
 <div class="rent-vehicle-container">
-  <h1 class="title">Confirmación de Alquiler</h1>
-  
   @if (vehicle(); as vehiculo) {
     <div class="payment-card">
       <h2>Detalles del Alquiler</h2>
       
-      <!-- Card del vehículo -->
-      <div class="vehicle-card-wrapper">
-        <app-vehicle-card 
-          [vehicle]="vehiculo()" 
-          [actions]="[]"
-        />
-      </div>
-      
-      <div class="rental-info">
-        <div class="detail-row">
-          <span class="label">Fecha de Inicio:</span>
-          <span class="value">{{ fechaInicio() }}</span>
+      <div class="card-content">
+        <div class="vehicle-section">
+          <app-vehicle-card 
+            [vehicle]="vehiculo()" 
+            [actions]="[]"
+          />
         </div>
-        <div class="detail-row">
-          <span class="label">Fecha de Fin:</span>
-          <span class="value">{{ fechaFin() }}</span>
-        </div>
-        <div class="detail-row">
-          <span class="label">Duración:</span>
-          <span class="value">{{ rangoFechas().cantidadDias() }} días</span>
-        </div>
-      </div>
-      
-      <div class="total-section">
-        <div class="total-row">
-          <span class="label">Total a Pagar:</span>
-          <span class="value">${{ precioTotal() }}</span>
+        
+        <div class="info-section">
+          <div class="rental-info">
+            <div class="detail-row">
+              <span class="label">Fecha de Inicio:</span>
+              <span class="value">{{ fechaInicio() }}</span>
+            </div>
+            <div class="detail-row">
+              <span class="label">Fecha de Fin:</span>
+              <span class="value">{{ fechaFin() }}</span>
+            </div>
+            <div class="detail-row">
+              <span class="label">Duración:</span>
+              <span class="value">{{ rangoFechas().cantidadDias() }} días</span>
+            </div>
+            <div class="detail-row">
+              <span class="label">Sucursal:</span>
+              <span class="value">{{vehiculo().sucursal}}</span>
+            </div>
+          </div>
+          
+          <div class="total-section">
+            <div class="total-row">
+              <span class="label">Total a Pagar:</span>
+              <span class="value">${{ precioTotal() }}</span>
+            </div>
+          </div>
         </div>
       </div>
       
@@ -50,12 +56,12 @@
       
       <div class="actions">
         <app-button 
-          label="Volver"
+          label="Cancelar"
           (action)="goBack()"
           class="back-button"
         />
         <app-button 
-          label="Proceder al Pago"
+          label="Pagar"
           (action)="proceedToPayment()"
           [disabled]="!disponible()"
           class="payment-button"

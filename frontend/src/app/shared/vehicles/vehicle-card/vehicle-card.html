@@ -6,9 +6,9 @@
             <span class="spec">{{ localVehicle.marca }}</span>
             <span class="spec">{{ localVehicle.capacidad }} pasajeros</span>
         </div>
+        <span class="vehicle-price">${{ localVehicle.precioPorDia }}/día</span>
     </div>
     <div actions class="vehicle-actions">
-        <span class="vehicle-price">${{ localVehicle.precioPorDia }}/día</span>
         @if (actions().length > 0) {
             @for (action of actions(); track action) {
                 @let config = getActionConfig(action);

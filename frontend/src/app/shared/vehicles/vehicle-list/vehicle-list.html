@@ -1,0 +1,33 @@
+@let localvehicles = this.pagedVehicles();
+<div class="vehicle-list-container">
+  <div class="list-header">
+    @if (isAdmin()) {
+      <div class="actions-header">
+        <button mat-raised-button color="primary" (click)="createVehicle()">
+          <mat-icon>add</mat-icon>
+          Crear Vehículo
+        </button>
+      </div>
+    }
+    <app-vehicle-filter />
+  </div>
+
+  <section class="vehicle-list">
+    @for(vehicle of localvehicles; track vehicle.patente){
+      <app-vehicle-card 
+        [vehicle]="vehicle" 
+        [actions]="actionsList()"
+        (actionClicked)="handleAction($event, vehicle)">
+      </app-vehicle-card> 
+    }@empty {
+      No hay vehiculos para listar....
+    }
+  </section>
+
+  <mat-paginator
+    [pageSize]="pageSize()"
+    [pageIndex]="pageIndex()"
+    [pageSizeOptions]="[5, 10, 20]"
+  (page)="onPageChange($event)"
+  class="paginator">
+</mat-paginator>

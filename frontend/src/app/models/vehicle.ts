@@ -9,5 +9,6 @@ export interface Vehicle{
     estado: string;
     categoria: string;
     imgUrl: string;
+    sucursal:string;
     fechaBaja?: Date;
 }

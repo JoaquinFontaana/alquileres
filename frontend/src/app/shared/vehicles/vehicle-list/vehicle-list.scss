@@ -1,0 +1,43 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.vehicle-list-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+}
+
+.list-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.actions-header {
+  display: flex;
+  padding: 1rem 0;
+
+  button {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+}
+
+.vehicle-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+  padding: 0 1.5rem;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.paginator {
+  margin-top: auto;
+  border-top: 1px solid rgba(0, 0, 0, 0.12);
+}

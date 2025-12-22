@@ -13,6 +13,7 @@ interface VehiclesState  {
     error: string | null;
     isLoading: boolean;
     categorias: string[];
+    estados: string[];
     disponibilidad: boolean | null;
 };
 
@@ -20,6 +21,7 @@ const initialState: VehiclesState = {
     isLoading: false,
     error: null as string | null,
     categorias: [],
+    estados: [],
     disponibilidad: null
 };
 
@@ -82,6 +84,26 @@ export const VehiclesStore = signalStore(
         )
       )
     ),
+    loadEstados: rxMethod<void>(
+      pipe(
+        tap(() => patchState(store, { isLoading: true, error: null })),
+        switchMap(() =>
+          vehiclesService.getEstados().pipe(
+            tapResponse({
+              next: (estados: string[]) => {
+                patchState(store, { estados });
+              },
+              error: (error: HttpErrorResponse) => {
+                patchState(store, { error: `Error al cargar estados: ${error.message}` });
+              },
+              finalize: () => {
+                patchState(store, { isLoading: false });
+              }
+            })
+          )
+        )
+      )
+    ),
     
     // ✅ Consultar disponibilidad de un vehículo (retorna solo boolean)
     checkDisponibilidad: rxMethod<{ id: number; rangoFecha: RangoFecha }>(
@@ -118,6 +140,7 @@ export const VehiclesStore = signalStore(
     onInit(store) {
       store.loadVehicles(undefined);
       store.loadCategorias();
+      store.loadEstados()
     },
   })
 );

@@ -1,5 +1,11 @@
 @use '../../../../styles/variables' as *;
 
+:host {
+  display: block;
+  width: 100%;
+  width: 350px;
+}
+
 .vehicle-details {
   display: flex;
   flex-direction: column;

@@ -1,5 +1,4 @@
 import { Routes } from '@angular/router';
-import {VehicleList } from 'src/app/cliente/vehicle-list/vehicle-list'
 import { Login } from './login/login';
 import { Home } from './home/home';
 import { Register } from './register/register';
@@ -7,12 +6,12 @@ import { RentVehicle } from './cliente/rent-vehicle/rent-vehicle';
 import { authGuard } from '@guards/auth-guard';
 import { clienteGuard } from '@guards/cliente-guard';
 import { adminGuard } from '@guards/admin-guard';
-import { VehicleList as VehicleListAdmin } from '@admin/vehicle-list/vehicle-list';
 import { CreateEmpleado } from '@admin/create-empleado/create-empleado';
 import { CreateVehicle } from '@admin/create-vehicle/create-vehicle';
 import { SucursalList } from '@admin/sucursal-list/sucursal-list';
 import { UpdateVehicle } from '@admin/update-vehicle/update-vehicle';
 import { Stats } from '@admin/stats/stats';
+import { VehicleList } from '@vehicles/vehicle-list/vehicle-list';
 export const routes: Routes = [
     {
         path: '',
@@ -40,7 +39,6 @@ export const routes: Routes = [
         canActivateChild: [authGuard,adminGuard],
         children:[
             {path: 'sucursales',component:SucursalList},
-            {path:'vehicles', component: VehicleListAdmin},
             {path:'vehicles/create', component:CreateVehicle},
             {path:'vehicles/update', component: UpdateVehicle},
             {path: 'stats', component: Stats},

@@ -1,11 +1,17 @@
 @let sucursales = sucursalStore.sucursales();
 @let categorias = vehicleStore.categorias();
+@let estados = vehicleStore.estados();
+
 <div class="vehicle-filter-container">
   <form [formGroup]="form" class="filter-form">
 
     <app-input-select [options]="sucursales" [control]="form.controls.nombreSucursal" placeHolder="All" label="Sucursal"/>
 
     <app-input-select label="Categoría" [control]="form.controls.categorias" [options]="categorias" placeHolder="All"/>
+
+    @if(authStore.hasRole("ADMIN") && authStore.isAuthenticated()){
+      <app-input-select label="Estado" [control]="form.controls.estados" [options]="estados" placeHolder="All"/>
+    }
 
     <app-date-range-picker 
       [fechaFin]="form.controls.fechaHasta" 

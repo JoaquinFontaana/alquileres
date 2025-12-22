@@ -39,4 +39,9 @@ export class VehiclesData {
     
     return this.httpClient.get<boolean>(`${this.baseUrl}/disponibilidad/${id}`, { params, headers });
   }
+
+  getEstados():Observable<string[]>{
+    const url = this.baseUrl.concat("/estados")
+    return this.httpClient.get<string[]>(url)
+  }
 }
