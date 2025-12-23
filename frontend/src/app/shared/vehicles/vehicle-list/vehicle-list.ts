@@ -8,10 +8,11 @@ import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { AuthStore } from '@auth-store';
+import { Button } from '@shared/button/button';
 
 @Component({
   selector: 'app-vehicle-list',
-  imports: [VehicleCard, VehicleFilter, MatPaginatorModule, MatButtonModule, MatIconModule],
+  imports: [VehicleCard, VehicleFilter, MatPaginatorModule, MatButtonModule, MatIconModule,Button],
   templateUrl: './vehicle-list.html',
   styleUrl: './vehicle-list.scss'
 })
@@ -71,7 +72,7 @@ export class VehicleList {
   }
   
   editVehicle(vehicle: Vehicle) {
-    this.router.navigate(['/admin/update-vehicle', vehicle.id]);
+    this.router.navigate(['/admin/vehicles/update', vehicle.id]);
   }
   
   deleteVehicle(vehicle: Vehicle) {
@@ -83,7 +84,7 @@ export class VehicleList {
   }
   
   createVehicle() {
-    this.router.navigate(['/admin/create-vehicle']);
+    this.router.navigate(['/admin/vehicles/create']);
   }
 
   private readonly start: Signal<number> = computed(() => this.pageIndex() * this.pageSize());

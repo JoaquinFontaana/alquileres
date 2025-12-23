@@ -1,5 +1,5 @@
 import { inject, computed } from "@angular/core";
-import { Vehicle, VehicleFilter, RangoFecha } from "@models"
+import { Vehicle, VehicleFilter, RangoFecha, VehicleCreateDTO } from "@models"
 import { patchState, signalStore, type, withHooks, withMethods, withState } from '@ngrx/signals'
 import { entityConfig, setAllEntities, withEntities } from '@ngrx/signals/entities'
 import {rxMethod} from '@ngrx/signals/rxjs-interop'
@@ -11,6 +11,7 @@ import { AuthStore } from "@auth-store";
 
 interface VehiclesState  {
     error: string | null;
+    success: string | null;
     isLoading: boolean;
     categorias: string[];
     estados: string[];
@@ -20,6 +21,7 @@ interface VehiclesState  {
 const initialState: VehiclesState = {
     isLoading: false,
     error: null as string | null,
+    success: null as string | null,
     categorias: [],
     estados: [],
     disponibilidad: null
@@ -128,7 +130,28 @@ export const VehiclesStore = signalStore(
         })
       )
     ),
-    
+      createVehicle: rxMethod<VehicleCreateDTO>(
+      pipe(
+        tap(() => patchState(store, { isLoading: true, error: null, success: null })),
+        switchMap((data:VehicleCreateDTO) =>{
+          const token = authStore.token() || ''
+          return vehiclesService.createVehicle(data,token).pipe(
+            tapResponse({
+              next: () => {
+                patchState(store, { success: 'Vehículo creado exitosamente', error: null });
+              },
+              error: (error: HttpErrorResponse) => {
+                console.log(error )
+                patchState(store, { error: `Error al crear vehiculo: ${error.message}`, success: null });
+              },
+              finalize: () => {
+                patchState(store, { isLoading: false });
+              }
+            })
+          )
+        })
+      )   
+    ),
     // Método para obtener un vehículo por ID desde el store (caché)
     getVehicleById: (id: number) => {
       return computed(() => store.entityMap()[id]);

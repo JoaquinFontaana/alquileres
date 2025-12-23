@@ -1,13 +1,21 @@
 :host{
     display: flex;
     flex-direction: column;
-    gap: 0;
+    gap: 10px;
 }
 .sidenav-item{
-    padding: 16px 20px;
     margin: 0;
-    cursor: pointer;
+    text-align: left;
     transition: background-color 0.2s ease;
+
+    ::ng-deep button {
+        width: 100%;
+        padding: 16px 20px;
+        border: none;
+        background: none;
+        text-align: left;
+        cursor: pointer;
+    }
 
     &:hover{
         background-color: rgba(0, 255, 255, 0.1);

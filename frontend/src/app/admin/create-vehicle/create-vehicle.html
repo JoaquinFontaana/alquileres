@@ -1,1 +1,105 @@
-<p>create-vehicle works!</p>
+<div class="create-vehicle-container">
+    <h2>Crear vehículo</h2>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="vehicle-form">
+            <app-input
+                [control]="form.controls.patente"
+                label="Patente"
+                placeholder="Ingrese la patente"
+                id="patente"
+            />
+            
+            <app-input
+                [control]="form.controls.marca"
+                label="Marca"
+                placeholder="Ingrese la marca"
+                id="marca"
+            />
+            
+            <app-input
+                [control]="form.controls.modelo"
+                label="Modelo"
+                placeholder="Ingrese el modelo"
+                id="modelo"
+            />
+            
+            <app-input
+                [control]="form.controls.capacidad"
+                type="number"
+                label="Capacidad"
+                placeholder="Número de pasajeros"
+                id="capacidad"
+            />
+            
+            <app-input
+                [control]="form.controls.precioPorDia"
+                type="number"
+                label="Precio por día"
+                placeholder="Ingrese el precio"
+                id="precioPorDia"
+            />
+                <app-input-select
+                    [control]="form.controls.categoria"
+                    [options]="vehiclesStore.categorias()"
+                    label="Categoría"
+                    placeHolder="Seleccione una categoría"
+                />
+                
+                
+                <app-input-select
+                    [control]="form.controls.rembolso"
+                    [options]="rembolsos"
+                    label="Tipo de reembolso"
+                    placeHolder="Seleccione tipo de reembolso"
+                />
+                
+                <app-input-select
+                    [control]="form.controls.estado"
+                    [options]="estadosDisponibles"
+                    label="Estado"
+                    placeHolder="Seleccione el estado"
+                />
+                
+                <app-input-select
+                    [control]="form.controls.sucursal"
+                    [options]="sucursalStore.sucursales()"
+                    label="Sucursal"
+                    placeHolder="Ingrese la sucursal"
+                    id="sucursal"
+                />
+            <div class="file-input-container">
+                <label for="imagen" class="file-label">Imagen del vehículo *</label>
+                <input 
+                    type="file" 
+                    id="imagen" 
+                    accept="image/png, image/jpeg, image/jpg, image/webp"
+                    (change)="onFileSelected($event)"
+                    class="file-input"
+                />
+                @if(selectedFile) {
+                    <p class="file-name">{{ selectedFile.name }}</p>
+                }
+            </div>
+        
+        <div class="form-actions">
+            <app-button
+                label="Crear vehículo"
+                type="submit"
+                [disabled]="form.invalid"
+                class="btn-primary"
+            />
+        </div>
+        
+        <div class="messages">
+            @if(vehiclesStore.error()){
+                <div class="error-message">
+                    <span>{{vehiclesStore.error()}}</span>
+                </div>        
+            }
+            @if(vehiclesStore.success()){
+                <div class="success-message">
+                    <span>{{vehiclesStore.success()}}</span>
+                </div>        
+            }
+        </div>
+    </form>
+</div>
