@@ -15,5 +15,8 @@ export class EmpleadoService {
     return this.httpClient.get<Empleado[]>(this.url,{headers})
   }
 
-  
+  createEmpleado(empleado: Partial<Empleado>, token: string): Observable<string> {
+    const headers = addToken(token);
+    return this.httpClient.post<string>(this.url, empleado, { headers });
+  }
 }

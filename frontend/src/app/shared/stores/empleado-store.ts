@@ -56,7 +56,30 @@ export const EmpleadoStore = signalStore(
                 })
             )
         ),
-        
+        createEmpleado: rxMethod<Partial<Empleado>>(
+            pipe(
+                tap(() => patchState(store, { isLoading: true, error: null, success: null })),
+                switchMap((empleado: Partial<Empleado>) => {
+                    const token = authStore.token() || '';
+                    return empleadoService.createEmpleado(empleado, token).pipe(
+                        tapResponse({
+                            next: (message: string) => {
+                                patchState(store, { 
+                                    success: message,
+                                    isLoading: false 
+                                });
+                            },
+                            error: (error: HttpErrorResponse) => {
+                                patchState(store, { 
+                                    error: `Error al crear empleado: ${error.message}`,
+                                    isLoading: false 
+                                });
+                            }
+                        })
+                    );
+                })
+            )
+        ),
         // Método para obtener un empleado por DNI desde el store (caché)
         getEmpleadoByDni: (dni: string) => {
             return computed(() => store.entityMap()[dni]);

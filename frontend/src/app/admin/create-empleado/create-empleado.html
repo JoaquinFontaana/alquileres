@@ -1,1 +1,77 @@
-<p>create-empleado works!</p>
+<div class="create-empleado-container">
+  <div class="form-header">
+    <h1>Registrar Empleado</h1>
+  </div>
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" class="empleado-form">
+    <div class="form-row">
+      <app-input
+        label="Nombre"
+        type="text"
+        [control]="form.controls.nombre"
+        placeHolder="Ingrese el nombre"
+      />
+      
+      <app-input
+        label="Apellido"
+        type="text"
+        [control]="form.controls.apellido"
+        placeHolder="Ingrese el apellido"
+      />
+    </div>
+
+    <div class="form-row">
+      <app-input
+        label="DNI"
+        type="number"
+        [control]="form.controls.dni"
+        placeHolder="Ingrese el DNI"
+      />
+      
+      <app-input
+        label="Email"
+        type="email"
+        [control]="form.controls.email"
+        placeHolder="Ingrese el email"
+      />
+    </div>
+
+    <div class="form-row">
+      
+      <app-input-select
+        label="Sucursal"
+        [options]="sucursalStore.sucursales()"
+        [control]="form.controls.trabajaEnSucursal"
+        placeHolder="Seleccione una sucursal"
+      />
+    </div>
+
+    <div class="form-actions">
+      <app-button
+        class="btn-cancel"
+        label="Cancelar"
+        type="button"
+        (action)="onCancel()"
+      />
+      
+      <app-button
+        class="btn-submit"
+        label="Registrar Empleado"
+        type="submit"
+        [disabled]="form.invalid"
+      />
+    </div>
+
+    @if (empleadoStore.success()) {
+      <div class="success-message">
+        {{ empleadoStore.success() }}
+      </div>
+    }
+
+    @if (empleadoStore.error()) {
+      <div class="error-message">
+        {{ empleadoStore.error() }}
+      </div>
+    }
+  </form>
+</div>

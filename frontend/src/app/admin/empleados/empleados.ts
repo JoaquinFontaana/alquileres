@@ -4,10 +4,11 @@ import { SucursalStore } from '@shared/stores/sucursal-store';
 import { InputSelect } from '@shared/input-select/input-select';
 import { CommonModule } from '@angular/common';
 import { NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { Button } from '@shared/button/button';
 
 @Component({
   selector: 'app-empleados',
-  imports: [InputSelect, CommonModule, ReactiveFormsModule],
+  imports: [InputSelect, CommonModule, ReactiveFormsModule,Button],
   templateUrl: './empleados.html',
   styleUrl: './empleados.scss'
 })
@@ -35,7 +36,9 @@ export class Empleados {
       return matchSucursal && matchEstado;
     });
   });
-  
+  disabled = computed(()=>{
+    return !this.sucursalControl.value && !this.estadoControl.value
+  })
   clearFilters() {
     this.sucursalControl.setValue('');
     this.estadoControl.setValue('');

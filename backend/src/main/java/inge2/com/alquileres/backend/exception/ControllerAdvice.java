@@ -11,6 +11,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.MailException;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -47,9 +48,9 @@ public class ControllerAdvice extends ResponseEntityExceptionHandler {
     public ResponseEntity<String> handleEntityExist(EntityExistsException ex){
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.CONFLICT);
     }
-    @ExceptionHandler(RuntimeException.class)
-    public ResponseEntity<String> handleGenericException(RuntimeException ex){
-        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+    @ExceptionHandler(MailException.class)
+    public ResponseEntity<String> handlerMailException(MailException ex){
+        return new ResponseEntity<>("La operación se completó correctamente, pero no se pudo enviar la notificación por email. Por favor, contacte al administrador del sistema.",HttpStatus.OK);
     }
     @ExceptionHandler(JwtException.class)
     public ResponseEntity<String> handlerTokenException(JwtException ex){
@@ -74,5 +75,9 @@ public class ControllerAdvice extends ResponseEntityExceptionHandler {
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity<String> handlerDataIntegrityViolation(DataIntegrityViolationException ex){
         return new ResponseEntity<>("El dato que intentas ingresar ya existe",HttpStatus.CONFLICT);
+    }
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<String> handleGenericException(RuntimeException ex){
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
 }

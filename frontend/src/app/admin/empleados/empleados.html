@@ -16,10 +16,8 @@
         [control]="estadoControl"
         placeHolder="Todos los estados"
       />
-      
-      @if (sucursalControl.value || estadoControl.value) {
-        <button class="clear-filters" (click)="clearFilters()">Limpiar filtros</button>
-      }
+      <app-button class="clear-filters" label="Limpiar filtros" (action)="clearFilters()" [disabled]="this.disabled()"></app-button>
+
     </div>
   </div>
   
@@ -37,25 +35,28 @@
         </tr>
       </thead>
       <tbody>
-        @for(empleado of empleadosFiltrados(); track empleado.dni) {
-          <tr [class.de-baja]="empleado.estado === 'DE_BAJA'">
-            <td>{{ empleado.dni }}</td>
-            <td>{{ empleado.nombre }}</td>
-            <td>{{ empleado.apellido }}</td>
-            <td>{{ empleado.email }}</td>
-            <td>{{ empleado.trabajaEnSucursal }}</td>
-            <td>
-              <span class="estado-badge" [class.activo]="empleado.estado === 'ACTIVO'" [class.baja]="empleado.estado === 'DE_BAJA'">
-                {{ empleado.estado === 'DE_BAJA' ? 'De Baja' : 'Activo' }}
-              </span>
-            </td>
-            <td>{{ empleado.fechaBaja ? (empleado.fechaBaja | date: 'dd/MM/yyyy') : '-' }}</td>
-          </tr>
-        } @empty {
+        @if(empleadosFiltrados()){
+            @for(empleado of empleadosFiltrados(); track empleado.dni) {
+            <tr [class.de-baja]="empleado.estado === 'DE_BAJA'">
+                <td>{{ empleado.dni }}</td>
+                <td>{{ empleado.nombre }}</td>
+                <td>{{ empleado.apellido }}</td>
+                <td>{{ empleado.email }}</td>
+                <td>{{ empleado.trabajaEnSucursal }}</td>
+                <td>
+                <span class="estado-badge" [class.activo]="empleado.estado === 'ACTIVO'" [class.baja]="empleado.estado === 'DE_BAJA'">
+                    {{ empleado.estado === 'DE_BAJA' ? 'De Baja' : 'Activo' }}
+                </span>
+                </td>
+                <td>{{ empleado.fechaBaja ? (empleado.fechaBaja | date: 'dd/MM/yyyy') : '-' }}</td>
+            </tr>
+        }
+        @empty {
           <tr>
             <td colspan="7" class="no-data">No hay empleados para mostrar</td>
           </tr>
-        }
+        } 
+    }
       </tbody>
     </table>
   </div>

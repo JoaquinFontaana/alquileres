@@ -24,4 +24,10 @@ export class Sidenav {
   toStats():void{
     this.router.navigate(['/admin/stats'])
   }
+  toCreateEmpleado():void{
+    this.router.navigate(['/admin/empleados/create'])
+  }
+  toVehicles():void{
+    this.router.navigate(['/vehicle-list'])
+  }
 }
