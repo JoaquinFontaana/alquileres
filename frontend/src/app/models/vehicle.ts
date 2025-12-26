@@ -5,7 +5,7 @@ export interface Vehicle{
     modelo: string;
     capacidad: number;
     precioPorDia: number;
-    tipoRembolso: string;
+    rembolso: string;
     estado: string;
     categoria: string;
     imgUrl: string;
@@ -67,6 +67,48 @@ export class VehicleCreateDTO {
         }
         
         formData.append('imagen', this.imagen);
+        
+        return formData;
+    }
+}
+
+// Clase para actualizar vehículos con método para convertir a FormData
+export class VehicleUpdateDTO {
+    capacidad: number;
+    precioPorDia: number;
+    categoria: string;
+    rembolso: string;
+    sucursal: string;
+    imagen?: File;
+
+    constructor(data: {
+        capacidad: number;
+        precioPorDia: number;
+        categoria: string;
+        rembolso: string;
+        sucursal: string;
+        imagen?: File;
+    }) {
+        this.capacidad = data.capacidad;
+        this.precioPorDia = data.precioPorDia;
+        this.categoria = data.categoria;
+        this.rembolso = data.rembolso;
+        this.sucursal = data.sucursal;
+        this.imagen = data.imagen;
+    }
+
+    toFormData(): FormData {
+        const formData = new FormData();
+        
+        formData.append('capacidad', this.capacidad.toString());
+        formData.append('precioPorDia', this.precioPorDia.toString());
+        formData.append('categoria', this.categoria);
+        formData.append('rembolso', this.rembolso);
+        formData.append('sucursal', this.sucursal);
+        
+        if (this.imagen) {
+            formData.append('imagen', this.imagen);
+        }
         
         return formData;
     }

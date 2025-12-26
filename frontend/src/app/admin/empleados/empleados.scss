@@ -1,0 +1,158 @@
+.empleados-container {
+  padding: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.empleados-header {
+  margin-bottom: 2rem;
+  
+  h1 {
+    margin-bottom: 1.5rem;
+    color: #333;
+    font-size: 2rem;
+  }
+}
+
+.filters {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  
+  app-input-select {
+    flex: 1;
+    min-width: 200px;
+    max-width: 300px;
+  }
+  
+  .clear-filters {
+    padding: 0.75rem 1.5rem;
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background-color 0.3s;
+    
+    &:hover {
+      background-color: #5a6268;
+    }
+  }
+}
+
+.table-container {
+  overflow-x: auto;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.empleados-table {
+  width: 100%;
+  border-collapse: collapse;
+  
+  thead {
+    background-color: #f8f9fa;
+    
+    th {
+      padding: 1rem;
+      text-align: left;
+      font-weight: 600;
+      color: #495057;
+      border-bottom: 2px solid #dee2e6;
+      white-space: nowrap;
+    }
+  }
+  
+  tbody {
+    tr {
+      border-bottom: 1px solid #dee2e6;
+      transition: background-color 0.2s;
+      
+      &:hover {
+        background-color: #f8f9fa;
+      }
+      
+      &.de-baja {
+        background-color: #fff3cd;
+        
+        &:hover {
+          background-color: #ffe69c;
+        }
+      }
+      
+      td {
+        padding: 1rem;
+        color: #495057;
+        
+        &.no-data {
+          text-align: center;
+          color: #6c757d;
+          font-style: italic;
+          padding: 2rem;
+        }
+      }
+    }
+  }
+}
+
+.estado-badge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  
+  &.activo {
+    background-color: #d4edda;
+    color: #155724;
+  }
+  
+  &.baja {
+    background-color: #f8d7da;
+    color: #721c24;
+  }
+}
+
+.loading {
+  text-align: center;
+  padding: 2rem;
+  color: #6c757d;
+  font-style: italic;
+}
+
+.error {
+  background-color: #f8d7da;
+  color: #721c24;
+  padding: 1rem;
+  border-radius: 4px;
+  margin-top: 1rem;
+  border: 1px solid #f5c6cb;
+}
+
+@media (max-width: 768px) {
+  .empleados-container {
+    padding: 1rem;
+  }
+  
+  .filters {
+    app-input-select {
+      flex: 1 1 100%;
+      max-width: 100%;
+    }
+    
+    .clear-filters {
+      flex: 1 1 100%;
+    }
+  }
+  
+  .empleados-table {
+    font-size: 0.85rem;
+    
+    th, td {
+      padding: 0.5rem;
+    }
+  }
+}

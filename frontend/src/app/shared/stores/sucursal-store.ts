@@ -1,7 +1,6 @@
 import { inject } from "@angular/core";
-import {}  from "@models"
 import { patchState, signalStore, withHooks, withMethods, withState } from '@ngrx/signals'
-import {SucursalData} from "./service/sucursal-data"
+import { SucursalData } from "@shared/sucursal/service/sucursal-data";
 import {rxMethod} from '@ngrx/signals/rxjs-interop'
 import { tapResponse } from '@ngrx/operators';
 import {pipe, switchMap, tap} from "rxjs";

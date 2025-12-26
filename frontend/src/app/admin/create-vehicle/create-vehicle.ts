@@ -3,10 +3,10 @@ import {NonNullableFormBuilder, ReactiveFormsModule,Validators } from '@angular/
 import { Input } from '@shared/input/input';
 import { InputSelect } from '@shared/input-select/input-select';
 import { Button } from '@shared/button/button';
-import { VehiclesStore } from '@vehicles/vehicles-store';
+import { VehiclesStore } from '@shared/stores/vehicles-store';
 import { VehiclesData } from '@vehicles/services/vehicles-data';
 import { Router } from '@angular/router';
-import { SucursalStore } from '@shared/sucursal/sucursal-store';
+import { SucursalStore } from '@shared/stores/sucursal-store';
 import { VehicleCreateDTO } from '@models';
 
 @Component({

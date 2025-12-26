@@ -1,7 +1,7 @@
 import { Component, input, computed, effect, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { RangoFecha } from '@models';
-import { VehiclesStore } from '@shared/vehicles/vehicles-store';
+import { VehiclesStore } from '@shared/stores/vehicles-store';
 import { Button } from '@shared/button/button';
 import { VehicleCard } from '@shared/vehicles/vehicle-card/vehicle-card';
 

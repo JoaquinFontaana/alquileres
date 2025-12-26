@@ -1,7 +1,7 @@
-import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { baseUrlApi } from '../../consts';
-import { RangoFecha, Vehicle, VehicleCreateDTO, VehicleFilter } from '@models';
+import { baseUrlApi, addToken } from '../../consts';
+import { RangoFecha, Vehicle, VehicleCreateDTO, VehicleUpdateDTO, VehicleFilter } from '@models';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -33,7 +33,7 @@ export class VehiclesData {
       .append('fechaDesde', rangoFecha.fechaInicio.toISOString().split('T')[0])
       .append('fechaHasta', rangoFecha.fechaFin.toISOString().split('T')[0]);
     
-    const headers = this.addToken(token)
+    const headers = addToken(token)
     
     return this.httpClient.get<boolean>(`${this.baseUrl}/disponibilidad/${id}`, { params, headers });
   }
@@ -49,7 +49,7 @@ export class VehiclesData {
   }
 
   createVehicle(data:VehicleCreateDTO,token:string):Observable<string>{
-    const headers = this.addToken(token);
+    const headers = addToken(token);
     const formData = data.toFormData();
     
     return this.httpClient.post<string>(this.baseUrl, formData, {
@@ -58,9 +58,19 @@ export class VehiclesData {
     });
   }
 
-  private addToken(token:string):HttpHeaders{
-    return new HttpHeaders({
-      'Authorization': `Bearer ${token}`
+  getVehicle(id: string): Observable<Vehicle> {
+    return this.httpClient.get<Vehicle>(`${this.baseUrl}/${id}`);
+  }
+
+  updateVehicle(data: VehicleUpdateDTO, token: string, id:number): Observable<string> {
+    const headers = addToken(token);
+    const formData = data.toFormData();
+    
+    return this.httpClient.put<string>(`${this.baseUrl}/${id}`, formData, {
+      headers,
+      responseType: 'text' as 'json'
     });
-  } 
+  }
+
+
 }

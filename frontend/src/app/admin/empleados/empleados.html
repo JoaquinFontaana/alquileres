@@ -1,0 +1,70 @@
+<div class="empleados-container">
+  <div class="empleados-header">
+    <h1>Listado de Empleados</h1>
+    
+    <div class="filters">
+      <app-input-select
+        label="Sucursal"
+        [options]="sucursalStore.sucursales()"
+        [control]="sucursalControl"
+        placeHolder="Todas las sucursales"
+      />
+      
+      <app-input-select
+        label="Estado"
+        [options]="estados"
+        [control]="estadoControl"
+        placeHolder="Todos los estados"
+      />
+      
+      @if (sucursalControl.value || estadoControl.value) {
+        <button class="clear-filters" (click)="clearFilters()">Limpiar filtros</button>
+      }
+    </div>
+  </div>
+  
+  <div class="table-container">
+    <table class="empleados-table">
+      <thead>
+        <tr>
+          <th>DNI</th>
+          <th>Nombre</th>
+          <th>Apellido</th>
+          <th>Email</th>
+          <th>Sucursal</th>
+          <th>Estado</th>
+          <th>Fecha de Baja</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for(empleado of empleadosFiltrados(); track empleado.dni) {
+          <tr [class.de-baja]="empleado.estado === 'DE_BAJA'">
+            <td>{{ empleado.dni }}</td>
+            <td>{{ empleado.nombre }}</td>
+            <td>{{ empleado.apellido }}</td>
+            <td>{{ empleado.email }}</td>
+            <td>{{ empleado.trabajaEnSucursal }}</td>
+            <td>
+              <span class="estado-badge" [class.activo]="empleado.estado === 'ACTIVO'" [class.baja]="empleado.estado === 'DE_BAJA'">
+                {{ empleado.estado === 'DE_BAJA' ? 'De Baja' : 'Activo' }}
+              </span>
+            </td>
+            <td>{{ empleado.fechaBaja ? (empleado.fechaBaja | date: 'dd/MM/yyyy') : '-' }}</td>
+          </tr>
+        } @empty {
+          <tr>
+            <td colspan="7" class="no-data">No hay empleados para mostrar</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+  
+  @if (empleadoStore.isLoading()) {
+    <div class="loading">Cargando empleados...</div>
+  }
+  
+  @if (empleadoStore.error()) {
+    <div class="error">{{ empleadoStore.error() }}</div>
+  }
+</div>

@@ -1,4 +1,4 @@
-@let localvehicles = this.pagedVehicles();
+@let localvehicles = this.vehicles();
 <div class="vehicle-list-container">
   <div class="list-header">
     @if (isAdmin()) {
@@ -18,11 +18,3 @@
       No hay vehiculos para listar....
     }
   </section>
-
-  <mat-paginator
-    [pageSize]="pageSize()"
-    [pageIndex]="pageIndex()"
-    [pageSizeOptions]="[5, 10, 20]"
-  (page)="onPageChange($event)"
-  class="paginator">
-</mat-paginator>

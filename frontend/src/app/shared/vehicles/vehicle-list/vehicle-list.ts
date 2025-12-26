@@ -1,10 +1,10 @@
-import { Component, computed, inject, signal, Signal, viewChild } from '@angular/core';
+import { Component, computed, inject, Signal, viewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { Vehicle, CardAction } from '@models';
-import { VehiclesStore } from '@vehicles/vehicles-store';
+import { VehiclesStore } from '@shared/stores/vehicles-store';
 import { VehicleCard } from '@vehicles/vehicle-card/vehicle-card';
 import { VehicleFilter } from '@vehicles/vehicle-filter/vehicle-filter';
-import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { AuthStore } from '@auth-store';
@@ -24,9 +24,7 @@ export class VehicleList {
   // Obtener referencia al componente VehicleFilter
   readonly filterComponent = viewChild.required(VehicleFilter);
   
-  private readonly vehicles: Signal<Vehicle[]> = this.store.entities;
-  readonly pageIndex = signal(0);
-  readonly pageSize = signal(20);
+  readonly vehicles: Signal<Vehicle[]> = this.store.entities;
   
   // Determinar si el usuario es admin
   readonly isAdmin = computed(() => this.authStore.userRole() === 'ADMIN');
@@ -86,14 +84,5 @@ export class VehicleList {
   createVehicle() {
     this.router.navigate(['/admin/vehicles/create']);
   }
-
-  private readonly start: Signal<number> = computed(() => this.pageIndex() * this.pageSize());
-  readonly pagedVehicles: Signal<Vehicle[]> = computed(() => 
-    this.vehicles().slice(this.start(), this.start() + this.pageSize())
-  );
   
-  onPageChange(event: PageEvent) {
-    this.pageIndex.set(event.pageIndex);
-    this.pageSize.set(event.pageSize);
-  }
 }

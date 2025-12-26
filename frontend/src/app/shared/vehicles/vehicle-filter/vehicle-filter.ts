@@ -1,8 +1,8 @@
 import { Component, inject, signal, computed, effect } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, AbstractControl, ValidationErrors } from '@angular/forms';
 import { Button } from '@shared/button/button';
-import { VehiclesStore } from '@vehicles/vehicles-store';
-import {SucursalStore} from '@shared/sucursal/sucursal-store'
+import { VehiclesStore } from '@shared/stores/vehicles-store';
+import { SucursalStore } from '@shared/stores/sucursal-store';
 import { VehicleFilter as VehicleFilterModel, VehicleFilterFormData } from '@models';
 import { DateRangePicker } from '@shared/date-range-picker/date-range-picker';
 import { InputSelect } from '@shared/input-select/input-select';

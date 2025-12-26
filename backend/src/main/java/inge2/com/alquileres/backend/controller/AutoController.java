@@ -5,7 +5,6 @@ import inge2.com.alquileres.backend.dto.auto.AutoDTOActualizar;
 import inge2.com.alquileres.backend.dto.auto.AutoDTOCrear;
 import inge2.com.alquileres.backend.dto.auto.AutoDTOListar;
 import inge2.com.alquileres.backend.dto.auto.AutoFilterDTO;
-import inge2.com.alquileres.backend.model.Auto;
 import inge2.com.alquileres.backend.model.enums.CategoriaAuto;
 import inge2.com.alquileres.backend.model.enums.EstadoAutoEnum;
 import inge2.com.alquileres.backend.model.enums.TiposRembolso;
@@ -62,10 +61,10 @@ public class AutoController {
         return ResponseEntity.ok("Auto cambiado exitosamente");
     }
 
-    @PutMapping(consumes =MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PutMapping(path = "/{id}",consumes =MediaType.MULTIPART_FORM_DATA_VALUE)
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<String> actualizarAuto(@Valid @ModelAttribute AutoDTOActualizar autoActualizado){
-        this.autoService.actualizarAuto(autoActualizado);
+    public ResponseEntity<String> actualizarAuto(@Valid @ModelAttribute AutoDTOActualizar autoActualizado, @PathVariable Long id){
+        this.autoService.actualizarAuto(autoActualizado,id);
         return ResponseEntity.ok("Auto actualizado con exito");
     }
 

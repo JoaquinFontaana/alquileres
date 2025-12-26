@@ -12,6 +12,7 @@ import { SucursalList } from '@admin/sucursal-list/sucursal-list';
 import { UpdateVehicle } from '@admin/update-vehicle/update-vehicle';
 import { Stats } from '@admin/stats/stats';
 import { VehicleList } from '@vehicles/vehicle-list/vehicle-list';
+import { Empleados } from '@admin/empleados/empleados';
 export const routes: Routes = [
     {
         path: '',
@@ -40,8 +41,9 @@ export const routes: Routes = [
         children:[
             {path: 'sucursales',component:SucursalList},
             {path:'vehicles/create', component:CreateVehicle},
-            {path:'vehicles/update', component: UpdateVehicle},
+            {path:'vehicles/update/:id', component: UpdateVehicle},
             {path: 'stats', component: Stats},
+            {path:'empleados',component:Empleados},
             {path: 'empleados/create',component:CreateEmpleado}
         ]
     }

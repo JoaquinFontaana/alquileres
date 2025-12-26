@@ -39,9 +39,9 @@ public class AutoService {
     }
 
     @Transactional
-    public void actualizarAuto(AutoDTOActualizar autoActualizado){
+    public void actualizarAuto(AutoDTOActualizar autoActualizado,Long id){
         Sucursal sucursal = this.sucursalService.findSucursalByCiudad(autoActualizado.getSucursal());
-        Auto auto = this.autoHelperService.findAutoByPatente(autoActualizado.getPatente());
+        Auto auto = this.autoHelperService.findById(id);
         if(autoActualizado.getImagen() != null){
             fileStorageService.deleteImage(auto.getRutaImagen());
             auto.setRutaImagen(fileStorageService.guardarImagen(autoActualizado.getImagen()));

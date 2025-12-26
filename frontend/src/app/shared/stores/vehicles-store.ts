@@ -1,10 +1,10 @@
 import { inject, computed } from "@angular/core";
-import { Vehicle, VehicleFilter, RangoFecha, VehicleCreateDTO } from "@models"
+import { Vehicle, VehicleFilter, RangoFecha, VehicleCreateDTO, VehicleUpdateDTO } from "@models"
 import { patchState, signalStore, type, withHooks, withMethods, withState } from '@ngrx/signals'
 import { entityConfig, setAllEntities, withEntities } from '@ngrx/signals/entities'
 import {rxMethod} from '@ngrx/signals/rxjs-interop'
 import { tapResponse } from '@ngrx/operators';
-import { VehiclesData } from "./services/vehicles-data";
+import { VehiclesData } from "../vehicles/services/vehicles-data";
 import {pipe, switchMap, tap} from "rxjs";
 import { HttpErrorResponse } from "@angular/common/http";
 import { AuthStore } from "@auth-store";
@@ -151,6 +151,49 @@ export const VehiclesStore = signalStore(
           )
         })
       )   
+    ),
+    updateVehicle: rxMethod<{ data: VehicleUpdateDTO,id:number }>(
+      pipe(
+        tap(() => patchState(store, { isLoading: true, error: null, success: null })),
+        switchMap(({ data,id}) => {
+          const token = authStore.token() || '';
+          return vehiclesService.updateVehicle(data, token,id).pipe(
+            tapResponse({
+              next: () => {
+                patchState(store, { success: 'Vehículo actualizado exitosamente', error: null });
+              },
+              error: (error: HttpErrorResponse) => {
+                console.log(error);
+                patchState(store, { error: `Error al actualizar vehículo: ${error.message}`, success: null });
+              },
+              finalize: () => {
+                patchState(store, { isLoading: false });
+              }
+            })
+          );
+        })
+      )
+    ),
+    loadVehicle: rxMethod<string>(
+      pipe(
+        tap(() => patchState(store, { isLoading: true, error: null })),
+        switchMap((id: string) =>
+          vehiclesService.getVehicle(id).pipe(
+            tapResponse({
+              next: (vehicle: Vehicle) => {
+                // Aquí podrías actualizar el store con el vehículo individual si lo necesitas
+                patchState(store, { error: null });
+              },
+              error: (error: HttpErrorResponse) => {
+                patchState(store, { error: `Error al cargar vehículo: ${error.message}` });
+              },
+              finalize: () => {
+                patchState(store, { isLoading: false });
+              }
+            })
+          )
+        )
+      )
     ),
     // Método para obtener un vehículo por ID desde el store (caché)
     getVehicleById: (id: number) => {

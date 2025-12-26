@@ -16,6 +16,7 @@ import java.util.List;
 public interface AutoMapper {
     @Mapping(source = "sucursal", target = "sucursal")
     @Mapping(target = "rutaImagen", ignore = true)
+    @Mapping(target = "id", ignore = true)
     @Mapping(target = "patente", ignore = true)
     void updateFromDtoActualizar(AutoDTOActualizar dto, Sucursal sucursal, @MappingTarget Auto auto);
 
@@ -28,6 +29,7 @@ public interface AutoMapper {
     @Mapping(source = "sucursal", target = "sucursal")
     @Mapping(source = "rutaImagen",target = "rutaImagen")
     @Mapping(target = "estado", expression = "java(EstadoAutoEnum.DISPONIBLE)")
+    @Mapping(target = "id", ignore = true)
     Auto toEntity(AutoDTO dto,Sucursal sucursal, String rutaImagen);
 
 }
