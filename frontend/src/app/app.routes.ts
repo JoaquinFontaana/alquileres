@@ -9,6 +9,7 @@ import { adminGuard } from '@guards/admin-guard';
 import { CreateEmpleado } from '@admin/create-empleado/create-empleado';
 import { CreateVehicle } from '@admin/create-vehicle/create-vehicle';
 import { SucursalList } from '@admin/sucursal-list/sucursal-list';
+import { CreateSucursal } from '@admin/create-sucursal/create-sucursal';
 import { UpdateVehicle } from '@admin/update-vehicle/update-vehicle';
 import { Stats } from '@admin/stats/stats';
 import { VehicleList } from '@vehicles/vehicle-list/vehicle-list';
@@ -40,6 +41,7 @@ export const routes: Routes = [
         canActivateChild: [authGuard,adminGuard],
         children:[
             {path: 'sucursales',component:SucursalList},
+            {path: 'sucursales/create',component:CreateSucursal},
             {path:'vehicles/create', component:CreateVehicle},
             {path:'vehicles/update/:id', component: UpdateVehicle},
             {path: 'stats', component: Stats},

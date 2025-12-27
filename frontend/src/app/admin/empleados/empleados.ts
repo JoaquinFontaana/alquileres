@@ -5,6 +5,7 @@ import { InputSelect } from '@shared/input-select/input-select';
 import { CommonModule } from '@angular/common';
 import { NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { Button } from '@shared/button/button';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-empleados',
@@ -16,6 +17,7 @@ export class Empleados {
   readonly fb = inject(NonNullableFormBuilder);
   readonly empleadoStore = inject(EmpleadoStore);
   readonly sucursalStore = inject(SucursalStore);
+  readonly router = inject(Router);
   
   // Form controls para los filtros
   readonly sucursalControl = this.fb.control('');
@@ -42,5 +44,15 @@ export class Empleados {
   clearFilters() {
     this.sucursalControl.setValue('');
     this.estadoControl.setValue('');
+  }
+
+  navigateToCreate() {
+    this.router.navigate(['/admin/empleados/create']);
+  }
+
+  darDeBaja(email: string) {
+    if (confirm('¿Está seguro que desea dar de baja este empleado?')) {
+      this.empleadoStore.darDeBajaEmpleado(email);
+    }
   }
 }

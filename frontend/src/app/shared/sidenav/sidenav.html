@@ -1,5 +1,6 @@
 @if(authStore.hasRole("ADMIN")){
     <app-button class="sidenav-item" label="Sucursales" (action)="toSucursales()"></app-button>
+    <app-button class="sidenav-item" label="Registrar sucursal" (action)="toCreateSucursal()"></app-button>
     <app-button class="sidenav-item" label="Empleados" (action)="toEmpleados()"></app-button>
     <app-button class="sidenav-item" label="Registrar empleado" (action)="toCreateEmpleado()"></app-button>
     <app-button class="sidenav-item" label="Vehiculos" (action)="toVehicles()"></app-button>

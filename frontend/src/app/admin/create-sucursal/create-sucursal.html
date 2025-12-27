@@ -1,0 +1,44 @@
+<div class="create-sucursal-container">
+  <div class="form-header">
+    <h1>Registrar Sucursal</h1>
+  </div>
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" class="sucursal-form">
+    <div class="form-row">
+      <app-input
+        label="Ciudad"
+        type="text"
+        [control]="form.controls.ciudad"
+        placeHolder="Ingrese el nombre de la ciudad"
+      />
+    </div>
+
+    @if (sucursalStore.success()) {
+      <div class="success-message">
+        Sucursal creada exitosamente
+      </div>
+    }
+
+    @if (sucursalStore.error()) {
+      <div class="error-message">
+        {{ sucursalStore.error() }}
+      </div>
+    }
+
+    <div class="form-actions">
+      <app-button
+        class="btn-cancel"
+        label="Cancelar"
+        type="button"
+        (action)="onCancel()"
+      />
+      
+      <app-button
+        class="btn-submit"
+        label="Registrar Sucursal"
+        type="submit"
+        [disabled]="form.invalid || sucursalStore.isLoading()"
+      />
+    </div>
+  </form>
+</div>

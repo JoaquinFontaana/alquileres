@@ -17,6 +17,17 @@ export class EmpleadoService {
 
   createEmpleado(empleado: Partial<Empleado>, token: string): Observable<string> {
     const headers = addToken(token);
-    return this.httpClient.post<string>(this.url, empleado, { headers });
+    return this.httpClient.post<string>(this.url, empleado, { 
+      headers,
+      responseType: 'text' as 'json'
+    });
+  }
+
+  darDeBajaEmpleado(email: string, token: string): Observable<string> {
+    const headers = addToken(token);
+    return this.httpClient.delete<string>(`${this.url}/${email}`, { 
+      headers,
+      responseType: 'text' as 'json'
+    });
   }
 }

@@ -18,6 +18,9 @@ export class Sidenav {
   toSucursales():void{
     this.router.navigate(['/admin/sucursales'])
   }
+  toCreateSucursal():void{
+    this.router.navigate(['/admin/sucursales/create'])
+  }
   toEmpleados():void{
     this.router.navigate(['/admin/empleados'])
   }

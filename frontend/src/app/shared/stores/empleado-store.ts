@@ -33,6 +33,7 @@ export const EmpleadoStore = signalStore(
     withState({
         ...initialState
     }),
+    // Primer withMethods: métodos base
     withMethods((store, empleadoService = inject(EmpleadoService), authStore = inject(AuthStore)) => ({
         
         loadEmpleados: rxMethod<void>(
@@ -85,6 +86,38 @@ export const EmpleadoStore = signalStore(
             return computed(() => store.entityMap()[dni]);
         },
         
+    })),
+    // Segundo withMethods: métodos que usan los anteriores
+    withMethods((store, empleadoService = inject(EmpleadoService), authStore = inject(AuthStore)) => ({
+        darDeBajaEmpleado: rxMethod<string>(
+            pipe(
+                tap(() => patchState(store, { isLoading: true, error: null, success: null })),
+                switchMap((dni: string) => {
+                    const token = authStore.token() || '';
+                    return empleadoService.darDeBajaEmpleado(dni, token).pipe(
+                        tapResponse({
+                            next: (message: string) => {
+                                patchState(store, { 
+                                    success: message,
+                                    error: null 
+                                });
+                                // Recargar empleados después de dar de baja
+                                store.loadEmpleados();
+                            },
+                            error: (error: HttpErrorResponse) => {
+                                patchState(store, { 
+                                    error: `Error al dar de baja empleado: ${error.message}`,
+                                    success: null 
+                                });
+                            },
+                            finalize: () => {
+                                patchState(store, { isLoading: false });
+                            }
+                        })
+                    );
+                })
+            )
+        ),
     })),
     withHooks({
         onInit(store) {

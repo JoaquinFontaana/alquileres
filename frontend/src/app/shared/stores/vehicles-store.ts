@@ -40,8 +40,7 @@ export const VehiclesStore = signalStore(
   withState({
     ...initialState
   }),
-  withMethods((store, vehiclesService = inject(VehiclesData), authStore = inject(AuthStore)) => ({
-    
+  withMethods((store,vehiclesService = inject(VehiclesData)) =>({
     loadVehicles: rxMethod<VehicleFilter | undefined>(
       pipe(
         //Tap es la funcion que se ejecuta luego de que se ejecute el metodo, produciendo un efecto secundario
@@ -105,7 +104,10 @@ export const VehiclesStore = signalStore(
           )
         )
       )
-    ),
+    ),  
+  })),
+  withMethods((store, vehiclesService = inject(VehiclesData), authStore = inject(AuthStore)) => ({
+    
     
     // ✅ Consultar disponibilidad de un vehículo (retorna solo boolean)
     checkDisponibilidad: rxMethod<{ id: number; rangoFecha: RangoFecha }>(
@@ -139,6 +141,7 @@ export const VehiclesStore = signalStore(
             tapResponse({
               next: () => {
                 patchState(store, { success: 'Vehículo creado exitosamente', error: null });
+                store.loadVehicles(undefined)
               },
               error: (error: HttpErrorResponse) => {
                 console.log(error )
@@ -161,6 +164,7 @@ export const VehiclesStore = signalStore(
             tapResponse({
               next: () => {
                 patchState(store, { success: 'Vehículo actualizado exitosamente', error: null });
+                store.loadVehicles(undefined)
               },
               error: (error: HttpErrorResponse) => {
                 console.log(error);
@@ -180,7 +184,7 @@ export const VehiclesStore = signalStore(
         switchMap((id: string) =>
           vehiclesService.getVehicle(id).pipe(
             tapResponse({
-              next: (vehicle: Vehicle) => {
+              next: () => {
                 // Aquí podrías actualizar el store con el vehículo individual si lo necesitas
                 patchState(store, { error: null });
               },

@@ -1,6 +1,8 @@
 <div class="empleados-container">
   <div class="empleados-header">
-    <h1>Listado de Empleados</h1>
+    <div class="header-title">
+      <h1>Listado de Empleados</h1>
+    </div>
     
     <div class="filters">
       <app-input-select
@@ -17,7 +19,7 @@
         placeHolder="Todos los estados"
       />
       <app-button class="clear-filters" label="Limpiar filtros" (action)="clearFilters()" [disabled]="this.disabled()"></app-button>
-
+      <app-button label="+ Crear Empleado" (action)="navigateToCreate()" class="btn-create"></app-button>
     </div>
   </div>
   
@@ -32,6 +34,7 @@
           <th>Sucursal</th>
           <th>Estado</th>
           <th>Fecha de Baja</th>
+          <th>Acciones</th>
         </tr>
       </thead>
       <tbody>
@@ -45,15 +48,24 @@
                 <td>{{ empleado.trabajaEnSucursal }}</td>
                 <td>
                 <span class="estado-badge" [class.activo]="empleado.estado === 'ACTIVO'" [class.baja]="empleado.estado === 'DE_BAJA'">
-                    {{ empleado.estado === 'DE_BAJA' ? 'De Baja' : 'Activo' }}
+                    {{ empleado.estado}}
                 </span>
                 </td>
                 <td>{{ empleado.fechaBaja ? (empleado.fechaBaja | date: 'dd/MM/yyyy') : '-' }}</td>
+                <td>
+                  @if (empleado.estado === 'ACTIVO') {
+                    <app-button 
+                      label="Dar de Baja" 
+                      (action)="darDeBaja(empleado.email)" 
+                      class="btn-baja"
+                    ></app-button>
+                  }
+                </td>
             </tr>
         }
         @empty {
           <tr>
-            <td colspan="7" class="no-data">No hay empleados para mostrar</td>
+            <td colspan="8" class="no-data">No hay empleados para mostrar</td>
           </tr>
         } 
     }
