@@ -3,7 +3,11 @@
     <app-button label="RentCar" aria-label="Ir a la página principal de Alquileres" (action)="toHome()" class="logo-button">
     </app-button>
   </div>
-    
+  <nav class="nav-header">
+    <a>Home</a>
+    <a>Vehicles</a>
+    <a>About</a>
+  </nav>
     @if (authStore.isAuthenticated()) {
     <div class="user-menu">
       <app-button 
@@ -22,6 +26,7 @@
           <app-button 
             label="Mis alquileres"
             class="dropdown-item"
+            (action)="toMyRentals()"
           />
         }
       </div>

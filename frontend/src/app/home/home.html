@@ -1,11 +1,11 @@
 <div class="home-container">
   <section class="hero-section">
-    <div class="hero-content">
-      <h1 class="hero-title">Encuentra tu vehículo perfecto</h1>
-      <p class="hero-subtitle">Los mejores autos para tu próxima aventura</p>
-    </div>
+      <div class="hero-text">
+        <h1 class="hero-title">Encuentra tu vehículo <br>perfecto.</h1>
+        <p class="hero-subtitle">Los mejores vehiculos para tu próxima aventura</p>
+      </div>
+      <a routerLink="/vehicle-list" class="view-cars">Alquilar ahora</a>
   </section>
-
   <section class="featured-section">
     <h2 class="section-title">Vehículos Destacados</h2>
     
@@ -20,13 +20,5 @@
     } @else {
       <app-vehicle-carousel [vehicles]="featuredVehicles()" />
     }
-  </section>
-
-  <section class="cta-section">
-    <div class="cta-content">
-      <h2 >¿Listo para tu próximo viaje?</h2>
-      <p>Explora nuestra flota completa de vehículos</p>
-      <a routerLink="/vehicle-list" class="cta-button">Ver todos los vehículos</a>
-    </div>
   </section>
 </div>

@@ -1,0 +1,90 @@
+<div class="my-rentals-container">
+  <div class="page-header">
+    <h1 class="page-title">Mis Alquileres</h1>
+    <p class="page-subtitle">Gestiona tus reservas y alquileres activos</p>
+  </div>
+
+  <!-- Mensajes de error/éxito -->
+  @if (error()) {
+    <div class="alert alert-error">
+      <span>{{ error() }}</span>
+      <button class="close-btn" (click)="dismissMessage()">✕</button>
+    </div>
+  }
+
+  @if (success()) {
+    <div class="alert alert-success">
+      <span>{{ success() }}</span>
+      <button class="close-btn" (click)="dismissMessage()">✕</button>
+    </div>
+  }
+
+  <!-- Filtros -->
+  <div class="filters-section">
+    <button 
+      class="filter-btn" 
+      [class.active]="selectedFilter() === 'all'"
+      (click)="setFilter('all')">
+      Todos ({{ totalCount() }})
+    </button>
+    <button 
+      class="filter-btn" 
+      [class.active]="selectedFilter() === 'pending'"
+      (click)="setFilter('pending')">
+      Pendientes ({{ pendingCount() }})
+    </button>
+    <button 
+      class="filter-btn" 
+      [class.active]="selectedFilter() === 'active'"
+      (click)="setFilter('active')">
+      Activos ({{ activeCount() }})
+    </button>
+    <button 
+      class="filter-btn" 
+      [class.active]="selectedFilter() === 'completed'"
+      (click)="setFilter('completed')">
+      Finalizados ({{ completedCount() }})
+    </button>
+    <button 
+      class="filter-btn" 
+      [class.active]="selectedFilter() === 'canceled'"
+      (click)="setFilter('canceled')">
+      Cancelados ({{ canceledCount() }})
+    </button>
+  </div>
+
+  <!-- Estado de carga -->
+  @if (isLoading()) {
+    <div class="loading-state">
+      <div class="spinner"></div>
+      <p>Cargando tus alquileres...</p>
+    </div>
+  }
+
+  <!-- Listado de alquileres -->
+  @if (!isLoading()) {
+    <div class="rentals-grid">
+      @if (filteredRentals().length === 0) {
+        <div class="empty-state">
+          @if (selectedFilter() === 'all') {
+            <div class="empty-icon">📋</div>
+            <h3>No tienes alquileres</h3>
+            <p>Comienza a explorar nuestros vehículos disponibles</p>
+          } @else {
+            <div class="empty-icon">🔍</div>
+            <h3>No hay alquileres en esta categoría</h3>
+            <p>Intenta con otro filtro</p>
+          }
+        </div>
+      } @else {
+        @for (rental of filteredRentals(); track rental.codigoReserva) {
+          <app-rental-card
+            [rental]="rental"
+            [actions]="getActionsForRental(rental.estado)"
+            (actionClicked)="handleAction($event, rental.codigoReserva)"
+          />
+        }
+      }
+    </div>
+  }
+</div>

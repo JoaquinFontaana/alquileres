@@ -1,0 +1,147 @@
+@use '../../../../styles/variables' as *;
+@use '../../../../styles/mixins' as *;
+
+:host {
+  display: flex;
+  margin: 20px 0;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+}
+
+.rental-filter-container {
+  display: flex;
+  flex-direction: column;
+  background-color: $bg-light;
+  border-radius: $border-radius;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+  gap: 10px;
+  width: 100%;
+  max-width: 1200px;
+
+  .error-message {
+    padding: 12px;
+    background-color: rgba($error-color, 0.1);
+    border: 1px solid $error-color;
+    border-radius: $border-radius;
+    color: $error-color;
+    font-size: 0.9rem;
+    text-align: center;
+  }
+}
+
+.filter-form {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  gap: 16px;
+  flex-wrap: wrap;
+
+  .form-group {
+    @include flex-column;
+    gap: 8px;
+    flex: 1;
+    min-width: 200px;
+
+    label {
+      color: $text-primary;
+      font-weight: 500;
+      font-size: 0.95rem;
+    }
+
+    .select-input,
+    .text-input {
+      padding: 10px 12px;
+      border: 1px solid #e2e8f0;
+      border-radius: $border-radius;
+      font-size: 1rem;
+      font-family: $font-family;
+      background-color: #f7fafc;
+      color: #2d3748;
+      transition: $transition;
+
+      &:focus {
+        outline: none;
+        border-color: $primary-color;
+        background-color: #fff;
+      }
+
+      &::placeholder {
+        color: #a0aec0;
+      }
+    }
+
+    .select-input {
+      cursor: pointer;
+      
+      option {
+        background-color: #fff;
+        color: #2d3748;
+      }
+    }
+  }
+
+  .form-actions {
+    display: flex;
+    gap: 12px;
+    align-items: flex-end;
+    margin-top: 8px;
+  }
+}
+
+// Estilos para los botones
+::ng-deep .filter-button {
+  padding: 10px 24px;
+  background-color: $primary-color;
+  color: white;
+  border: none;
+  border-radius: $border-radius;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all $transition;
+  white-space: nowrap;
+
+  &:hover {
+    background-color: $primary-hover;
+  }
+}
+
+::ng-deep .clear-button {
+  padding: 10px 24px;
+  background-color: transparent;
+  color: #64748b;
+  border: 2px solid #e2e8f0;
+  border-radius: $border-radius;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all $transition;
+  white-space: nowrap;
+
+  &:hover {
+    border-color: #cbd5e0;
+    background-color: #f7fafc;
+  }
+}
+
+// Responsive
+@media (max-width: 768px) {
+  .filter-form {
+    flex-direction: column;
+    align-items: stretch;
+
+    .form-group {
+      min-width: 100%;
+    }
+
+    .form-actions {
+      flex-direction: column;
+      width: 100%;
+
+      ::ng-deep .filter-button,
+      ::ng-deep .clear-button {
+        width: 100%;
+      }
+    }
+  }
+}

@@ -1,0 +1,58 @@
+@let localRental = this.rental();
+<app-card [title]="this.title()" [imgUrl]="localRental.vehiculo.imgUrl">
+    <div content class="rental-details">
+        <div class="rental-status">
+            <span [class]="'status-badge status-' + estadoClass()">{{ estadoLabel() }}</span>
+        </div>
+        
+        <div class="vehicle-info">
+            <h4 class="vehicle-name">{{ localRental.vehiculo.marca }} {{ localRental.vehiculo.modelo }}</h4>
+            <p class="vehicle-category">{{ localRental.vehiculo.categoria }}</p>
+        </div>
+
+        <div class="rental-dates">
+            <div class="date-item">
+                <span class="date-label">Desde:</span>
+                <span class="date-value">{{ localRental.fechaDesde | date: 'dd/MM/yyyy' }}</span>
+            </div>
+            <div class="date-item">
+                <span class="date-label">Hasta:</span>
+                <span class="date-value">{{ localRental.fechaHasta | date: 'dd/MM/yyyy' }}</span>
+            </div>
+        </div>
+
+        @if (showClientInfo()) {
+            <div class="client-info">
+                <p class="info-item"><strong>Cliente:</strong> {{ localRental.mailCliente }}</p>
+                <p class="info-item"><strong>DNI Conductor:</strong> {{ localRental.dniConductor }}</p>
+            </div>
+        }
+
+        <div class="rental-info">
+            <p class="info-item"><strong>Sucursal:</strong> {{ localRental.sucursal }}</p>
+            @if (localRental.rembolso) {
+                <p class="info-item"><strong>Rembolso:</strong> ${{ localRental.rembolso.monto }}</p>
+            }
+        </div>
+
+        <div class="rental-price">
+            <span class="price-label">Total:</span>
+            <span class="price-value">${{ localRental.monto }}</span>
+        </div>
+    </div>
+    
+    <div actions class="rental-actions">
+        @if (actions().length > 0) {
+            @for (action of actions(); track action) {
+                @let config = getActionConfig(action);
+                <app-button 
+                    [label]="config.label"
+                    (action)="onActionClick(action)"
+                    [class]="'rental-action-' + config.type"
+                />
+            }
+        } @else {
+            <ng-content select="[actions]"/>
+        }
+    </div>
+</app-card>

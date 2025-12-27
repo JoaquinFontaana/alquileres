@@ -58,13 +58,13 @@
         <app-button 
           label="Cancelar"
           (action)="goBack()"
-          class="back-button"
+          class="cancel-button"
         />
         <app-button 
           label="Pagar"
           (action)="proceedToPayment()"
           [disabled]="!disponible()"
-          class="payment-button"
+          class="confirm-button"
         />
       </div>
     </div>

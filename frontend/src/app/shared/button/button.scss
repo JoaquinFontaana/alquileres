@@ -2,3 +2,28 @@
     text-align: center;
     display: inline-block;
 }
+button{
+    cursor: pointer;
+    transition: ease 0.3s;
+    letter-spacing: 1px;
+}
+.confirm-button{
+    background-color: rgb(44, 161, 40);
+    padding: 10px;
+    color: #ffff;
+    border-radius: 8px;
+    
+    &:hover{
+        background-color: rgb(32, 114, 30);
+    }
+}
+.cancel-button{
+    background-color: rgb(173, 18, 18);
+    padding: 10px;
+    color: #ffff;
+    border-radius: 8px;
+    
+    &:hover{
+        background-color: rgb(122, 13, 13);
+    }
+}

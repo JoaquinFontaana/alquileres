@@ -1,6 +1,6 @@
 import { Component, computed, inject, Signal, viewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { Vehicle, CardAction } from '@models';
+import { Vehicle, VehicleCardAction } from '@models';
 import { VehiclesStore } from '@shared/stores/vehicles-store';
 import { VehicleCard } from '@vehicles/vehicle-card/vehicle-card';
 import { VehicleFilter } from '@vehicles/vehicle-filter/vehicle-filter';
@@ -32,19 +32,19 @@ export class VehicleList {
   // Acciones dinámicas basadas en el rol
   readonly actionsList = computed(() => 
     this.isAdmin() 
-      ? [CardAction.EDIT, CardAction.DELETE] 
-      : [CardAction.RENT]
+      ? [VehicleCardAction.EDIT, VehicleCardAction.DELETE] 
+      : [VehicleCardAction.RENT]
   );
 
-  handleAction(action: CardAction, vehicle: Vehicle) {
+  handleAction(action: VehicleCardAction, vehicle: Vehicle) {
     switch (action) {
-      case CardAction.RENT:
+      case VehicleCardAction.RENT:
         this.rentVehicle(vehicle);
         break;
-      case CardAction.EDIT:
+      case VehicleCardAction.EDIT:
         this.editVehicle(vehicle);
         break;
-      case CardAction.DELETE:
+      case VehicleCardAction.DELETE:
         this.deleteVehicle(vehicle);
         break;
     }

@@ -7,7 +7,7 @@
 
 .header{
     display: flex;
-    background-color: red; // TODO: cambiar por variable cuando se defina el color final
+    background-color: $bg-transparent; // TODO: cambiar por variable cuando se defina el color final
     height: 80px;
     align-items: center;
     justify-content: space-between;
@@ -17,7 +17,15 @@
     z-index: 1000;
     box-sizing: border-box;
 }
+.nav-header{
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
 
+    a{
+        font-size: 16px;
+    }
+}
 .logo{
     cursor: pointer;
 }

@@ -22,6 +22,7 @@
       "@shared/*": ["src/app/shared/*"],
       "@const": ["src/app/shared/consts"],
       "@auth-store": ["src/app/user/store/auth-store.ts"],
+      "@rentals-store": ["src/app/shared/stores/rentals-store.ts"],
       "@styles/*": ["src/styles/*"],
       "@guards/*": ["src/app/guards/*"],
       "@admin/*": ["src/app/admin/*"]

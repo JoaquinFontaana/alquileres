@@ -14,6 +14,7 @@ import { UpdateVehicle } from '@admin/update-vehicle/update-vehicle';
 import { Stats } from '@admin/stats/stats';
 import { VehicleList } from '@vehicles/vehicle-list/vehicle-list';
 import { Empleados } from '@admin/empleados/empleados';
+import { MyRentals } from './cliente/my-rentals/my-rentals';
 export const routes: Routes = [
     {
         path: '',
@@ -32,9 +33,12 @@ export const routes: Routes = [
         component:Register
     },
     {
-        path: 'cliente/rent-vehicle/:id',
-        component: RentVehicle,
-        canActivate:[authGuard,clienteGuard]
+        path: 'cliente',
+        canActivateChild: [authGuard,clienteGuard],
+        children:[
+            {path: 'rent-vehicle/:id',component:RentVehicle},
+            {path: 'my-rentals',component:MyRentals}
+        ]
     },
     {
         path: 'admin',

@@ -1,6 +1,7 @@
 import { Component, input, signal, computed, effect, OnDestroy, DestroyRef, inject } from '@angular/core';
-import { Vehicle,CardAction } from '@models';
+import { Vehicle, VehicleCardAction } from '@models';
 import { VehicleCard } from '@vehicles/vehicle-card/vehicle-card';
+import { AuthStore } from '@auth-store';
 
 @Component({
   selector: 'app-vehicle-carousel',
@@ -10,11 +11,19 @@ import { VehicleCard } from '@vehicles/vehicle-card/vehicle-card';
   styleUrl: './vehicle-carousel.scss'
 })
 export class VehicleCarousel implements OnDestroy {
+  private readonly authStore = inject(AuthStore);
 
   readonly vehicles = input.required<Vehicle[]>();
   
-  // Acciones disponibles para los vehículos del carousel
-  readonly vehicleActions: CardAction[] = [CardAction.RENT, CardAction.VIEW];
+  // Determinar si el usuario es admin
+  readonly isAdmin = computed(() => this.authStore.hasRole("ADMIN"));
+  
+  // Acciones dinámicas basadas en el rol (coherente con vehicle-list)
+  readonly vehicleActions = computed(() => 
+    this.isAdmin() 
+      ? [VehicleCardAction.EDIT, VehicleCardAction.DELETE] 
+      : [VehicleCardAction.RENT]
+  );
   
   // Signals para estado reactivo
   readonly currentIndex = signal(0);

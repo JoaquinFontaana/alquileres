@@ -1,0 +1,69 @@
+@let sucursales = sucursalStore.sucursales();
+
+<div class="rental-filter-container">
+  <form [formGroup]="form" class="filter-form">
+    
+    @if (showSucursalFilter()) {
+      <app-input-select 
+        [options]="sucursales" 
+        [control]="form.controls.nombreSucursal" 
+        placeHolder="Todas" 
+        label="Sucursal"
+      />
+    }
+
+    @if (showEstadoAlquilerFilter()) {
+      <app-input-select 
+        [options]="estadosAlquiler" 
+        [control]="form.controls.estadoAlquilerEnum" 
+        placeHolder="Todos" 
+        label="Estado del Alquiler"
+      />
+    }
+
+    @if (showEstadoPagoFilter()) {
+      <app-input-select 
+        [options]="estadosPago" 
+        [control]="form.controls.estadoPago" 
+        placeHolder="Todos" 
+        label="Estado de Pago"
+      />
+    }
+
+    @if (showClienteFilter()) {
+      <app-input 
+        [control]="form.controls.clienteMail" 
+        type="email"
+        placeholder="cliente@ejemplo.com"
+        label="Email Cliente"
+      />
+    }
+
+    @if (showDateFilter()) {
+      <app-date-range-picker 
+        [fechaFin]="form.controls.fechaHasta" 
+        [fechaInicio]="form.controls.fechaDesde"
+        [formGroup]="form"
+      />
+    }
+
+    <div class="form-actions">
+      <app-button 
+        label="Aplicar Filtros"
+        (action)="applyFilters()"
+        class="filter-button"
+      />
+      <app-button 
+        label="Limpiar"
+        (action)="clearFilters()"
+        class="clear-button"
+      />
+    </div>
+  </form>
+  
+  @if (errorMessage()) {
+    <div class="error-message">
+      {{ errorMessage() }}
+    </div>
+  }
+</div>

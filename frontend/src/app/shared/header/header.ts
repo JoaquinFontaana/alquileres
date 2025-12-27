@@ -22,7 +22,11 @@ export class Header {
     this.router.navigate(['/']);
   }
 
-    toHome(): void {
+  toHome(): void {
     this.router.navigate(['/'])
+  }
+
+  toMyRentals(): void {
+    this.router.navigate(['/cliente/my-rentals'])
   }
 }
