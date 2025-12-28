@@ -3,10 +3,10 @@ import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { RangoFecha, CheckOutAlquilerDTO, Extra } from '@models';
 import { VehiclesStore } from '@shared/stores/vehicles-store';
+import { RentalsStore } from '@shared/stores/rentals-store';
 import { Button } from '@shared/button/button';
 import { VehicleCard } from '@shared/vehicles/vehicle-card/vehicle-card';
-import { RentalsData } from '@shared/rentals/services/rentals-data';
-import { AuthStore } from '@auth-store';
+import { paymentRedirectBaseUrl } from '@shared/consts';
 
 // Precios de los extras (deben coincidir con el backend)
 const EXTRA_PRICES: Record<Extra, number> = {
@@ -32,9 +32,9 @@ const EXTRA_LABELS: Record<Extra, string> = {
 })
 export class RentVehicle {
   private readonly vehiclesStore = inject(VehiclesStore);
+  readonly rentalsStore = inject(RentalsStore);
   private readonly router = inject(Router);
-  private readonly rentalsData = inject(RentalsData);
-  private readonly authStore = inject(AuthStore);
+
   
   // Route param con transformación automática a number
   readonly id = input.required<number, string>({
@@ -73,8 +73,8 @@ export class RentVehicle {
   
   disponible = computed(() => this.vehiclesStore.disponibilidad());
   
-  // Signal para controlar el estado de carga del pago
-  isProcessingPayment = signal(false);
+  // Error del checkout desde el store
+  checkoutError = computed(() => this.rentalsStore.error());
   
   // Signals para datos del formulario
   licenciaConductor = signal('');
@@ -135,27 +135,22 @@ export class RentVehicle {
   }
   
   proceedToPayment(): void {
-    if (!this.disponible() || this.isProcessingPayment()) {
+    if (!this.disponible() || this.rentalsStore.isLoading()) {
       return;
     }
     
     const vehicle = this.vehicle();
-    const token = this.authStore.token();
     
-    if (!token || !vehicle()) {
-      console.error('No hay token de autenticación o vehículo');
+    if (!vehicle()) {
+      console.error('No se pudo cargar el vehículo');
       return;
     }
-    
-    // Formatear fechas a ISO (YYYY-MM-DD)
-    const fechaInicio = this.fechaInicio();
-    const fechaFin = this.fechaFin();
     
     const checkoutData: CheckOutAlquilerDTO = {
       alquilerDTO: {
         rangoFecha: {
-          fechaDesde: fechaInicio,
-          fechaHasta: fechaFin
+          fechaDesde: this.fechaInicio(),
+          fechaHasta: this.fechaFin()
         },
         licenciaConductor: this.licenciaConductor(),
         patenteAuto: vehicle().patente,
@@ -164,23 +159,12 @@ export class RentVehicle {
       },
       datosPagoDTO: {
         titulo: `Alquiler ${vehicle().marca} ${vehicle().modelo}`,
-        successUrl: `${window.location.origin}/cliente/payment-success`,
-        failureUrl: `${window.location.origin}/cliente/payment-failure`,
-        pendingUrl: `${window.location.origin}/cliente/payment-pending`
+        successUrl: `${paymentRedirectBaseUrl}/cliente/payment-success`,
+        failureUrl: `${paymentRedirectBaseUrl}/cliente/payment-failure`,
+        pendingUrl: `${paymentRedirectBaseUrl}/cliente/payment-pending`
       }
     };
     
-    this.isProcessingPayment.set(true);
-    
-    this.rentalsData.checkoutAlquiler(checkoutData, token).subscribe({
-      next: (paymentUrl: string) => {
-        // Redireccionar a MercadoPago
-        window.location.href = paymentUrl;
-      },
-      error: (error) => {
-        console.error('Error al procesar el pago:', error);
-        this.isProcessingPayment.set(false);
-      }
-    });
+    this.rentalsStore.checkoutAlquiler(checkoutData);
   }
 }

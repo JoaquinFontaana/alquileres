@@ -108,9 +108,9 @@
     <div class="actions">
       <app-button label="Cancelar" (action)="goBack()" class="cancel-button" />
       <app-button 
-        [label]="isProcessingPayment() ? 'Procesando...' : 'Pagar'" 
+        [label]="rentalsStore.isLoading() ? 'Procesando...' : 'Pagar'" 
         (action)="proceedToPayment()" 
-        [disabled]="!isFormValid() || isProcessingPayment()" 
+        [disabled]="!isFormValid() || rentalsStore.isLoading()" 
         class="confirm-button" 
       />
     </div>

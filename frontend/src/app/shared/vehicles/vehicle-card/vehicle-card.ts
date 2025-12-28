@@ -32,7 +32,6 @@ export class VehicleCard {
   };
   
   getActionConfig(action: VehicleCardAction): ActionConfig {
-    console.log(this.vehicle())
     return this.actionConfigs[action];
   }
   

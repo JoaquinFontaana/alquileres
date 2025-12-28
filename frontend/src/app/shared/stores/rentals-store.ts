@@ -1,5 +1,5 @@
 import { inject, computed } from "@angular/core";
-import { Rental } from "@models";
+import { Rental, CheckOutAlquilerDTO } from "@models";
 import { patchState, signalStore, type, withHooks, withMethods, withState, withComputed } from '@ngrx/signals';
 import { entityConfig, setAllEntities, updateEntity, withEntities } from '@ngrx/signals/entities';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
@@ -280,6 +280,40 @@ export const RentalsStore = signalStore(
                 patchState(store, { 
                   error: `Error al finalizar alquiler con multa: ${error.message}`,
                   success: null 
+                });
+              },
+              finalize: () => {
+                patchState(store, { isLoading: false });
+              }
+            })
+          );
+        })
+      )
+    ),
+
+    // Checkout de alquiler - obtiene URL de pago de MercadoPago
+    checkoutAlquiler: rxMethod<CheckOutAlquilerDTO>(
+      pipe(
+        tap(() => patchState(store, { 
+          isLoading: true, 
+          error: null, 
+          success: null,
+        })),
+        switchMap((checkoutData: CheckOutAlquilerDTO) => {
+          const token = authStore.token() || '';
+          return rentalsService.checkoutAlquiler(checkoutData, token).pipe(
+            tapResponse({
+              next: (paymentUrl: string) => {
+                patchState(store, { 
+                  success: "Redirigiendo al pago....",
+                  error: null 
+                });
+                // Redireccionar a MercadoPago
+                globalThis.location.href = paymentUrl;
+              },
+              error: (error: HttpErrorResponse) => {
+                patchState(store, { 
+                  error: `Error al procesar el pago: ${error.error || error.message}`,
                 });
               },
               finalize: () => {
