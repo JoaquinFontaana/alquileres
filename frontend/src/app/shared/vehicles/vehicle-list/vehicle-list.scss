@@ -1,5 +1,9 @@
 @use '../../../../styles/variables.scss' as *;
 
+h1 {
+  text-align: center;
+}
+
 :host {
   display: flex;
   flex-direction: column;
@@ -21,11 +25,11 @@
   gap: 1rem;
   flex-shrink: 0;
   padding: 1rem 0;
-  
+
   app-button {
     flex-shrink: 0;
   }
-  
+
   app-vehicle-filter {
     flex: 1;
   }

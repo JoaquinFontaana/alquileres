@@ -1,3 +1,10 @@
+@use '../../../styles/mixins.scss' as *;
+@use '../../../styles/variables.scss' as *;
+
+:host {
+  @include page-overlay();
+}
+
 .create-empleado-container {
   max-width: 800px;
   margin: 0 auto;
@@ -5,13 +12,8 @@
 }
 
 .form-header {
-  margin-bottom: 2rem;
+  margin-bottom: 3.5rem;
   text-align: center;
-  h1 {
-    color: #ffffff;
-    font-size: 2rem;
-    font-weight: 600;
-  }
 }
 
 .empleado-form {
@@ -26,7 +28,7 @@
   grid-template-columns: 1fr 1fr;
   gap: 1.5rem;
   margin-bottom: 1.5rem;
-  
+
   app-input,
   app-input-select {
     width: 100%;
@@ -40,20 +42,24 @@
   margin-top: 2rem;
   padding-top: 2rem;
   border-top: 1px solid #dee2e6;
+
   .btn-cancel {
     background-color: #dc3545;
     color: white;
     border-radius: 6px;
     padding: 10px;
+
     &:hover:not(:disabled) {
       background-color: #c82333;
     }
   }
+
   .btn-submit {
     background-color: #007bff;
     padding: 10px;
     border-radius: 6px;
     color: white;
+
     &:hover:not(:disabled) {
       background-color: #0056b3;
     }
@@ -84,19 +90,19 @@
   .create-empleado-container {
     padding: 1rem;
   }
-  
+
   .empleado-form {
     padding: 1rem;
   }
-  
+
   .form-row {
     grid-template-columns: 1fr;
     gap: 1rem;
   }
-  
+
   .form-actions {
     flex-direction: column-reverse;
-    
+
     app-button {
       width: 100%;
     }

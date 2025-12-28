@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { baseUrlApi, addToken } from '../../consts';
-import { Rental } from '@models';
+import { Rental, CheckOutAlquilerDTO } from '@models';
 import { Observable } from 'rxjs';
 
 export interface RentalFilter {
@@ -88,5 +88,11 @@ export class RentalsData {
   markAsReturnedWithFine(data: { codigoAlquiler: number; multa: number }, token: string): Observable<string> {
     const headers = addToken(token);
     return this.httpClient.post<string>(`${this.baseUrl}/recibido-multa`, data, { headers });
+  }
+
+  // Checkout de alquiler - retorna URL de pago de MercadoPago
+  checkoutAlquiler(checkoutData: CheckOutAlquilerDTO, token: string): Observable<string> {
+    const headers = addToken(token);
+    return this.httpClient.post(`${this.baseUrl}`, checkoutData, { headers, responseType: 'text' });
   }
 }

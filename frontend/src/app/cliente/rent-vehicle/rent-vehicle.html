@@ -1,76 +1,123 @@
 <h1 class="title">Confirmación de Alquiler</h1>
-<div class="rent-vehicle-container">
-  @if (vehicle(); as vehiculo) {
-    <div class="payment-card">
-      <h2>Detalles del Alquiler</h2>
-      
-      <div class="card-content">
-        <div class="vehicle-section">
-          <app-vehicle-card 
-            [vehicle]="vehiculo()" 
-            [actions]="[]"
-          />
+
+@if (vehicle(); as vehiculo) {
+<div class="checkout-card">
+  <!-- Contenido principal horizontal -->
+  <div class="checkout-content">
+    <!-- Sección Vehículo -->
+    <div class="section vehicle-section">
+      <h3 class="section-title">Vehículo</h3>
+      <app-vehicle-card [vehicle]="vehiculo()" [actions]="[]" />
+    </div>
+
+    <!-- Sección Detalles del Alquiler -->
+    <div class="section details-section">
+      <h3 class="section-title">Detalles del Alquiler</h3>
+      <div class="rental-info">
+        <div class="detail-row">
+          <span class="label">Fecha de Inicio:</span>
+          <span class="value">{{ fechaInicio() }}</span>
         </div>
-        
-        <div class="info-section">
-          <div class="rental-info">
-            <div class="detail-row">
-              <span class="label">Fecha de Inicio:</span>
-              <span class="value">{{ fechaInicio() }}</span>
-            </div>
-            <div class="detail-row">
-              <span class="label">Fecha de Fin:</span>
-              <span class="value">{{ fechaFin() }}</span>
-            </div>
-            <div class="detail-row">
-              <span class="label">Duración:</span>
-              <span class="value">{{ rangoFechas().cantidadDias() }} días</span>
-            </div>
-            <div class="detail-row">
-              <span class="label">Sucursal:</span>
-              <span class="value">{{vehiculo().sucursal}}</span>
-            </div>
-          </div>
-          
-          <div class="total-section">
-            <div class="total-row">
-              <span class="label">Total a Pagar:</span>
-              <span class="value">${{ precioTotal() }}</span>
-            </div>
-          </div>
+        <div class="detail-row">
+          <span class="label">Fecha de Fin:</span>
+          <span class="value">{{ fechaFin() }}</span>
+        </div>
+        <div class="detail-row">
+          <span class="label">Duración:</span>
+          <span class="value">{{ rangoFechas().cantidadDias() }} días</span>
+        </div>
+        <div class="detail-row">
+          <span class="label">Sucursal:</span>
+          <span class="value">{{ vehiculo().sucursal }}</span>
         </div>
       </div>
-      
-      @if (disponible() === false) {
-        <div class="warning-message">
-          <p>⚠️ Este vehículo no está disponible para las fechas seleccionadas.</p>
-          <p>Por favor, selecciona otro rango de fechas o elige un vehículo diferente.</p>
+          <div class="section extras-section">
+      <h3 class="section-title">Extras opcionales</h3>
+      <div class="extras-list">
+        @for (extra of availableExtras; track extra) {
+          <label class="extra-item" [class.selected]="isExtraSelected(extra)">
+            <input 
+              type="checkbox" 
+              [checked]="isExtraSelected(extra)"
+              (change)="toggleExtra(extra)"
+            />
+            <span class="extra-info">
+              <span class="extra-name">{{ getExtraLabel(extra) }}</span>
+              <span class="extra-price">${{ getExtraPrice(extra) }}</span>
+            </span>
+          </label>
+        }
+      </div>
+
+      <!-- Resumen de precios -->
+      <div class="total-section">
+        <div class="price-row">
+          <span class="label">Alquiler ({{ rangoFechas().cantidadDias() }} días):</span>
+          <span class="value">${{ precioBaseAlquiler() }}</span>
         </div>
-      }
-      
-      @if (disponible() === null) {
-        <div class="loading-message">
-          <p>Verificando disponibilidad...</p>
+        @if (precioExtras() > 0) {
+          <div class="price-row">
+            <span class="label">Extras:</span>
+            <span class="value">${{ precioExtras() }}</span>
+          </div>
+        }
+        <div class="total-row">
+          <span class="label">Total a Pagar:</span>
+          <span class="value">${{ precioTotal() }}</span>
         </div>
-      }
-      
-      <div class="actions">
-        <app-button 
-          label="Cancelar"
-          (action)="goBack()"
-          class="cancel-button"
-        />
-        <app-button 
-          label="Pagar"
-          (action)="proceedToPayment()"
-          [disabled]="!disponible()"
-          class="confirm-button"
-        />
       </div>
     </div>
-  } @else {
-    <div class="error-message">
-      <p>No se pudo cargar la información del vehículo.</p>
+  </div>
     </div>
-  }
+
+    <!-- Sección Extras y Total -->
+
+
+  <!-- Sección inferior: Licencia + Botones -->
+  <div class="checkout-footer">
+    <!-- Campo de Licencia de Conductor -->
+    <div class="form-section">
+      <label for="licencia" class="form-label">Licencia de Conductor *</label>
+      <input 
+        type="text" 
+        id="licencia"
+        class="form-input"
+        placeholder="Ingrese su número de licencia"
+        [ngModel]="licenciaConductor()"
+        (ngModelChange)="licenciaConductor.set($event)"
+      />
+    </div>
+
+    @if (disponible() === false) {
+      <div class="warning-message">
+        <p>⚠️ Este vehículo no está disponible para las fechas seleccionadas.</p>
+        <p>Por favor, selecciona otro rango de fechas o elige un vehículo diferente.</p>
+      </div>
+    }
+
+    @if (disponible() === null) {
+      <div class="loading-message">
+        <p>Verificando disponibilidad...</p>
+      </div>
+    }
+
+    <!-- Separador -->
+    <div class="divider"></div>
+
+    <!-- Botones de acción -->
+    <div class="actions">
+      <app-button label="Cancelar" (action)="goBack()" class="cancel-button" />
+      <app-button 
+        [label]="isProcessingPayment() ? 'Procesando...' : 'Pagar'" 
+        (action)="proceedToPayment()" 
+        [disabled]="!isFormValid() || isProcessingPayment()" 
+        class="confirm-button" 
+      />
+    </div>
+  </div>
 </div>
+} @else {
+<div class="error-message">
+  <p>No se pudo cargar la información del vehículo.</p>
+</div>
+}

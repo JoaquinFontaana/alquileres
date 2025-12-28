@@ -6,18 +6,18 @@
 }
 
 .rent-button {
-  padding: 0.5rem 1.25rem;
-  background-color: $primary-color;
-  color: $text-white;
-  border: none;
-  border-radius: $border-radius;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all $transition;
+    padding: 0.5rem 1.25rem;
+    background-color: $primary-color;
+    color: $text-white;
+    border: none;
+    border-radius: $border-radius;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all $transition;
 
-  &:hover {
-    background-color: $primary-hover;
-  }
+    &:hover {
+        background-color: $primary-hover;
+    }
 }
 
 .custom-card {
@@ -53,4 +53,23 @@
         justify-content: space-between;
         align-items: center;
     }
+}
+
+mat-card-title {
+    font-size: 1.4rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: $text-primary;
+}
+
+mat-card-title-group {
+    justify-content: center;
+}
+
+mat-card-header {
+    padding: 15px 0;
+}
+
+.custom-card[_ngcontent-ng-c3106120474] img[_ngcontent-ng-c3106120474] {
+    height: 250px;
 }

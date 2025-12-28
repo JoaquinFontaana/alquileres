@@ -1,18 +1,18 @@
-<app-header/>
+<app-header />
 <mat-sidenav-container (backdropClick)="toggleSidenav()">
   @if(authStore.isAuthenticated() && (authStore.hasRole("EMPLEADO") || authStore.hasRole("ADMIN"))){
-    <mat-sidenav #sidenav mode="over" (openedChange)="onSidenavChange($event)">
-      <app-sidenav/>
-    </mat-sidenav>
+  <mat-sidenav #sidenav mode="over" (openedChange)="onSidenavChange($event)">
+    <app-sidenav />
+  </mat-sidenav>
   }
   <mat-sidenav-content>
-      <main>
-        @if(authStore.isAuthenticated() && (authStore.hasRole("EMPLEADO") || authStore.hasRole("ADMIN"))){
-        <button mat-icon-button (click)="toggleSidenav()" class="sidenav-toggle" [class.sidenav-open]="sidenavOpened()">
-          <mat-icon class="menu-icon">menu</mat-icon>
-        </button>
+    <main>
+      @if(authStore.isAuthenticated() && (authStore.hasRole("EMPLEADO") || authStore.hasRole("ADMIN"))){
+      <button mat-icon-button (click)="toggleSidenav()" class="sidenav-toggle" [class.sidenav-open]="sidenavOpened()">
+        <mat-icon class="menu-icon">menu</mat-icon>
+      </button>
       }
-        <router-outlet/>
-      </main>
+      <router-outlet />
+    </main>
   </mat-sidenav-content>
 </mat-sidenav-container>

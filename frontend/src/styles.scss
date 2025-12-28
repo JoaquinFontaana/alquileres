@@ -8,14 +8,12 @@
 @use './styles/mixins' as *;
 
 html {
-  @include mat.theme((
-    color: (
-      primary: mat.$rose-palette,
-      tertiary: mat.$red-palette,
-    ),
-    typography: Roboto,
-    density: 0,
-  ));
+  @include mat.theme((color: (primary: mat.$rose-palette,
+        tertiary: mat.$red-palette,
+      ),
+      typography: Roboto,
+      density: 0,
+    ));
 
   // Default the application to a light color theme. This can be changed to
   // `dark` to enable the dark color theme, or to `light dark` to defer to the
@@ -28,12 +26,15 @@ html {
   background-color: var(--mat-sys-surface);
   color: var(--mat-sys-on-surface);
   font: var(--mat-sys-body-medium);
-}/* You can add global styles to this file, and also import other style files */
+}
+
+/* You can add global styles to this file, and also import other style files */
 
 @import 'normalize.css';
 
 
-html, body { 
+html,
+body {
   margin: 0;
   padding: 0;
   min-height: 100%;
@@ -41,7 +42,7 @@ html, body {
   overflow-x: hidden;
 }
 
-body { 
+body {
   font-family: $font-family;
   background-image: url('/fondo.jpg');
   background-size: cover;
@@ -50,6 +51,7 @@ body {
   background-repeat: no-repeat;
   min-height: 100vh;
 }
+
 input,
 textarea,
 select,
@@ -61,7 +63,8 @@ button {
   font: inherit;
   color: inherit;
 }
-a{
+
+a {
   cursor: pointer;
   color: #ffff;
   letter-spacing: 1px;
@@ -71,7 +74,8 @@ a{
   width: fit-content;
   text-decoration: none;
 }
-main{
+
+main {
   flex: 1;
 }
 
@@ -85,6 +89,7 @@ main{
     opacity: 0;
     transform: translateY(-4px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -103,7 +108,7 @@ main{
   animation: slideDown 0.3s ease;
 }
 
-h1{
+h1 {
   letter-spacing: $title-letter-spaccing;
   font-size: $title-size;
   font-weight: 700;
@@ -118,7 +123,7 @@ h1{
 .page-overlay {
   position: relative;
   min-height: 100vh;
-  
+
   &::before {
     content: '';
     position: fixed;
@@ -130,17 +135,17 @@ h1{
     z-index: -1;
     pointer-events: none;
   }
-  
+
   // Variante con blur
   &--blur::before {
     backdrop-filter: blur(4px);
   }
-  
+
   // Variante más oscura
   &--dark::before {
     background-color: rgba(0, 0, 0, 0.6);
   }
-  
+
   // Variante más clara
   &--light::before {
     background-color: rgba(0, 0, 0, 0.3);

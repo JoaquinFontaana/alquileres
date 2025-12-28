@@ -1,20 +1,18 @@
 @let localvehicles = this.vehicles();
 <div class="vehicle-list-container">
+  <h1>Vehiculos</h1>
   <div class="list-header">
     @if (isAdmin()) {
-        <app-button label="+ Agregar vehiculo" (action)="createVehicle()" class="confirm-button"></app-button>
+    <app-button label="+ Agregar vehiculo" (action)="createVehicle()" class="confirm-button"></app-button>
     }
     <app-vehicle-filter />
   </div>
 
   <section class="vehicle-list">
     @for(vehicle of localvehicles; track vehicle.patente){
-      <app-vehicle-card 
-        [vehicle]="vehicle" 
-        [actions]="actionsList()"
-        (actionClicked)="handleAction($event, vehicle)">
-      </app-vehicle-card> 
+    <app-vehicle-card [vehicle]="vehicle" [actions]="actionsList()" (actionClicked)="handleAction($event, vehicle)">
+    </app-vehicle-card>
     }@empty {
-      No hay vehiculos para listar....
+    No hay vehiculos para listar....
     }
   </section>
