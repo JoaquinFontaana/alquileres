@@ -1,3 +1,4 @@
+@use '../../../styles/variables.scss' as *;
 :host{
     text-align: center;
     display: inline-block;
@@ -9,7 +10,7 @@ button{
 }
 .confirm-button{
     background-color: rgb(44, 161, 40);
-    padding: 10px;
+    padding: 0.75rem 1.5rem;
     color: #ffff;
     border-radius: 8px;
     

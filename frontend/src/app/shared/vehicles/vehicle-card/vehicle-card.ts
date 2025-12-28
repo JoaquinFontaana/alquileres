@@ -18,7 +18,7 @@ export class VehicleCard {
   vehicle = input.required<Vehicle>();
   actions = input<VehicleCardAction[]>([]);
   
-  title: Signal<string> = computed(() => (`${this.vehicle().modelo}`));
+  title: Signal<string> = computed(() => (`${this.vehicle().marca} ${this.vehicle().modelo}`));
   
   // Emite la acción cuando se hace clic
   actionClicked = output<VehicleCardAction>();

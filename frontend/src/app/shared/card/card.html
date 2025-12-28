@@ -1,14 +1,17 @@
 @let localTitle = this.title();
 @let imageUrl = this.imgUrl();
 <mat-card class="custom-card" appearance="outlined">
+    <mat-card-header>
+        <mat-card-title-group>
+            <mat-card-title>{{localTitle}}</mat-card-title>
+        </mat-card-title-group>
+    </mat-card-header>
     @defer (on viewport) {
         <img mat-card-image [src]="imageUrl" alt="Foto de {{localTitle}}"/>
     } @placeholder {
         <span>Cargando imagen...</span>
     }
     <mat-card-content>
-        <strong>{{localTitle}}</strong>
-        <br/>
         <ng-content select="[content]"/>
     </mat-card-content>
     <mat-card-actions>

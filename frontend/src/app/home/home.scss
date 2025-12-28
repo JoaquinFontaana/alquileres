@@ -26,27 +26,25 @@
   color: $text-white;
 }
 .hero-title {
-  font-size: $title-size;
-  font-weight: 700;
   margin: 0 0 1rem 0;
   line-height: 70px;
-  letter-spacing: $title-letter-spaccing;
   justify-self: flex-start;
 }
 
 .hero-subtitle {
-  font-size: 1.3rem;
+  font-size: 1.4rem;
   margin: 0;
 }
 
 .view-cars {
-  padding: 1rem 2rem;
+  padding: 1.3rem 2rem;
   background-color: #b11010;
   color: $text-white;
   border-radius: $border-radius;
   transition: all $transition;
   border: none;
   margin-top: 50px;
+  font-size: 1.3rem;
   &:hover {
     background-color: #7a0a0a;
     transform: translateY(-1px);
@@ -99,34 +97,6 @@
   align-items: center;
   justify-content: center;
 }
-
-// CTA Section
-.cta-section {
-  background-color: rgba(0, 0, 0, 0.5);
-  padding: 4rem 2rem;
-  text-align: center;
-  border-top: 1px solid rgba($text-white, 0.1);
-}
-
-.cta-content {
-  max-width: 600px;
-  margin: 0 auto;
-  padding: 0 1rem;
-
-  h2 {
-    font-size: 2rem;
-    font-weight: 700;
-    margin: 0 0 1rem 0;
-    color: $text-white;
-  }
-
-  p {
-    font-size: 1.125rem;
-    color: $text-gray-light;
-    margin: 0 0 2rem 0;
-  }
-}
-
 
 // Responsive
 @media (max-width: 768px) {

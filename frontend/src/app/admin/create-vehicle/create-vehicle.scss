@@ -1,18 +1,13 @@
 @use '../../../styles/variables.scss' as *;
+@use '../../../styles/mixins.scss' as *;
+
 :host{
+    @include page-overlay();
     display: flex;
     flex-direction: column;
     min-height: 100vh;
     padding: 24px;
-    justify-content: center;
     align-items: center;
-}
-h1 {
-    margin-bottom: 32px;
-    font-size: 32px;
-    font-weight: 600;
-    text-align: center;
-    color: #ffff;
 }
 .create-vehicle-container {
     max-width: 1200px;
@@ -20,8 +15,10 @@ h1 {
     padding: 40px;
     border-radius: $border-radius;
     background-color: #f8f8f8;
-
     margin-bottom: 70px;
+}
+h1{
+    padding: 50px;
 }
 
 .vehicle-form {

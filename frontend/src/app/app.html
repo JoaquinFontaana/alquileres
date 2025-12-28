@@ -9,7 +9,7 @@
       <main>
         @if(authStore.isAuthenticated() && (authStore.hasRole("EMPLEADO") || authStore.hasRole("ADMIN"))){
         <button mat-icon-button (click)="toggleSidenav()" class="sidenav-toggle" [class.sidenav-open]="sidenavOpened()">
-          <mat-icon>menu</mat-icon>
+          <mat-icon class="menu-icon">menu</mat-icon>
         </button>
       }
         <router-outlet/>

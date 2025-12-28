@@ -3,23 +3,24 @@
     <div class="header-title">
       <h1>Listado de Empleados</h1>
     </div>
-    
-    <div class="filters">
-      <app-input-select
-        label="Sucursal"
-        [options]="sucursalStore.sucursales()"
-        [control]="sucursalControl"
-        placeHolder="Todas las sucursales"
-      />
-      
-      <app-input-select
-        label="Estado"
-        [options]="estados"
-        [control]="estadoControl"
-        placeHolder="Todos los estados"
-      />
-      <app-button class="clear-filters" label="Limpiar filtros" (action)="clearFilters()" [disabled]="this.disabled()"></app-button>
-      <app-button label="+ Crear Empleado" (action)="navigateToCreate()" class="btn-create"></app-button>
+    <div class="header-actions">
+      <div class="filters">
+        <app-input-select
+          label="Sucursal"
+          [options]="sucursalStore.sucursales()"
+          [control]="sucursalControl"
+          placeHolder="Todas las sucursales"
+        />
+        
+        <app-input-select
+          label="Estado"
+          [options]="estados"
+          [control]="estadoControl"
+          placeHolder="Todos los estados"
+        />
+        <app-button class="clear-filters" label="Limpiar filtros" (action)="clearFilters()" [disabled]="this.disabled()"></app-button>
+      </div>
+      <app-button label="+ Crear Empleado" (action)="navigateToCreate()" class="confirm-button"></app-button>
     </div>
   </div>
   

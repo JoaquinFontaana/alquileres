@@ -1,11 +1,10 @@
 @let localVehicle = this.vehicle();
 <app-card [title]="this.title()" [imgUrl]="localVehicle.imgUrl">
     <div content class="vehicle-details">
-        <p class="vehicle-category">{{ localVehicle.categoria }}</p>
         <div class="vehicle-specs">
-            <span class="spec">{{ localVehicle.marca }}</span>
             <span class="spec">{{ localVehicle.capacidad }} pasajeros</span>
             <span class="spec">{{ localVehicle.rembolso }}</span>
+            <span class="spec">{{  localVehicle.categoria }}</span>
         </div>
         <span class="vehicle-price">${{ localVehicle.precioPorDia }}/día</span>
     </div>

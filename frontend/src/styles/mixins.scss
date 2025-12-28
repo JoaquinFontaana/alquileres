@@ -14,3 +14,30 @@
   display: flex;
   flex-direction: column;
 }
+
+// ============================================
+// Mixin de Overlay para Páginas
+// ============================================
+
+// Aplica un overlay transparente sobre el contenido para dar contraste
+// $color: color del overlay (default: $bg-blur-page)
+// $blur: aplica efecto blur al fondo (default: false)
+@mixin page-overlay($color: $bg-blur-page, $blur: false) {
+  position: relative;
+  
+  &::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: $color;
+    z-index: -1;
+    pointer-events: none;
+    
+    @if $blur {
+      backdrop-filter: blur(4px);
+    }
+  }
+}
