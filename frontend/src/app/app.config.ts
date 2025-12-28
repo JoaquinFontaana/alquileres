@@ -4,6 +4,7 @@ import { CustomErrorStateMatcher } from '@shared/custom-error-state-matcher';
 import { routes } from './app.routes';
 import { provideHttpClient, withFetch } from '@angular/common/http';
 import { ErrorStateMatcher } from '@angular/material/core';
+import { APP_BASE_HREF } from '@angular/common';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -11,6 +12,7 @@ export const appConfig: ApplicationConfig = {
     provideZonelessChangeDetection(),
     provideHttpClient(withFetch()),
     provideRouter(routes, withComponentInputBinding()), // ✅ Habilita input binding
+    {provide: APP_BASE_HREF, useValue:'/'},
     {provide:ErrorStateMatcher, useClass:CustomErrorStateMatcher}
   ]
 };
