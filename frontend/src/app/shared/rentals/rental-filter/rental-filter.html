@@ -1,11 +1,10 @@
-@let sucursales = sucursalStore.sucursales();
 
 <div class="rental-filter-container">
   <form [formGroup]="form" class="filter-form">
     
     @if (showSucursalFilter()) {
       <app-input-select 
-        [options]="sucursales" 
+        [options]="sucursalStore.listaCiudades()" 
         [control]="form.controls.nombreSucursal" 
         placeHolder="Todas" 
         label="Sucursal"
