@@ -10,9 +10,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class AdminCreation {
     private final UsuarioService usuarioService;
-    @Value("${ADMIN_PASSWORD}")
+    @Value("${admin.password}")
     private String adminPassword;
-    @Value("${ADMIN_MAIL}")
+    @Value("${admin.mail}")
     private String adminMail;
 
     public AdminCreation(UsuarioService usuarioService) {

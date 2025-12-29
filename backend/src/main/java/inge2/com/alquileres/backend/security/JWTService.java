@@ -18,9 +18,9 @@ import java.util.stream.Collectors;
 
 @Service
 public class JWTService {
-    @Value("${JWT_SECRET_KEY}")
+    @Value("${jwt.secret_key}")
     private String jwtSecret;
-    @Value("${TOKEN_EXPIRATION}")
+    @Value("${jwt.expiration}")
     private Long tokenExpiration;
 
     private final EmpleadoService empleadoService;

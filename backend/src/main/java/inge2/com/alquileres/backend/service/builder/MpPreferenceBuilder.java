@@ -21,7 +21,7 @@ import java.util.List;
 @Component
 public class MpPreferenceBuilder {
 
-    @Value("${NGROK_URL}")
+    @Value("${app.backend.url}")
     private String publicUrl;
     public Preference crearPreferenceMulta(Cliente cliente, DatosPagoDTO datosPagoDTO){
         return this.crearPreference(

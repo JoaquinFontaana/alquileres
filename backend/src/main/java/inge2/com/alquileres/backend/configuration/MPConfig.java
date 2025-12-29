@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class MPConfig {
-    @Value("${MERCADOPAGO_ACCESS_TOKEN}")
+    @Value("${mercadopago.access.token}")
     private String accessToken;
 
     @PostConstruct
