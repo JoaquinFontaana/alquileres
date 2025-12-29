@@ -3,7 +3,7 @@ import { Injectable, inject } from '@angular/core';
 import { addToken } from '../../consts';
 import { RangoFecha, Vehicle, VehicleCreateDTO, VehicleUpdateDTO, VehicleFilter } from '@models';
 import { Observable } from 'rxjs';
-import { environment } from 'src/enviroments/enviroment';
+import { environment } from 'src/enviroments/environment';
 @Injectable({
   providedIn: 'root'
 })

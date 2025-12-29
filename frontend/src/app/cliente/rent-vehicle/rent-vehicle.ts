@@ -6,7 +6,7 @@ import { VehiclesStore } from '@shared/stores/vehicles-store';
 import { RentalsStore } from '@shared/stores/rentals-store';
 import { Button } from '@shared/button/button';
 import { VehicleCard } from '@shared/vehicles/vehicle-card/vehicle-card';
-import { environment } from 'src/enviroments/enviroment';
+import { environment } from 'src/enviroments/environment';
 
 // Precios de los extras (deben coincidir con el backend)
 const EXTRA_PRICES: Record<Extra, number> = {
