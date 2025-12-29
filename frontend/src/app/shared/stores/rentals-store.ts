@@ -41,16 +41,16 @@ export const RentalsStore = signalStore(
   withComputed((store) => ({
     // Computed para filtrar alquileres por estado
     activeRentals: computed(() => 
-      store.entities().filter(r => r.estado === 'EN_USO')
+      store.entities().filter(r => r.estadoAlquilerEnum === 'EN_USO')
     ),
     pendingRentals: computed(() => 
-      store.entities().filter(r => r.estado === 'CONFIRMACION_PENDIENTE' || r.estado === 'RETIRO_PENDIENTE')
+      store.entities().filter(r => r.estadoAlquilerEnum === 'CONFIRMACION_PENDIENTE' || r.estadoAlquilerEnum === 'RETIRO_PENDIENTE')
     ),
     completedRentals: computed(() => 
-      store.entities().filter(r => r.estado === 'FINALIZADO')
+      store.entities().filter(r => r.estadoAlquilerEnum === 'FINALIZADO')
     ),
     canceledRentals: computed(() => 
-      store.entities().filter(r => r.estado === 'CANCELADO')
+      store.entities().filter(r => r.estadoAlquilerEnum === 'CANCELADO')
     ),
   })),
 
@@ -171,11 +171,6 @@ export const RentalsStore = signalStore(
                   success: 'Reserva cancelada exitosamente',
                   error: null 
                 });
-                // Actualizar el estado del alquiler en el store
-                patchState(store, updateEntity({
-                  id,
-                  changes: { estado: 'CANCELADO' }
-                }, rentalConfig));
               },
               error: (error: HttpErrorResponse) => {
                 patchState(store, { 
@@ -205,10 +200,6 @@ export const RentalsStore = signalStore(
                   success: 'Alquiler iniciado exitosamente',
                   error: null 
                 });
-                patchState(store, updateEntity({
-                  id,
-                  changes: { estado: 'EN_USO' }
-                }, rentalConfig));
               },
               error: (error: HttpErrorResponse) => {
                 patchState(store, { 
@@ -238,10 +229,6 @@ export const RentalsStore = signalStore(
                   success: 'Alquiler finalizado exitosamente',
                   error: null 
                 });
-                patchState(store, updateEntity({
-                  id,
-                  changes: { estado: 'FINALIZADO' }
-                }, rentalConfig));
               },
               error: (error: HttpErrorResponse) => {
                 patchState(store, { 
@@ -271,10 +258,6 @@ export const RentalsStore = signalStore(
                   success: 'Alquiler finalizado con multa registrada',
                   error: null 
                 });
-                patchState(store, updateEntity({
-                  id: data.codigoAlquiler,
-                  changes: { estado: 'FINALIZADO' }
-                }, rentalConfig));
               },
               error: (error: HttpErrorResponse) => {
                 patchState(store, { 

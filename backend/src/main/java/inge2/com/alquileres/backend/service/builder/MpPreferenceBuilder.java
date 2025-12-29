@@ -61,6 +61,7 @@ public class MpPreferenceBuilder {
         }
         catch (MPApiException ex){
             System.out.println(publicUrl + urlNotificacion);
+            System.out.println(datosPagoDTO.getSuccessUrl());
             System.err.println("Status: " + ex.getStatusCode());
             System.err.println("Response body: " + ex.getApiResponse().getContent());
             throw new RuntimeException("No se pudo procesar el alquiler: " + ex.getApiResponse().getContent(), ex);

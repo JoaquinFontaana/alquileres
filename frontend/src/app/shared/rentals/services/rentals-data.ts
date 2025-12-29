@@ -93,6 +93,7 @@ export class RentalsData {
   // Checkout de alquiler - retorna URL de pago de MercadoPago
   checkoutAlquiler(checkoutData: CheckOutAlquilerDTO, token: string): Observable<string> {
     const headers = addToken(token);
+    console.info(checkoutData)
     return this.httpClient.post(`${this.baseUrl}`, checkoutData, { headers, responseType: 'text' });
   }
 }

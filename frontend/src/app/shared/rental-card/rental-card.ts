@@ -26,7 +26,7 @@ export class RentalCard {
   });
 
   estadoLabel: Signal<string> = computed(() => {
-    const estado = this.rental().estado;
+    const estado = this.rental().estadoAlquilerEnum;
     const labels: Record<string, string> = {
       'CONFIRMACION_PENDIENTE': 'Confirmación Pendiente',
       'RETIRO_PENDIENTE': 'Retiro Pendiente',
@@ -38,7 +38,7 @@ export class RentalCard {
   });
 
   estadoClass: Signal<string> = computed(() => {
-    const estado = this.rental().estado;
+    const estado = this.rental().estadoAlquilerEnum;
     const classes: Record<string, string> = {
       'CONFIRMACION_PENDIENTE': 'pending',
       'RETIRO_PENDIENTE': 'pickup',

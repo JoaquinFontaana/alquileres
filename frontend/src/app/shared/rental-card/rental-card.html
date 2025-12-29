@@ -24,14 +24,13 @@
         @if (showClientInfo()) {
             <div class="client-info">
                 <p class="info-item"><strong>Cliente:</strong> {{ localRental.mailCliente }}</p>
-                <p class="info-item"><strong>DNI Conductor:</strong> {{ localRental.dniConductor }}</p>
             </div>
         }
 
         <div class="rental-info">
             <p class="info-item"><strong>Sucursal:</strong> {{ localRental.sucursal }}</p>
-            @if (localRental.rembolso) {
-                <p class="info-item"><strong>Rembolso:</strong> ${{ localRental.rembolso.monto }}</p>
+            @if (localRental.rembolsoDTO) {
+                <p class="info-item"><strong>Rembolso:</strong> ${{ localRental.rembolsoDTO.monto }}</p>
             }
         </div>
 

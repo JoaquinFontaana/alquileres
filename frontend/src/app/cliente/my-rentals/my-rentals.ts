@@ -36,6 +36,7 @@ export class MyRentals implements OnInit {
       case 'canceled':
         return this.store.canceledRentals();
       default:
+        console.info(this.store.entities())
         return this.store.entities();
     }
   });

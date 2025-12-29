@@ -27,20 +27,6 @@ public class AlquilerDTOListar {
     private RembolsoDTO rembolsoDTO;
     private String urlPago;
 
-    public AlquilerDTOListar(Alquiler alquiler){
-        this.rangoFecha = alquiler.getRangoFecha();
-        this.licenciaConductor = alquiler.getLicenciaConductor();
-        this.clienteEmail = alquiler.getCliente().getEmail();
-        this.auto = new AutoDTOListar(alquiler.getAuto());
-        this.sucursal = alquiler.getSucursal().getCiudad();
-        this.estadoPago = alquiler.getPago().getEstadoPago();
-        this.monto = alquiler.getPago().getMonto();
-        this.urlPago = alquiler.getPago().getInitPoint();
-        this.estadoAlquilerEnum = alquiler.getEstadoAlquilerEnum();
-        if(alquiler.getRembolso() != null) {
-            this.rembolsoDTO = new RembolsoDTO(alquiler.getRembolso());
-        }
-    }
     public AlquilerDTOListar(){
 
     }
