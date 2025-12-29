@@ -6,11 +6,11 @@ import { tapResponse } from '@ngrx/operators';
 import {pipe, switchMap, tap} from "rxjs";
 import { HttpErrorResponse } from "@angular/common/http";
 import { AuthStore } from "@auth-store";
-
+import { Sucursal } from "@models";
 interface SucursalState  {
     error: string | null;
     isLoading: boolean;
-    sucursales: string[];
+    sucursales: Sucursal[];
     success: boolean;
 };
 
@@ -34,7 +34,7 @@ export const SucursalStore = signalStore(
           switchMap(() =>
             sucursalService.getSucursales().pipe(
               tapResponse({
-                next: (sucursales: string[]) => {
+                next: (sucursales: Sucursal[]) => {
                   patchState(store, { sucursales });
                 },
                 error: (error: HttpErrorResponse) => {
@@ -50,12 +50,12 @@ export const SucursalStore = signalStore(
       ),
   })),
   withMethods((store, sucursalService = inject(SucursalData), authStore = inject(AuthStore)) => ({
-    createSucursal: rxMethod<string>(
+    createSucursal: rxMethod<Sucursal>(
       pipe(
         tap(() => patchState(store, { isLoading: true, error: null, success: false })),
-        switchMap((ciudad: string) =>{
+        switchMap((sucursal: Sucursal) =>{
           const token = authStore.token() || ''
-          return sucursalService.createSucursal(ciudad,token).pipe(
+          return sucursalService.createSucursal(sucursal,token).pipe(
             tapResponse({
               next: () => {
                 patchState(store, { success: true });
