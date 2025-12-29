@@ -3,7 +3,7 @@ import { Injectable, inject } from '@angular/core';
 import { addToken } from '../../consts';
 import { Rental, CheckOutAlquilerDTO } from '@models';
 import { Observable } from 'rxjs';
-import { environment } from 'src/enviroments/environment';
+import { environment } from 'src/environments/environment';
 export interface RentalFilter {
   nombreSucursal?: string;
   fechaDesde?: string;
