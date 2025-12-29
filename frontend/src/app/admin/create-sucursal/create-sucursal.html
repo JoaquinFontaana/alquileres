@@ -12,6 +12,27 @@
         placeHolder="Ingrese el nombre de la ciudad"
       />
     </div>
+    <div style="margin: 20px 0;">
+            <p style="margin-bottom: 10px; font-size: 0.9rem; color: #666;">
+                Selecciona la ubicación en el mapa:
+            </p>
+            
+            <app-map (coordsSelected)="onUbicacionSeleccionada($event)"></app-map>
+
+            @if(form.get('latitud')?.value) {
+                <p style="margin-top: 5px; font-size: 0.8rem; color: green;">
+                    ✅ Ubicación seleccionada: 
+                    {{ form.get('latitud')?.value | number:'1.4-4' }}, 
+                    {{ form.get('longitud')?.value | number:'1.4-4' }}
+                </p>
+            } @else {
+                @if(form.touched){ 
+                  <p style="margin-top: 5px; font-size: 0.8rem; color: #d9534f;"> 
+                      * La ubicación es obligatoria
+                 </p>
+              }
+            }
+      </div>
 
     @if (sucursalStore.success()) {
       <div class="success-message">

@@ -21,6 +21,7 @@ public interface AutoMapper {
     void updateFromDtoActualizar(AutoDTOActualizar dto, Sucursal sucursal, @MappingTarget Auto auto);
 
     @Mapping(source = "rutaImagen", target = "imgUrl")
+    @Mapping(source = "sucursal.ciudad", target = "sucursal")
     AutoDTOListar toDtoListar(Auto auto);
 
     List<AutoDTOListar> toDtoListListar(List<Auto> autos);
