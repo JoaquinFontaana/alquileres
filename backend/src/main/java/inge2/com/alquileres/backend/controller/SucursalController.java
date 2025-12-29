@@ -1,5 +1,6 @@
 package inge2.com.alquileres.backend.controller;
 
+import inge2.com.alquileres.backend.dto.SucursalDTO;
 import inge2.com.alquileres.backend.dto.user.EmpleadoDTO;
 import inge2.com.alquileres.backend.model.Sucursal;
 import inge2.com.alquileres.backend.service.SucursalService;
@@ -19,7 +20,7 @@ public class SucursalController {
 
     @PostMapping()
     @PreAuthorize( "hasAuthority('ADMIN')")
-    public ResponseEntity<String> crearSucursal(@Valid @RequestBody Sucursal sucursal){
+    public ResponseEntity<String> crearSucursal(@Valid @RequestBody SucursalDTO sucursal){
         service.crearSucursal(sucursal);
         return ResponseEntity.ok("Sucursal creada con exito");
     }
@@ -31,7 +32,7 @@ public class SucursalController {
     }
 
     @GetMapping()
-    public List<String> listarSucursales(){
+    public List<SucursalDTO> listarSucursales(){
         return service.listarSucursales();
     }
 }

@@ -1,6 +1,8 @@
 package inge2.com.alquileres.backend.service;
 
+import inge2.com.alquileres.backend.dto.SucursalDTO;
 import inge2.com.alquileres.backend.dto.user.EmpleadoDTO;
+import inge2.com.alquileres.backend.mapper.SucursalMapper;
 import inge2.com.alquileres.backend.model.Sucursal;
 import inge2.com.alquileres.backend.repository.ISucursalRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -15,9 +17,10 @@ import java.util.List;
 public class SucursalService {
 
     private final ISucursalRepository sucursalRepository;
-
+    private final SucursalMapper sucursalMapper;
     @Transactional
-    public void crearSucursal(Sucursal sucursal){
+    public void crearSucursal(SucursalDTO sucursalDto){
+        Sucursal sucursal = sucursalMapper.toEntity(sucursalDto);
         this.checkNotExistSucursal(sucursal);
         sucursalRepository.save(sucursal);
     }
@@ -27,11 +30,8 @@ public class SucursalService {
                 .orElseThrow(() -> new EntityNotFoundException("No existe sucursal en la ciudad " + ciudad));
     }
 
-    public List<String> listarSucursales(){
-        return this.sucursalRepository.findAll()
-                .stream()
-                .map(Sucursal::getCiudad)
-                .toList();
+    public List<SucursalDTO> listarSucursales(){
+        return this.sucursalMapper.toDtoList(this.sucursalRepository.findAll());
     }
 
     public List<EmpleadoDTO> listarEmpleadosSucursal(String ciudad){

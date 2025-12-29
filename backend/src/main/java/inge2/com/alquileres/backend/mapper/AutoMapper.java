@@ -12,7 +12,7 @@ import org.mapstruct.MappingTarget;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring", imports = {EstadoAutoEnum.class})
+@Mapper(componentModel = "spring", imports = {EstadoAutoEnum.class,SucursalMapper.class})
 public interface AutoMapper {
     @Mapping(source = "sucursal", target = "sucursal")
     @Mapping(target = "rutaImagen", ignore = true)
@@ -21,7 +21,6 @@ public interface AutoMapper {
     void updateFromDtoActualizar(AutoDTOActualizar dto, Sucursal sucursal, @MappingTarget Auto auto);
 
     @Mapping(source = "rutaImagen", target = "imgUrl")
-    @Mapping(source = "sucursal.ciudad", target = "sucursal")
     AutoDTOListar toDtoListar(Auto auto);
 
     List<AutoDTOListar> toDtoListListar(List<Auto> autos);
