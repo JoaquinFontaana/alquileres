@@ -1,7 +1,7 @@
 import { inject, computed } from "@angular/core";
 import { Rental, CheckOutAlquilerDTO } from "@models";
 import { patchState, signalStore, type, withHooks, withMethods, withState, withComputed } from '@ngrx/signals';
-import { entityConfig, setAllEntities, updateEntity, withEntities } from '@ngrx/signals/entities';
+import { entityConfig, setAllEntities, withEntities } from '@ngrx/signals/entities';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { tapResponse } from '@ngrx/operators';
 import { RentalsData, RentalFilter } from "../rentals/services/rentals-data";
@@ -40,22 +40,22 @@ export const RentalsStore = signalStore(
 
   withComputed((store) => ({
     // Computed para filtrar alquileres por estado
-    activeRentals: computed(() => 
+    activeRentals: computed(() =>
       store.entities().filter(r => r.estadoAlquilerEnum === 'EN_USO')
     ),
-    pendingRentals: computed(() => 
+    pendingRentals: computed(() =>
       store.entities().filter(r => r.estadoAlquilerEnum === 'CONFIRMACION_PENDIENTE' || r.estadoAlquilerEnum === 'RETIRO_PENDIENTE')
     ),
-    completedRentals: computed(() => 
+    completedRentals: computed(() =>
       store.entities().filter(r => r.estadoAlquilerEnum === 'FINALIZADO')
     ),
-    canceledRentals: computed(() => 
+    canceledRentals: computed(() =>
       store.entities().filter(r => r.estadoAlquilerEnum === 'CANCELADO')
     ),
   })),
 
   withMethods((store, rentalsService = inject(RentalsData), authStore = inject(AuthStore)) => ({
-    
+
     // Cargar alquileres del cliente autenticado
     loadClientRentals: rxMethod<void>(
       pipe(
@@ -105,11 +105,11 @@ export const RentalsStore = signalStore(
     // Cargar alquileres pendientes de retiro
     loadPendingPickups: rxMethod<string>(
       pipe(
-        tap((sucursal) => patchState(store, { 
-          isLoading: true, 
-          error: null, 
+        tap((sucursal) => patchState(store, {
+          isLoading: true,
+          error: null,
           activeFilter: 'pending-pickup',
-          selectedSucursal: sucursal 
+          selectedSucursal: sucursal
         })),
         switchMap((sucursal: string) => {
           const token = authStore.token() || '';
@@ -133,11 +133,11 @@ export const RentalsStore = signalStore(
     // Cargar alquileres pendientes de devolución
     loadPendingReturns: rxMethod<string>(
       pipe(
-        tap((sucursal) => patchState(store, { 
-          isLoading: true, 
-          error: null, 
+        tap((sucursal) => patchState(store, {
+          isLoading: true,
+          error: null,
           activeFilter: 'pending-return',
-          selectedSucursal: sucursal 
+          selectedSucursal: sucursal
         })),
         switchMap((sucursal: string) => {
           const token = authStore.token() || '';
@@ -167,15 +167,15 @@ export const RentalsStore = signalStore(
           return rentalsService.cancelRental(id, token).pipe(
             tapResponse({
               next: () => {
-                patchState(store, { 
+                patchState(store, {
                   success: 'Reserva cancelada exitosamente',
-                  error: null 
+                  error: null
                 });
               },
               error: (error: HttpErrorResponse) => {
-                patchState(store, { 
+                patchState(store, {
                   error: `Error al cancelar reserva: ${error.message}`,
-                  success: null 
+                  success: null
                 });
               },
               finalize: () => {
@@ -196,15 +196,15 @@ export const RentalsStore = signalStore(
           return rentalsService.markAsDelivered(id, token).pipe(
             tapResponse({
               next: () => {
-                patchState(store, { 
+                patchState(store, {
                   success: 'Alquiler iniciado exitosamente',
-                  error: null 
+                  error: null
                 });
               },
               error: (error: HttpErrorResponse) => {
-                patchState(store, { 
+                patchState(store, {
                   error: `Error al marcar como entregado: ${error.message}`,
-                  success: null 
+                  success: null
                 });
               },
               finalize: () => {
@@ -225,15 +225,15 @@ export const RentalsStore = signalStore(
           return rentalsService.markAsReturnedCorrect(id, token).pipe(
             tapResponse({
               next: () => {
-                patchState(store, { 
+                patchState(store, {
                   success: 'Alquiler finalizado exitosamente',
-                  error: null 
+                  error: null
                 });
               },
               error: (error: HttpErrorResponse) => {
-                patchState(store, { 
+                patchState(store, {
                   error: `Error al finalizar alquiler: ${error.message}`,
-                  success: null 
+                  success: null
                 });
               },
               finalize: () => {
@@ -254,15 +254,15 @@ export const RentalsStore = signalStore(
           return rentalsService.markAsReturnedWithFine(data, token).pipe(
             tapResponse({
               next: () => {
-                patchState(store, { 
+                patchState(store, {
                   success: 'Alquiler finalizado con multa registrada',
-                  error: null 
+                  error: null
                 });
               },
               error: (error: HttpErrorResponse) => {
-                patchState(store, { 
+                patchState(store, {
                   error: `Error al finalizar alquiler con multa: ${error.message}`,
-                  success: null 
+                  success: null
                 });
               },
               finalize: () => {
@@ -277,9 +277,9 @@ export const RentalsStore = signalStore(
     // Checkout de alquiler - obtiene URL de pago de MercadoPago
     checkoutAlquiler: rxMethod<CheckOutAlquilerDTO>(
       pipe(
-        tap(() => patchState(store, { 
-          isLoading: true, 
-          error: null, 
+        tap(() => patchState(store, {
+          isLoading: true,
+          error: null,
           success: null,
         })),
         switchMap((checkoutData: CheckOutAlquilerDTO) => {
@@ -287,15 +287,15 @@ export const RentalsStore = signalStore(
           return rentalsService.checkoutAlquiler(checkoutData, token).pipe(
             tapResponse({
               next: (paymentUrl: string) => {
-                patchState(store, { 
+                patchState(store, {
                   success: "Redirigiendo al pago....",
-                  error: null 
+                  error: null
                 });
                 // Redireccionar a MercadoPago
                 globalThis.location.href = paymentUrl;
               },
               error: (error: HttpErrorResponse) => {
-                patchState(store, { 
+                patchState(store, {
                   error: `Error al procesar el pago: ${error.error || error.message}`,
                 });
               },

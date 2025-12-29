@@ -23,6 +23,7 @@ public interface AlquilerMapper {
     @Mapping(source="pago.monto", target="monto")
     @Mapping(source="pago.estadoPago", target="estadoPago")
     @Mapping(source="pago.initPoint", target="urlPago")
+    @Mapping(source = "id", target = "codigoReserva")
     AlquilerDTOListar toDtoListar(Alquiler alquiler);
 
     List<AlquilerDTOListar> toDtoListListar(List<Alquiler> alquileres);

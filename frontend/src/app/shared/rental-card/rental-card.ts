@@ -21,12 +21,12 @@ export class RentalCard {
   showClientInfo = input<boolean>(false); // Para empleados/admin
   
   title: Signal<string> = computed(() => {
-    const rental = this.rental();
-    return `Reserva #${rental.codigoReserva}`;
+    return `Reserva #${this.rental().codigoReserva}`;
   });
 
   estadoLabel: Signal<string> = computed(() => {
     const estado = this.rental().estadoAlquilerEnum;
+    
     const labels: Record<string, string> = {
       'CONFIRMACION_PENDIENTE': 'Confirmación Pendiente',
       'RETIRO_PENDIENTE': 'Retiro Pendiente',
@@ -34,11 +34,13 @@ export class RentalCard {
       'FINALIZADO': 'Finalizado',
       'CANCELADO': 'Cancelado'
     };
+    
     return labels[estado] || estado;
   });
 
   estadoClass: Signal<string> = computed(() => {
     const estado = this.rental().estadoAlquilerEnum;
+
     const classes: Record<string, string> = {
       'CONFIRMACION_PENDIENTE': 'pending',
       'RETIRO_PENDIENTE': 'pickup',
@@ -46,6 +48,7 @@ export class RentalCard {
       'FINALIZADO': 'completed',
       'CANCELADO': 'canceled'
     };
+    
     return classes[estado] || 'default';
   });
   

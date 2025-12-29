@@ -1,13 +1,13 @@
 @let localRental = this.rental();
-<app-card [title]="this.title()" [imgUrl]="localRental.vehiculo.imgUrl">
+<app-card [title]="this.title()" [imgUrl]="localRental.auto.imgUrl">
     <div content class="rental-details">
         <div class="rental-status">
             <span [class]="'status-badge status-' + estadoClass()">{{ estadoLabel() }}</span>
         </div>
         
         <div class="vehicle-info">
-            <h4 class="vehicle-name">{{ localRental.vehiculo.marca }} {{ localRental.vehiculo.modelo }}</h4>
-            <p class="vehicle-category">{{ localRental.vehiculo.categoria }}</p>
+            <h4 class="vehicle-name">{{ localRental.auto.marca }} {{ localRental.auto.modelo }}</h4>
+            <p class="vehicle-category">{{ localRental.auto.categoria }}</p>
         </div>
 
         <div class="rental-dates">

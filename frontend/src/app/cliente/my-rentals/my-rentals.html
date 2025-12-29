@@ -80,7 +80,7 @@
         @for (rental of filteredRentals(); track rental.codigoReserva) {
           <app-rental-card
             [rental]="rental"
-            [actions]="getActionsForRental(rental.estado)"
+            [actions]="getActionsForRental(rental.estadoAlquilerEnum)"
             (actionClicked)="handleAction($event, rental.codigoReserva)"
           />
         }

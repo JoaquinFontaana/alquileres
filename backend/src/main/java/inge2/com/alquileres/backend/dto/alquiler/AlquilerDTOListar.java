@@ -1,7 +1,6 @@
 package inge2.com.alquileres.backend.dto.alquiler;
 
 import inge2.com.alquileres.backend.dto.auto.AutoDTOListar;
-import inge2.com.alquileres.backend.model.Alquiler;
 import inge2.com.alquileres.backend.model.enums.EstadoAlquilerEnum;
 import inge2.com.alquileres.backend.model.enums.EstadoPago;
 import inge2.com.alquileres.backend.model.valueObject.RangoFecha;
@@ -13,6 +12,7 @@ import lombok.Setter;
 
 @Getter @Setter
 public class AlquilerDTOListar {
+    private long codigoReserva;
     @Embedded
     private RangoFecha rangoFecha;
     private String licenciaConductor;

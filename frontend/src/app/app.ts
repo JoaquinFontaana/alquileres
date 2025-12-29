@@ -6,10 +6,11 @@ import { Sidenav } from '@shared/sidenav/sidenav';
 import { AuthStore } from '@auth-store';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { Footer } from '@shared/footer/footer';
 @Component({
   selector: 'app-root',
   standalone:true,
-  imports: [RouterOutlet,Header,MatSidenavModule,Sidenav,MatIconModule,MatButtonModule],
+  imports: [RouterOutlet,Header,MatSidenavModule,Sidenav,MatIconModule,MatButtonModule,Footer],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })

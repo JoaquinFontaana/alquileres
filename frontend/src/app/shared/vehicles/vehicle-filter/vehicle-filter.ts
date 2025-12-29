@@ -1,4 +1,4 @@
-import { Component, inject, signal, computed, effect } from '@angular/core';
+import { Component, inject, signal, effect } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, AbstractControl, ValidationErrors } from '@angular/forms';
 import { Button } from '@shared/button/button';
 import { VehiclesStore } from '@shared/stores/vehicles-store';
@@ -23,6 +23,10 @@ export class VehicleFilter {
   readonly authStore = inject(AuthStore);
   // Mensaje de error
   readonly errorMessage = signal<string | null>(null);
+  
+  // Signals para las fechas (públicos para acceso desde vehicle-list)
+  readonly fechaInicio = signal<string | null>(null);
+  readonly fechaFin = signal<string | null>(null);
 
   public form = this.fb.group({
     nombreSucursal: [''],
@@ -32,23 +36,25 @@ export class VehicleFilter {
     estados:['']
   }, { validators: [this.dateRangeValidator()] });
 
-  //Exponer las fechas del filtro públicamente (ya formateadas)
-  readonly fechaInicio = computed(() => {
-    const fecha = this.form.controls.fechaDesde.value;
-    console.log(fecha)
-    return this.formatDate(fecha);
-  });
-  
-  readonly fechaFin = computed(() => {
-    const fecha = this.form.controls.fechaHasta.value;
-    return this.formatDate(fecha);
-  });
-
   // Effect para aplicar filtro automáticamente cuando se seleccionen ambas fechas
   constructor() {
+    // Suscribirse a cambios en las fechas del formulario
+    this.form.controls.fechaDesde.valueChanges.subscribe(value => {
+      this.fechaInicio.set(this.formatDate(value));
+    });
+    
+    this.form.controls.fechaHasta.valueChanges.subscribe(value => {
+      this.fechaFin.set(this.formatDate(value));
+    });
+    
     effect(() => {
-      const fechaDesde = this.form.controls.fechaDesde.value;
-      const fechaHasta = this.form.controls.fechaHasta.value;
+      const fechaDesde = this.fechaInicio();
+      const fechaHasta = this.fechaFin();
+      
+      // Limpiar mensaje de error cuando se modifican las fechas
+      if (this.errorMessage()) {
+        this.errorMessage.set(null);
+      }
       
       // Si ambas fechas están seleccionadas y el form es válido, aplicar filtro
       if (fechaDesde && fechaHasta && this.form.valid) {
@@ -112,12 +118,16 @@ export class VehicleFilter {
   }
 
   applyFilters(): void {
-    this.errorMessage.set(null);
+    // No limpiar el mensaje aquí para evitar conflictos con el effect
+    // this.errorMessage.set(null);
 
     if (this.form.invalid) {
       this.handleFormErrors();
       return;
     }
+
+    // Limpiar mensaje de error solo si el formulario es válido
+    this.errorMessage.set(null);
 
     const formData = this.form.value as VehicleFilterFormData;
     const isAdmin = this.authStore.hasRole("ADMIN") && this.authStore.isAuthenticated();
@@ -149,6 +159,8 @@ export class VehicleFilter {
       fechaDesde: '',
       fechaHasta: ''
     });
+    this.fechaInicio.set(null);
+    this.fechaFin.set(null);
     this.errorMessage.set(null);
     this.vehicleStore.loadVehicles(undefined);
   }

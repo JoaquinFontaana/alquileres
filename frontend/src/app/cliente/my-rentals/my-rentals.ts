@@ -99,7 +99,7 @@ export class MyRentals implements OnInit {
     const rental = this.store.entities().find(r => r.codigoReserva === id);
     if (rental?.urlPago) {
       // Redirigir a la URL de pago de MercadoPago
-      window.location.href = rental.urlPago;
+      globalThis.location.href = rental.urlPago;
     } else {
       console.error('URL de pago no disponible');
     }

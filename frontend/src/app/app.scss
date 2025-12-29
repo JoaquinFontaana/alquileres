@@ -17,7 +17,8 @@ mat-sidenav-content {
     display: flex;
     flex-direction: column;
     height: 100%;
-    overflow: hidden;
+    overflow-y: auto; 
+    overflow-x: hidden;
 }
 
 mat-sidenav {
@@ -25,10 +26,10 @@ mat-sidenav {
 }
 
 main {
-    flex: 1;
+    flex: 1 0 auto;
     display: flex;
     flex-direction: column;
-    overflow-y: auto;
+    overflow: visible;
     min-height: 0;
     padding: 30px 40px;
     box-sizing: border-box;

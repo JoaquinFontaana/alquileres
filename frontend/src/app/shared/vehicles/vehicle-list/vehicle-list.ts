@@ -17,18 +17,22 @@ import { Button } from '@shared/button/button';
   styleUrl: './vehicle-list.scss'
 })
 export class VehicleList {
-  private readonly store = inject(VehiclesStore);
+  private readonly vehicleStore = inject(VehiclesStore);
   private readonly router = inject(Router);
   private readonly authStore = inject(AuthStore);
   
   // Obtener referencia al componente VehicleFilter
   readonly filterComponent = viewChild.required(VehicleFilter);
   
-  readonly vehicles: Signal<Vehicle[]> = this.store.entities;
+  readonly vehicles: Signal<Vehicle[]> = this.vehicleStore.entities;
   
   // Determinar si el usuario es admin
-  readonly isAdmin = computed(() => this.authStore.userRole() === 'ADMIN');
+  readonly isAdmin = computed(() => this.authStore.hasRole('ADMIN'));
   
+  constructor() {
+    this.vehicleStore.loadVehicles(undefined)
+  }
+
   // Acciones dinámicas basadas en el rol
   readonly actionsList = computed(() => 
     this.isAdmin() 
@@ -51,20 +55,16 @@ export class VehicleList {
   }
 
   rentVehicle(vehicle: Vehicle) {
-    const filter = this.filterComponent();
-    const fechaInicio = filter.fechaInicio();
-    const fechaFin = filter.fechaFin();
-    
     // Validar que las fechas estén seleccionadas
-    if (!fechaInicio || !fechaFin) {
+    if (!this.filterComponent().fechaInicio() || !this.filterComponent().fechaFin()) {
       alert('Por favor, selecciona las fechas de alquiler primero');
       return;
     }
     
     this.router.navigate(['/cliente/rent-vehicle', vehicle.id], {
       queryParams: {
-        fechaInicio,
-        fechaFin
+        fechaInicio: this.filterComponent().fechaInicio(),
+        fechaFin: this.filterComponent().fechaFin()
       }
     });
   }
