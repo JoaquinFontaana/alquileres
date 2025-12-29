@@ -6,7 +6,7 @@ import { VehiclesStore } from '@shared/stores/vehicles-store';
 import { RentalsStore } from '@shared/stores/rentals-store';
 import { Button } from '@shared/button/button';
 import { VehicleCard } from '@shared/vehicles/vehicle-card/vehicle-card';
-import { paymentRedirectBaseUrl } from '@shared/consts';
+import { environment } from 'src/enviroments/enviroment';
 
 // Precios de los extras (deben coincidir con el backend)
 const EXTRA_PRICES: Record<Extra, number> = {
@@ -159,9 +159,9 @@ export class RentVehicle {
       },
       datosPagoDTO: {
         titulo: `Alquiler ${vehicle().marca} ${vehicle().modelo}`,
-        successUrl: `${paymentRedirectBaseUrl}/cliente/payment-success`,
-        failureUrl: `${paymentRedirectBaseUrl}/cliente/payment-failure`,
-        pendingUrl: `${paymentRedirectBaseUrl}/cliente/payment-pending`
+        successUrl: `${environment.baseUrl}/cliente/payment-success`,
+        failureUrl: `${environment.baseUrl}/cliente/payment-failure`,
+        pendingUrl: `${environment.baseUrl}/cliente/payment-pending`
       }
     };
     

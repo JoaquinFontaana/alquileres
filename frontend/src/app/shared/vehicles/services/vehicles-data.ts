@@ -1,15 +1,15 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { baseUrlApi, addToken } from '../../consts';
+import { addToken } from '../../consts';
 import { RangoFecha, Vehicle, VehicleCreateDTO, VehicleUpdateDTO, VehicleFilter } from '@models';
 import { Observable } from 'rxjs';
-
+import { environment } from 'src/enviroments/enviroment';
 @Injectable({
   providedIn: 'root'
 })
 export class VehiclesData {
   private readonly httpClient = inject(HttpClient)
-  private readonly baseUrl = `${baseUrlApi}/autos`
+  private readonly baseUrl = `${environment.apiUrl}/autos`
 
   
   getVehicles(filters?:VehicleFilter): Observable<Vehicle[]> {

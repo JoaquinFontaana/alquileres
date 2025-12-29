@@ -1,9 +1,9 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { baseUrlApi, addToken } from '../../consts';
+import { addToken } from '../../consts';
 import { Rental, CheckOutAlquilerDTO } from '@models';
 import { Observable } from 'rxjs';
-
+import { environment } from 'src/enviroments/enviroment';
 export interface RentalFilter {
   nombreSucursal?: string;
   fechaDesde?: string;
@@ -18,7 +18,7 @@ export interface RentalFilter {
 })
 export class RentalsData {
   private readonly httpClient = inject(HttpClient);
-  private readonly baseUrl = `${baseUrlApi}/alquileres`;
+  private readonly baseUrl = `${environment.apiUrl}/alquileres`;
 
   // Listar alquileres del cliente autenticado
   getClientRentals(token: string): Observable<Rental[]> {

@@ -1,12 +1,13 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { addToken, baseUrlApi } from '../../consts';
+import { addToken } from '../../consts';
 import { Observable } from 'rxjs';
+import { environment } from 'src/enviroments/enviroment';
 @Injectable({
   providedIn: 'root'
 })
 export class SucursalData {
-  private readonly baseUrl = `${baseUrlApi}/sucursales` 
+  private readonly baseUrl = `${environment.apiUrl}/sucursales` 
   private readonly httpClient = inject(HttpClient);
   
   getSucursales():Observable<string[]>{
