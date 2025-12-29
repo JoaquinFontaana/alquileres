@@ -2,12 +2,12 @@ import { computed, inject, afterNextRender } from "@angular/core";
 import { AuthenticatedUser, JwtPayload, LoginRequest, LoginResponse, RegisterClienteRequest } from "@models";
 import { signalStore, withMethods, withState, patchState, withHooks, withComputed} from "@ngrx/signals";
 import {jwtDecode } from "jwt-decode"
-import { AuthService } from "../service/auth";
-import {ClienteService} from "../service/cliente"
+import { AuthService } from "../../user/service/auth";
+import {ClienteService} from "../../user/service/cliente"
 import { rxMethod} from "@ngrx/signals/rxjs-interop";
 import { pipe, switchMap, tap } from 'rxjs';
 import { tapResponse } from "@ngrx/operators";
-import { jwtPayloadAdapter } from "../adapters/jwt-payload-adapter";
+import { jwtPayloadAdapter } from "../../user/adapters/jwt-payload-adapter";
 import { TOKEN_KEY } from "@shared/consts";
 import { HttpErrorResponse } from "@angular/common/http";
 

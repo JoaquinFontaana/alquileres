@@ -1,5 +1,5 @@
-import { inject } from "@angular/core";
-import { patchState, signalStore, withHooks, withMethods, withState } from '@ngrx/signals'
+import { inject, computed} from "@angular/core";
+import { patchState, signalStore, withHooks, withMethods, withState, type, withComputed } from '@ngrx/signals'
 import { SucursalData } from "@shared/sucursal/service/sucursal-data";
 import {rxMethod} from '@ngrx/signals/rxjs-interop'
 import { tapResponse } from '@ngrx/operators';
@@ -7,6 +7,8 @@ import {pipe, switchMap, tap} from "rxjs";
 import { HttpErrorResponse } from "@angular/common/http";
 import { AuthStore } from "@auth-store";
 import { Sucursal } from "@models";
+import { withEntities, entityConfig} from "@ngrx/signals/entities";
+
 interface SucursalState  {
     error: string | null;
     isLoading: boolean;
@@ -21,12 +23,25 @@ const initialState: SucursalState = {
     success: false
 };
 
+const sucursalEntity = entityConfig({
+    entity: type<Sucursal>(),
+    selectId: (sucursal: Sucursal) => sucursal.ciudad
+})
+
 export const SucursalStore = signalStore(
   { providedIn: 'root' },
 
   withState({
     ...initialState
   }),
+  withEntities<Sucursal>(sucursalEntity),
+  withComputed((store) =>({
+    listaCiudades: computed(() => {
+            // Mapeamos el array de sucursales para obtener solo los nombres
+            const ciudades = store.sucursales().map(s => s.ciudad);
+            return ciudades;
+          })
+  })),
   withMethods((store,sucursalService = inject(SucursalData)) =>({
       loadSucursales: rxMethod<void>(
         pipe(
