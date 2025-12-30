@@ -1,0 +1,19 @@
+@use '../../../styles/variables.scss' as *;
+:host{
+    display: flex;
+    width: 100%;
+    justify-content: center;
+}
+h1{
+    text-align: center;
+}
+.sucursal-list-container{
+    max-width: 900px;
+    width: 900px;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    padding: 40px;
+    background-color: $bg-transparent;
+    border-radius: $card-border-radius;
+}

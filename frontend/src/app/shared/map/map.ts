@@ -1,4 +1,6 @@
-import { Component, AfterViewInit, Input, Output, EventEmitter, ElementRef, ViewChild, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, AfterViewInit, Input, Output, EventEmitter, ElementRef, ViewChild, OnChanges, SimpleChanges, inject } from '@angular/core';
+import { Sucursal } from '@models';
+import { SucursalStore } from '@shared/stores/sucursal-store';
 import * as L from 'leaflet';
 @Component({
   selector: 'app-map',
@@ -8,7 +10,7 @@ import * as L from 'leaflet';
 })
 export class Map implements AfterViewInit, OnChanges {
   @ViewChild('mapContainer') mapContainer!: ElementRef;
-
+  sucursalStore = inject(SucursalStore)
   @Input() lat: number | undefined;
   @Input() lng: number | undefined;
   @Input() readonly = false;
@@ -27,7 +29,6 @@ export class Map implements AfterViewInit, OnChanges {
       this.updateMarker();
     }
   }
-
   private initMap(): void {
     this.fixLeafletIcons();
 
@@ -57,6 +58,7 @@ export class Map implements AfterViewInit, OnChanges {
         this.coordsSelected.emit({ lat, lng });
       });
     }
+    this.mostrarMarcadores(this.sucursalStore.sucursales())
   }
 
   private updateMarker(): void {
@@ -86,5 +88,21 @@ export class Map implements AfterViewInit, OnChanges {
       shadowSize: [41, 41]
     });
     L.Marker.prototype.options.icon = iconDefault;
+  }
+
+  mostrarMarcadores(sucursales: Sucursal[]) {
+    if (!this.map) return
+    const bounds = L.latLngBounds([]); // Crear límites vacíos
+
+    sucursales.forEach(sucursal => {
+      const marker = L.marker([sucursal.latitud, sucursal.longitud]).addTo(this.map!);
+      marker.bindPopup(sucursal.ciudad);
+      
+      // Extender los límites para incluir este marcador
+      bounds.extend([sucursal.latitud, sucursal.longitud]);
+    });
+
+    // Decirle al mapa que se ajuste a esos límites
+    this.map.fitBounds(bounds); 
   }
 }
