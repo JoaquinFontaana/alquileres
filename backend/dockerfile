@@ -1,9 +1,26 @@
-FROM docker.io/maven:3.9.9-eclipse-temurin-17 AS compiler
+# ETAPA 1: BUILD (Optimizada para caché)
+FROM maven:3.9.9-eclipse-temurin-17 AS compiler
 WORKDIR /app/
-COPY pom.xml .
-COPY src/ src/
-RUN mvn clean package
 
-FROM docker.io/eclipse-temurin:17.0.15_6-jre-alpine-3.21 AS runner
+# Truco: Copiamos solo el pom.xml primero para descargar dependencias
+# Si no cambias las dependencias, Docker usará la caché y no descargará internet de nuevo.
+COPY pom.xml .
+RUN mvn dependency:go-offline
+
+# Ahora sí copiamos el código y compilamos
+COPY src/ src/
+# Usamos -DskipTests para ahorrar tiempo de build en Render (ya los corriste en local)
+RUN mvn clean package -DskipTests
+
+# ETAPA 2: RUNNER (Optimizada para velocidad y poca RAM)
+FROM eclipse-temurin:17.0.15_6-jre-alpine-3.21 AS runner
+WORKDIR /app
 COPY --from=compiler /app/target/alquileres-backend-0.0.1-SNAPSHOT.jar app.jar
-CMD ["java", "-jar", "app.jar"]
+
+# --- LA MAGIA ESTÁ AQUÍ ---
+# 1. -Xmx350m: Limita la RAM a 350MB (deja espacio al OS en el contenedor de 512MB).
+# 2. -Xss512k: Reduce el tamaño de la pila de hilos (ahorra memoria).
+# 3. -Djava.security.egd=...: Arregla el problema de lentitud por "falta de entropía" en Linux.
+# 4. lazy-initialization: No carga los beans hasta que se usan (arranque mucho más rápido).
+
+ENTRYPOINT ["java", "-Xmx350m", "-Xss512k", "-Djava.security.egd=file:/dev/./urandom", "-jar", "app.jar", "--spring.main.lazy-initialization=true"]
