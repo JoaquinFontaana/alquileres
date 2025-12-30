@@ -38,6 +38,18 @@ export class VehicleFilter {
 
   // Effect para aplicar filtro automáticamente cuando se seleccionen ambas fechas
   constructor() {
+    effect(() => {
+      const isEmpleado = this.authStore.hasRole('EMPLEADO');
+      const sucursal = this.authStore.sucursal();
+
+      // Si es empleado y ya tenemos la sucursal cargada
+      if (isEmpleado && sucursal) {
+        // Fijamos el valor en el formulario
+        this.form.controls.nombreSucursal.setValue(sucursal);
+        this.applyFilters();
+      }
+    });
+
     // Suscribirse a cambios en las fechas del formulario
     this.form.controls.fechaDesde.valueChanges.subscribe(value => {
       this.fechaInicio.set(this.formatDate(value));
@@ -119,17 +131,23 @@ export class VehicleFilter {
 
   applyFilters(): void {
     // No limpiar el mensaje aquí para evitar conflictos con el effect
-    // this.errorMessage.set(null);
 
     if (this.form.invalid) {
       this.handleFormErrors();
       return;
     }
-
     // Limpiar mensaje de error solo si el formulario es válido
     this.errorMessage.set(null);
-
+        
     const formData = this.form.value as VehicleFilterFormData;
+
+    if (this.authStore.hasRole('EMPLEADO')) {
+      const sucursalEmpleado = this.authStore.sucursal();
+      if (sucursalEmpleado) {
+        formData.nombreSucursal = sucursalEmpleado;
+      }
+    }
+
     const isAdmin = this.authStore.hasRole("ADMIN") && this.authStore.isAuthenticated();
     const filter = VehicleFilterModel.fromFormData(formData, this.formatDate.bind(this), isAdmin);
     
@@ -153,15 +171,22 @@ export class VehicleFilter {
   }
 
   clearFilters(): void {
+    const isEmpleado = this.authStore.hasRole('EMPLEADO');
+    // Si es empleado, el valor "por defecto" es su sucursal, si no, es vacío
+    const defaultSucursal = isEmpleado ? (this.authStore.sucursal()) : '';
+
     this.form.reset({
-      nombreSucursal: '',
+      nombreSucursal: defaultSucursal,
       categorias: '',
       fechaDesde: '',
       fechaHasta: ''
     });
+    const formData = this.form.value as VehicleFilterFormData;
+
     this.fechaInicio.set(null);
     this.fechaFin.set(null);
     this.errorMessage.set(null);
-    this.vehicleStore.loadVehicles(undefined);
+    
+    this.vehicleStore.loadVehicles(VehicleFilterModel.fromFormData(formData,this.formatDate.bind(this)));
   }
 }

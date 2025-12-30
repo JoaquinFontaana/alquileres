@@ -29,10 +29,6 @@ export class VehicleList {
   // Determinar si el usuario es admin
   readonly isAdmin = computed(() => this.authStore.hasRole('ADMIN'));
   
-  constructor() {
-    this.vehicleStore.loadVehicles(undefined)
-  }
-
   // Acciones dinámicas basadas en el rol
   readonly actionsList = computed(() => 
     this.isAdmin() 
