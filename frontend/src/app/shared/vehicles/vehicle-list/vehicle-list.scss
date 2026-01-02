@@ -1,7 +1,13 @@
 @use '../../../../styles/variables.scss' as *;
+@use '../../../../styles/mixins.scss' as *;
 
 h1 {
   text-align: center;
+  font-size: 2rem;
+
+  @include mobile {
+    font-size: 1.5rem;
+  }
 }
 
 :host {
@@ -15,7 +21,15 @@ h1 {
   height: 100%;
   background-color: $bg-transparent;
   border-radius: $card-border-radius;
-  padding: 20px 40px;
+  @include container-padding;
+  padding-left: $spacing-desktop;
+  padding-right: $spacing-desktop;
+
+  @include small-screens {
+    border-radius: $border-radius;
+    padding-left: $spacing-mobile;
+    padding-right: $spacing-mobile;
+  }
 }
 
 .list-header {
@@ -24,6 +38,11 @@ h1 {
   gap: 1rem;
   flex-shrink: 0;
   padding: 1rem 0;
+
+  @include small-screens {
+    flex-direction: column;
+    align-items: stretch;
+  }
 
   app-button {
     flex-shrink: 0;
@@ -46,13 +65,15 @@ h1 {
 }
 
 .vehicle-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 1.5rem;
-  padding: 1rem 1.5rem;
+  @include responsive-grid(1.5rem);
+  padding: 1rem 0;
   overflow-y: auto;
   flex: 1;
   min-height: 0;
+
+  @include tablet-up {
+    padding: 1rem 1.5rem;
+  }
 }
 
 .paginator {

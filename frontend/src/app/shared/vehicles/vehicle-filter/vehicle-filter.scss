@@ -7,6 +7,10 @@
   width: 100%;
   align-items: center;
   justify-content: center;
+
+  @include mobile {
+    margin: 10px 0;
+  }
 }
 
 .vehicle-filter-container {
@@ -17,6 +21,11 @@
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     padding: 30px;
     gap: 10px;
+    width: 100%;
+
+    @include small-screens {
+      padding: $spacing-mobile;
+    }
 
     .error-message {
     padding: 12px;
@@ -36,16 +45,30 @@
   align-items: center;  
   gap: 16px;
 
+  @include small-screens {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
   h3 {
     margin: 0 0 8px 0;
     color: $text-primary;
     font-size: 1.5rem;
+
+    @include mobile {
+      font-size: 1.25rem;
+      text-align: center;
+    }
   }
 
   .form-group {
     @include flex-column;
     gap: 8px;
     flex: 1;
+
+    @include small-screens {
+      width: 100%;
+    }
 
     label {
       color: $text-primary;
@@ -69,6 +92,8 @@
       background-color: $bg-dark;
       color: $text-white;
       transition: $transition;
+      width: 100%;
+      box-sizing: border-box;
 
       &:focus {
         outline: none;
@@ -110,8 +135,18 @@
     gap: 12px;
     align-items: flex-end;
 
+    @include small-screens {
+      flex-direction: column;
+      width: 100%;
+      align-items: stretch;
+    }
+
     ::ng-deep app-button {
       flex: 0 0 auto;
+
+      @include small-screens {
+        width: 100%;
+      }
 
       button {
         width: 100%;

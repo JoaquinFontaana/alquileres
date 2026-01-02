@@ -3,7 +3,11 @@
 
 :host {
   @include flex-center;
-  padding: 2rem 1rem;
+  padding: $spacing-desktop;
+
+  @include small-screens {
+    padding: $spacing-mobile;
+  }
 }
 
 .register-container {
@@ -17,6 +21,11 @@
   border-radius: $border-radius;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   animation: fadeIn 0.3s ease-in-out;
+
+  @include mobile {
+    padding: $spacing-tablet;
+    max-width: 100%;
+  }
 }
 
 @keyframes fadeIn {

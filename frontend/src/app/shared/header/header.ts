@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { AuthStore } from '@auth-store';
 import { Router } from '@angular/router';
 import { Button } from '@shared/button/button';
@@ -12,6 +12,17 @@ import { RouterLink } from '@angular/router';
 export class Header {
   readonly authStore = inject(AuthStore)
   private readonly router = inject(Router)
+
+  // Estado del menú móvil
+  mobileMenuOpen = signal(false);
+
+  toggleMobileMenu(): void {
+    this.mobileMenuOpen.update(open => !open);
+  }
+
+  closeMobileMenu(): void {
+    this.mobileMenuOpen.set(false);
+  }
 
   toLogin(): void {
     this.router.navigate(['/login'])

@@ -16,6 +16,144 @@
 }
 
 // ============================================
+// Mixins Responsive - Media Queries
+// ============================================
+
+// Mobile first: estilos base para mobile, 
+// luego usar estos mixins para pantallas más grandes
+
+// Solo mobile (max-width: 576px)
+@mixin mobile {
+  @media (max-width: $breakpoint-mobile) {
+    @content;
+  }
+}
+
+// Tablet y superior (min-width: 577px)
+@mixin tablet-up {
+  @media (min-width: #{$breakpoint-mobile + 1px}) {
+    @content;
+  }
+}
+
+// Solo tablet (577px - 768px)
+@mixin tablet-only {
+  @media (min-width: #{$breakpoint-mobile + 1px}) and (max-width: $breakpoint-tablet) {
+    @content;
+  }
+}
+
+// Laptop y superior (min-width: 769px)
+@mixin laptop-up {
+  @media (min-width: #{$breakpoint-tablet + 1px}) {
+    @content;
+  }
+}
+
+// Solo laptop (769px - 1024px)
+@mixin laptop-only {
+  @media (min-width: #{$breakpoint-tablet + 1px}) and (max-width: $breakpoint-laptop) {
+    @content;
+  }
+}
+
+// Desktop (min-width: 1025px)
+@mixin desktop {
+  @media (min-width: #{$breakpoint-laptop + 1px}) {
+    @content;
+  }
+}
+
+// Pantallas pequeñas (hasta tablet)
+@mixin small-screens {
+  @media (max-width: $breakpoint-tablet) {
+    @content;
+  }
+}
+
+// ============================================
+// Mixins de Grid Responsive
+// ============================================
+
+// Grid responsive para listas de items (vehículos, cards, etc.)
+@mixin responsive-grid($gap: 1.5rem) {
+  display: grid;
+  gap: $gap;
+  grid-template-columns: 1fr; // Mobile: 1 columna
+  
+  @include tablet-up {
+    grid-template-columns: repeat(2, 1fr); // Tablet: 2 columnas
+  }
+  
+  @include laptop-up {
+    grid-template-columns: repeat(3, 1fr); // Laptop: 3 columnas
+  }
+  
+  @include desktop {
+    grid-template-columns: repeat(4, 1fr); // Desktop: 4 columnas
+  }
+}
+
+// Grid con auto-fill (más flexible)
+@mixin responsive-grid-auto($min-width: 280px, $gap: 1.5rem) {
+  display: grid;
+  gap: $gap;
+  grid-template-columns: repeat(auto-fill, minmax($min-width, 1fr));
+  
+  @include mobile {
+    grid-template-columns: 1fr; // Forzar 1 columna en mobile
+  }
+}
+
+// ============================================
+// Mixins de Contenedor Responsive
+// ============================================
+
+@mixin container-padding {
+  padding: $spacing-mobile;
+  
+  @include tablet-up {
+    padding: $spacing-tablet;
+  }
+  
+  @include desktop {
+    padding: $spacing-desktop;
+  }
+}
+
+// ============================================
+// Mixin para ocultar/mostrar elementos
+// ============================================
+
+@mixin hide-on-mobile {
+  @include mobile {
+    display: none !important;
+  }
+}
+
+@mixin show-only-on-mobile {
+  display: none !important;
+  
+  @include mobile {
+    display: flex !important;
+  }
+}
+
+@mixin hide-on-small-screens {
+  @include small-screens {
+    display: none !important;
+  }
+}
+
+@mixin show-only-on-small-screens {
+  display: none !important;
+  
+  @include small-screens {
+    display: flex !important;
+  }
+}
+
+// ============================================
 // Mixin de Overlay para Páginas
 // ============================================
 

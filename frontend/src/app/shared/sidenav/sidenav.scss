@@ -1,9 +1,13 @@
-:host{
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
+
+:host {
     display: flex;
     flex-direction: column;
     gap: 10px;
 }
-.sidenav-item{
+
+.sidenav-item {
     margin: 0;
     text-align: left;
     color: black;
@@ -18,9 +22,13 @@
         background: none;
         text-align: left;
         cursor: pointer;
+
+        @include mobile {
+            padding: 14px 16px;
+        }
     }
 
-    &:hover{
+    &:hover {
         background-color: rgba(44, 12, 25, 0.205);
     }
 }

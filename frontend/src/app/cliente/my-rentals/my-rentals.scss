@@ -8,7 +8,7 @@
 .my-rentals-container {
   max-width: 1400px;
   margin: 0 auto;
-  padding: 2rem;
+  @include container-padding;
   display: flex;
   flex-direction: column;
   justify-self: center;
@@ -21,6 +21,10 @@
   margin-bottom: 2rem;
   text-align: center;
   color: #ffff;
+
+  @include small-screens {
+    margin-bottom: 1.5rem;
+  }
 }
 
 .page-title {}
@@ -28,6 +32,10 @@
 .page-subtitle {
   font-size: 1.5rem;
   margin: 0;
+
+  @include mobile {
+    font-size: 1.125rem;
+  }
 }
 
 // Alertas
@@ -39,6 +47,12 @@
   border-radius: $border-radius;
   margin-bottom: 1.5rem;
   font-size: 0.9375rem;
+
+  @include mobile {
+    flex-direction: column;
+    gap: 0.5rem;
+    text-align: center;
+  }
 }
 
 .alert-error {
@@ -73,6 +87,12 @@
   gap: 0.75rem;
   margin-bottom: 2rem;
   flex-wrap: wrap;
+  justify-content: center;
+
+  @include mobile {
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+  }
 }
 
 .filter-btn {
@@ -85,6 +105,11 @@
   color: #475569;
   cursor: pointer;
   transition: all $transition;
+
+  @include mobile {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+  }
 
   &:hover {
     border-color: $primary-color;
@@ -157,11 +182,6 @@
 
 // Grid de alquileres
 .rentals-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
-  gap: 1.5rem;
-
-  @media (max-width: 768px) {
-    grid-template-columns: 1fr;
-  }
+  @include responsive-grid(1.5rem);
+  width: 100%;
 }

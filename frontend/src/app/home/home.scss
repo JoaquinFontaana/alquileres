@@ -1,4 +1,5 @@
 @use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
 
 :host {
   display: flex;
@@ -8,32 +9,61 @@
 }
 
 .home-container {
-  min-height: calc(100vh - 80px);
+  min-height: calc(100vh - $header-height);
+
+  @include small-screens {
+    min-height: calc(100vh - $header-height-mobile);
+  }
 }
 
 // Hero Section
 .hero-section {
   background-color: $bg-transparent;
-  padding: 3rem 2rem;
+  @include container-padding;
   display: flex;
   flex-direction: column;
   margin-top: 50px;
   border-radius: $card-border-radius;
   height: 60vh;
+  min-height: 400px;
+
+  @include small-screens {
+    margin-top: 20px;
+    height: auto;
+    min-height: 50vh;
+    border-radius: $border-radius;
+  }
 }
-.hero-text{
+
+.hero-text {
   justify-self: center;
   color: $text-white;
 }
+
 .hero-title {
   margin: 0 0 1rem 0;
-  line-height: 70px;
+  line-height: 1.2;
   justify-self: flex-start;
+  font-size: $title-size;
+
+  @include tablet-only {
+    font-size: 2.5rem;
+  }
+
+  @include mobile {
+    font-size: 1.75rem;
+    text-align: center;
+  }
 }
 
 .hero-subtitle {
   font-size: 1.4rem;
   margin: 0;
+
+  @include small-screens {
+    font-size: 1rem;
+    text-align: center;
+  }
 }
 
 .view-cars {
@@ -45,6 +75,17 @@
   border: none;
   margin-top: 50px;
   font-size: 1.3rem;
+  cursor: pointer;
+
+  @include small-screens {
+    padding: 1rem 1.5rem;
+    font-size: 1.1rem;
+    margin-top: 30px;
+    align-self: center;
+    width: 100%;
+    max-width: 280px;
+  }
+
   &:hover {
     background-color: #7a0a0a;
     transform: translateY(-1px);
@@ -58,9 +99,17 @@
 
 // Featured Section
 .featured-section {
-  padding: 3rem 2rem 4rem;
+  @include container-padding;
+  padding-top: 3rem;
+  padding-bottom: 4rem;
   background-color: transparent;
-  min-height: 600px; // Reserva espacio para el carousel
+  min-height: 600px;
+
+  @include small-screens {
+    min-height: auto;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+  }
 }
 
 .section-title {
@@ -69,6 +118,11 @@
   font-weight: 700;
   color: $text-white;
   margin: 0 0 3rem 0;
+
+  @include small-screens {
+    font-size: 1.5rem;
+    margin: 0 0 1.5rem 0;
+  }
 }
 
 .loading {
@@ -76,10 +130,15 @@
   padding: 4rem 0;
   color: $text-gray-light;
   font-size: 1.125rem;
-  min-height: 400px; // Mantiene el espacio del carousel
+  min-height: 400px;
   display: flex;
   align-items: center;
   justify-content: center;
+
+  @include small-screens {
+    min-height: 200px;
+    padding: 2rem 0;
+  }
 }
 
 .error {
@@ -92,39 +151,26 @@
   border-radius: $border-radius;
   max-width: 600px;
   margin: 0 auto;
-  min-height: 400px; // Mantiene el espacio del carousel
+  min-height: 400px;
   display: flex;
   align-items: center;
   justify-content: center;
-}
 
-// Responsive
-@media (max-width: 768px) {
-  .hero-title {
-    font-size: 2rem;
-  }
-
-  .hero-subtitle {
+  @include small-screens {
+    min-height: 200px;
+    padding: 2rem 1rem;
     font-size: 1rem;
   }
+}
 
-  .section-title {
-    font-size: 1.875rem;
+.cta-section {
+  @include small-screens {
+    padding: 2rem $spacing-mobile;
   }
+}
 
-  .cta-content h2 {
-    font-size: 1.5rem;
-  }
-
-  .hero-section {
-    padding: 2rem 1rem;
-  }
-
-  .featured-section {
-    padding: 2rem 1rem 3rem;
-  }
-
-  .cta-section {
-    padding: 3rem 1rem;
+.cta-content h2 {
+  @include small-screens {
+    font-size: 1.25rem;
   }
 }

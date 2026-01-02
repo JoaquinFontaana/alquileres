@@ -25,6 +25,27 @@ $error-color: #f56565;
 $border-color: #e2e8f0;
 
 // ============================================
+// Breakpoints Responsive
+// ============================================
+
+// Anchos de pantalla
+$breakpoint-mobile: 576px;    // Mobile: hasta 576px
+$breakpoint-tablet: 768px;    // Tablet: 577px - 768px
+$breakpoint-laptop: 1024px;   // Laptop: 769px - 1024px
+$breakpoint-desktop: 1200px;  // Desktop: 1025px+
+
+// Grid columns por breakpoint
+$grid-cols-mobile: 1;
+$grid-cols-tablet: 2;
+$grid-cols-laptop: 3;
+$grid-cols-desktop: 4;
+
+// Espaciados responsive
+$spacing-mobile: 1rem;
+$spacing-tablet: 1.5rem;
+$spacing-desktop: 2rem;
+
+// ============================================
 // Variables Generales
 // ============================================
 
@@ -35,3 +56,7 @@ $border-solid-white: 1.2px solid #ffffff24;
 $title-size: 3.2rem;
 $title-letter-spaccing: 2px;
 $transition: 0.3s ease;
+
+// Header
+$header-height: 80px;
+$header-height-mobile: 60px;

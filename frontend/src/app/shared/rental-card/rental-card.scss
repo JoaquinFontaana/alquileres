@@ -1,15 +1,24 @@
 @use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
 
 :host {
   display: block;
   width: 100%;
   max-width: 400px;
+
+  @include mobile {
+    max-width: 100%;
+  }
 }
 
 .rental-details {
   display: flex;
   flex-direction: column;
   gap: 1rem;
+
+  @include mobile {
+    gap: 0.75rem;
+  }
 }
 
 .rental-status {
@@ -143,6 +152,11 @@
   width: 100%;
   gap: 0.75rem;
   flex-wrap: wrap;
+
+  @include mobile {
+    flex-direction: column;
+    align-items: stretch;
+  }
 }
 
 // Estilos para los botones de acciones del alquiler
@@ -158,6 +172,12 @@
 
   &:hover {
     background-color: $primary-hover;
+  }
+
+  @include mobile {
+    width: 100%;
+    padding: 0.75rem 1.25rem;
+    text-align: center;
   }
 }
 
@@ -175,6 +195,12 @@
     background-color: $primary-color;
     color: $text-white;
   }
+
+  @include mobile {
+    width: 100%;
+    padding: 0.75rem 1.25rem;
+    text-align: center;
+  }
 }
 
 ::ng-deep .rental-action-danger {
@@ -190,6 +216,12 @@
   &:hover {
     background-color: #c82333;
   }
+
+  @include mobile {
+    width: 100%;
+    padding: 0.75rem 1.25rem;
+    text-align: center;
+  }
 }
 
 ::ng-deep .rental-action-success {
@@ -204,5 +236,11 @@
 
   &:hover {
     background-color: #218838;
+  }
+
+  @include mobile {
+    width: 100%;
+    padding: 0.75rem 1.25rem;
+    text-align: center;
   }
 }

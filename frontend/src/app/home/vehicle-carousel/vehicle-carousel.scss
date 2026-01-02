@@ -6,6 +6,10 @@
   margin: 0 auto;
   padding: 0 1rem;
   position: relative;
+
+  @include mobile {
+    padding: 0 0.5rem;
+  }
 }
 
 .carousel {
@@ -13,6 +17,10 @@
   display: flex;
   align-items: center;
   gap: 1rem;
+
+  @include mobile {
+    gap: 0.5rem;
+  }
 }
 
 .carousel-track {
@@ -24,11 +32,23 @@
   display: flex;
   gap: 1.5rem;
   transition: transform 0.5s ease-in-out;
+
+  @include small-screens {
+    gap: 1rem;
+  }
 }
 
 .carousel-slide {
-  flex: 0 0 calc(33.333% - 1rem);
+  flex: 0 0 calc(33.333% - 1rem); // Desktop: 3 slides
   min-width: 0;
+
+  @include laptop-only {
+    flex: 0 0 calc(50% - 0.75rem); // Laptop: 2 slides
+  }
+
+  @include small-screens {
+    flex: 0 0 100%; // Mobile/Tablet: 1 slide
+  }
 }
 
 // Botones de navegación
@@ -45,8 +65,18 @@
   flex-shrink: 0;
   z-index: 2;
 
+  @include mobile {
+    width: 36px;
+    height: 36px;
+  }
+
   svg {
     color: $text-primary;
+    
+    @include mobile {
+      width: 16px;
+      height: 16px;
+    }
   }
 
   &:hover {
@@ -70,6 +100,10 @@
   justify-content: center;
   gap: 0.5rem;
   margin-top: 2rem;
+
+  @include small-screens {
+    margin-top: 1.5rem;
+  }
 }
 
 .indicator {
@@ -82,10 +116,19 @@
   transition: all $transition;
   padding: 0;
 
+  @include mobile {
+    width: 10px;
+    height: 10px;
+  }
+
   &.active {
     background-color: $primary-color;
     width: 32px;
     border-radius: $border-radius;
+
+    @include mobile {
+      width: 24px;
+    }
   }
 }
 
@@ -95,26 +138,9 @@
   padding: 4rem 2rem;
   color: #a0aec0;
   font-size: 1.125rem;
-}
 
-// Responsive
-@media (max-width: 1024px) {
-  .carousel-slide {
-    flex: 0 0 calc(50% - 0.75rem);
-  }
-}
-
-@media (max-width: 768px) {
-  .carousel-slide {
-    flex: 0 0 100%;
-  }
-
-  .carousel-button {
-    width: 40px;
-    height: 40px;
-  }
-
-  .carousel {
-    gap: 0.5rem;
+  @include small-screens {
+    padding: 2rem 1rem;
+    font-size: 1rem;
   }
 }

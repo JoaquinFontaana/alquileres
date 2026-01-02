@@ -3,12 +3,29 @@
     <app-button label="RentCar" aria-label="Ir a la página principal de Alquileres" (action)="toHome()" class="logo-button">
     </app-button>
   </div>
+
+  <!-- Navegación desktop -->
   <nav class="nav-header">
     <a routerLink="/">Home</a>
     <a routerLink="/vehicle-list">Vehicles</a>
     <a>About</a>
   </nav>
-    @if (authStore.isAuthenticated()) {
+
+  <!-- Botón menú hamburguesa mobile -->
+  <button 
+    class="mobile-menu-toggle" 
+    [class.active]="mobileMenuOpen()"
+    (click)="toggleMobileMenu()"
+    aria-label="Abrir menú de navegación">
+    <div class="hamburger">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </button>
+
+  <!-- Menú de usuario desktop -->
+  @if (authStore.isAuthenticated()) {
     <div class="user-menu">
       <app-button 
         label="Cuenta"
@@ -30,15 +47,38 @@
           />
         }
       </div>
-
     </div> 
+  }
+  @else {
+    <app-button 
+      label="Iniciar sesión" 
+      routerLink="/login"
+      class="header-button"
+    />
+  }
+</header>
+
+<!-- Menú móvil desplegable -->
+<nav class="mobile-nav" [class.open]="mobileMenuOpen()">
+  <a routerLink="/" (click)="closeMobileMenu()">Home</a>
+  <a routerLink="/vehicle-list" (click)="closeMobileMenu()">Vehicles</a>
+  <a (click)="closeMobileMenu()">About</a>
+  
+  <div class="mobile-auth-buttons">
+    @if (authStore.isAuthenticated()) {
+      @if (authStore.hasRole("CLIENT")){
+        <button class="mobile-auth-button" (click)="toMyRentals(); closeMobileMenu()">
+          Mis alquileres
+        </button>
+      }
+      <button class="mobile-auth-button" (click)="logout(); closeMobileMenu()">
+        Cerrar sesión
+      </button>
     }
     @else {
-        <app-button 
-          label="Iniciar sesión" 
-          routerLink="/login"
-          class="header-button"
-        />
+      <a routerLink="/login" class="mobile-auth-button" (click)="closeMobileMenu()">
+        Iniciar sesión
+      </a>
     }
-
-</header>
+  </div>
+</nav>
