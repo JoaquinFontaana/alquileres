@@ -80,6 +80,7 @@
   display: grid;
   gap: $gap;
   grid-template-columns: 1fr; // Mobile: 1 columna
+  grid-auto-rows: 1fr; // Todas las filas tienen la misma altura
   
   @include tablet-up {
     grid-template-columns: repeat(2, 1fr); // Tablet: 2 columnas
