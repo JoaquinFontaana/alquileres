@@ -4,15 +4,15 @@ import inge2.com.alquileres.backend.model.Rol;
 import inge2.com.alquileres.backend.repository.IRolRepository;
 import jakarta.annotation.PostConstruct;
 import jakarta.transaction.Transactional;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-@Component
+@Component @AllArgsConstructor
 public class RoleDataLoader {
-    @Autowired
-    private IRolRepository rolRepository;
 
-    @PostConstruct
+    private final IRolRepository rolRepository;
+
     @Transactional
     public void loadRoles() {
         createIfNotExists("ADMIN");

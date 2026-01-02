@@ -19,7 +19,6 @@ public class AdminCreation {
         this.usuarioService = usuarioService;
     }
 
-    @EventListener(ApplicationReadyEvent.class)
     @Transactional
     public void crearAdmin(){
         if(this.usuarioService.checkNotExistsAdmin()){
