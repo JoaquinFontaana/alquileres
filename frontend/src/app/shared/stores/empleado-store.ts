@@ -8,6 +8,7 @@ import { EmpleadoService } from "../../admin/empleados/empleado-service";
 import { pipe, switchMap, tap } from "rxjs";
 import { HttpErrorResponse } from "@angular/common/http";
 import { AuthStore } from "@auth-store";
+import { getErrorMessage } from "@shared/consts";
 
 interface EmpleadoState {
     error: string | null;
@@ -47,7 +48,7 @@ export const EmpleadoStore = signalStore(
                                 patchState(store, setAllEntities(empleados, empleadoConfig));
                             },
                             error: (error: HttpErrorResponse) => {
-                                patchState(store, { error: `Error al cargar empleados: ${error.message}` });
+                                patchState(store, { error: getErrorMessage(error, 'Error al cargar empleados') });
                             },
                             finalize: () => {
                                 patchState(store, { isLoading: false });
@@ -72,7 +73,7 @@ export const EmpleadoStore = signalStore(
                             },
                             error: (error: HttpErrorResponse) => {
                                 patchState(store, { 
-                                    error: `Error al crear empleado: ${error.message}`,
+                                    error: getErrorMessage(error, 'Error al crear empleado'),
                                     isLoading: false 
                                 });
                             }
@@ -106,7 +107,7 @@ export const EmpleadoStore = signalStore(
                             },
                             error: (error: HttpErrorResponse) => {
                                 patchState(store, { 
-                                    error: `Error al dar de baja empleado: ${error.message}`,
+                                    error: getErrorMessage(error, 'Error al dar de baja empleado'),
                                     success: null 
                                 });
                             },

@@ -8,6 +8,7 @@ import { VehiclesData } from "../vehicles/services/vehicles-data";
 import {pipe, switchMap, tap} from "rxjs";
 import { HttpErrorResponse } from "@angular/common/http";
 import { AuthStore } from "@auth-store";
+import { getErrorMessage } from "@shared/consts";
 
 interface VehiclesState  {
     error: string | null;
@@ -55,7 +56,7 @@ export const VehiclesStore = signalStore(
                 patchState(store, setAllEntities(vehicles, vehicleConfig));
               },
               error: (error: HttpErrorResponse) => {
-                patchState(store, { error: `Error al cargar vehículos: ${error.message}` });
+                patchState(store, { error: getErrorMessage(error, 'Error al cargar vehículos') });
               },
               finalize: () => {
                 patchState(store, { isLoading: false });
@@ -75,7 +76,7 @@ export const VehiclesStore = signalStore(
                 patchState(store, { categorias });
               },
               error: (error: HttpErrorResponse) => {
-                patchState(store, { error: `Error al cargar categorías: ${error.message}` });
+                patchState(store, { error: getErrorMessage(error, 'Error al cargar categorías') });
               },
               finalize: () => {
                 patchState(store, { isLoading: false });
@@ -95,7 +96,7 @@ export const VehiclesStore = signalStore(
                 patchState(store, { estados });
               },
               error: (error: HttpErrorResponse) => {
-                patchState(store, { error: `Error al cargar estados: ${error.message}` });
+                patchState(store, { error: getErrorMessage(error, 'Error al cargar estados') });
               },
               finalize: () => {
                 patchState(store, { isLoading: false });
@@ -121,8 +122,8 @@ export const VehiclesStore = signalStore(
                 patchState(store, { disponibilidad: disponible });
               },
               error: (error: HttpErrorResponse ) => {
-                console.warn(error.message,error.status)
-                patchState(store, { error: `Error al consultar disponibilidad` });
+                console.warn('Error disponibilidad:', error.status, error.error)
+                patchState(store, { error: getErrorMessage(error, 'Error al consultar disponibilidad') });
               },
               finalize: () => {
                 patchState(store, { isLoading: false });
@@ -144,8 +145,8 @@ export const VehiclesStore = signalStore(
                 store.loadVehicles(undefined)
               },
               error: (error: HttpErrorResponse) => {
-                console.log(error )
-                patchState(store, { error: `Error al crear vehiculo: ${error.message}`, success: null });
+                console.log('Error crear vehículo:', error.error)
+                patchState(store, { error: getErrorMessage(error, 'Error al crear vehículo'), success: null });
               },
               finalize: () => {
                 patchState(store, { isLoading: false });
@@ -167,8 +168,8 @@ export const VehiclesStore = signalStore(
                 store.loadVehicles(undefined)
               },
               error: (error: HttpErrorResponse) => {
-                console.log(error);
-                patchState(store, { error: `Error al actualizar vehículo: ${error.message}`, success: null });
+                console.log('Error actualizar vehículo:', error.error);
+                patchState(store, { error: getErrorMessage(error, 'Error al actualizar vehículo'), success: null });
               },
               finalize: () => {
                 patchState(store, { isLoading: false });
@@ -189,7 +190,7 @@ export const VehiclesStore = signalStore(
                 patchState(store, { error: null });
               },
               error: (error: HttpErrorResponse) => {
-                patchState(store, { error: `Error al cargar vehículo: ${error.message}` });
+                patchState(store, { error: getErrorMessage(error, 'Error al cargar vehículo') });
               },
               finalize: () => {
                 patchState(store, { isLoading: false });

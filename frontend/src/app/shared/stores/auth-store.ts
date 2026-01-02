@@ -8,7 +8,7 @@ import { rxMethod} from "@ngrx/signals/rxjs-interop";
 import { pipe, switchMap, tap } from 'rxjs';
 import { tapResponse } from "@ngrx/operators";
 import { jwtPayloadAdapter } from "../../user/adapters/jwt-payload-adapter";
-import { TOKEN_KEY } from "@shared/consts";
+import { TOKEN_KEY, getErrorMessage } from "@shared/consts";
 import { HttpErrorResponse } from "@angular/common/http";
 
 interface AuthState{
@@ -72,7 +72,7 @@ export const AuthStore = signalStore(
                                 patchState(store,{token:accessToken, user});
                             },
                             error: (error: HttpErrorResponse) => {
-                                patchState(store, { error: `Error al realizar el login: ${error.message}` });
+                                patchState(store, { error: getErrorMessage(error, 'Error al realizar el login') });
                             },
                             finalize: () => {
                                 patchState(store,{isLoading:false})
@@ -90,17 +90,8 @@ export const AuthStore = signalStore(
                         tapResponse({
                             next: () => {return},
                             error: (error: HttpErrorResponse) => {
-                                let errorMessage = 'Error al registrar cliente';
-                                console.log(error.message,error.status)
-                                if (error.status === 409) {
-                                    errorMessage = 'El email o DNI ya está registrado. Por favor, utiliza otros datos.';
-                                } else if (error.status === 400) {
-                                    errorMessage = 'Datos inválidos. Por favor, verifica la información.';
-                                } else if (error.error?.message) {
-                                    errorMessage = error.error.message;
-                                }
-                                
-                                patchState(store, { error: errorMessage });
+                                console.log('Error registro:', error.status, error.error)
+                                patchState(store, { error: getErrorMessage(error, 'Error al registrar cliente') });
                             },
                             finalize: () => {
                                 patchState(store, {isLoading: false});

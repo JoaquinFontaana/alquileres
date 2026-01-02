@@ -8,6 +8,7 @@ import { HttpErrorResponse } from "@angular/common/http";
 import { AuthStore } from "@auth-store";
 import { Sucursal } from "@models";
 import { withEntities, entityConfig} from "@ngrx/signals/entities";
+import { getErrorMessage } from "@shared/consts";
 
 interface SucursalState  {
     error: string | null;
@@ -53,7 +54,7 @@ export const SucursalStore = signalStore(
                   patchState(store, { sucursales });
                 },
                 error: (error: HttpErrorResponse) => {
-                  patchState(store, { error: `Error al cargar las sucursales: ${error.message}` });
+                  patchState(store, { error: getErrorMessage(error, 'Error al cargar las sucursales') });
                 },
                 finalize: () => {
                   patchState(store, { isLoading: false });
@@ -77,7 +78,7 @@ export const SucursalStore = signalStore(
                 store.loadSucursales()
               },
               error: (error: HttpErrorResponse) => {
-                patchState(store, { error: `Error al crear la sucursal: ${error.message}`, success: false });
+                patchState(store, { error: getErrorMessage(error, 'Error al crear la sucursal'), success: false });
               },
               finalize: () => {
                 patchState(store, { isLoading: false });

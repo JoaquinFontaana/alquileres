@@ -8,6 +8,7 @@ import { RentalsData, RentalFilter } from "../rentals/services/rentals-data";
 import { pipe, switchMap, tap } from "rxjs";
 import { HttpErrorResponse } from "@angular/common/http";
 import { AuthStore } from "@auth-store";
+import { getErrorMessage } from "@shared/consts";
 
 interface RentalsState {
   error: string | null;
@@ -68,7 +69,7 @@ export const RentalsStore = signalStore(
                 patchState(store, setAllEntities(rentals, rentalConfig));
               },
               error: (error: HttpErrorResponse) => {
-                patchState(store, { error: `Error al cargar alquileres: ${error.message}` });
+                patchState(store, { error: getErrorMessage(error, 'Error al cargar alquileres') });
               },
               finalize: () => {
                 patchState(store, { isLoading: false });
@@ -91,7 +92,7 @@ export const RentalsStore = signalStore(
                 patchState(store, setAllEntities(rentals, rentalConfig));
               },
               error: (error: HttpErrorResponse) => {
-                patchState(store, { error: `Error al cargar alquileres: ${error.message}` });
+                patchState(store, { error: getErrorMessage(error, 'Error al cargar alquileres') });
               },
               finalize: () => {
                 patchState(store, { isLoading: false });
@@ -119,7 +120,7 @@ export const RentalsStore = signalStore(
                 patchState(store, setAllEntities(rentals, rentalConfig));
               },
               error: (error: HttpErrorResponse) => {
-                patchState(store, { error: `Error al cargar pendientes de retiro: ${error.message}` });
+                patchState(store, { error: getErrorMessage(error, 'Error al cargar pendientes de retiro') });
               },
               finalize: () => {
                 patchState(store, { isLoading: false });
@@ -147,7 +148,7 @@ export const RentalsStore = signalStore(
                 patchState(store, setAllEntities(rentals, rentalConfig));
               },
               error: (error: HttpErrorResponse) => {
-                patchState(store, { error: `Error al cargar pendientes de devolución: ${error.message}` });
+                patchState(store, { error: getErrorMessage(error, 'Error al cargar pendientes de devolución') });
               },
               finalize: () => {
                 patchState(store, { isLoading: false });
@@ -174,7 +175,7 @@ export const RentalsStore = signalStore(
               },
               error: (error: HttpErrorResponse) => {
                 patchState(store, {
-                  error: `Error al cancelar reserva: ${error.message}`,
+                  error: getErrorMessage(error, 'Error al cancelar reserva'),
                   success: null
                 });
               },
@@ -203,7 +204,7 @@ export const RentalsStore = signalStore(
               },
               error: (error: HttpErrorResponse) => {
                 patchState(store, {
-                  error: `Error al marcar como entregado: ${error.message}`,
+                  error: getErrorMessage(error, 'Error al marcar como entregado'),
                   success: null
                 });
               },
@@ -232,7 +233,7 @@ export const RentalsStore = signalStore(
               },
               error: (error: HttpErrorResponse) => {
                 patchState(store, {
-                  error: `Error al finalizar alquiler: ${error.message}`,
+                  error: getErrorMessage(error, 'Error al finalizar alquiler'),
                   success: null
                 });
               },
@@ -261,7 +262,7 @@ export const RentalsStore = signalStore(
               },
               error: (error: HttpErrorResponse) => {
                 patchState(store, {
-                  error: `Error al finalizar alquiler con multa: ${error.message}`,
+                  error: getErrorMessage(error, 'Error al finalizar alquiler con multa'),
                   success: null
                 });
               },
@@ -296,7 +297,7 @@ export const RentalsStore = signalStore(
               },
               error: (error: HttpErrorResponse) => {
                 patchState(store, {
-                  error: `Error al procesar el pago: ${error.error || error.message}`,
+                  error: getErrorMessage(error, 'Error al procesar el pago'),
                 });
               },
               finalize: () => {
