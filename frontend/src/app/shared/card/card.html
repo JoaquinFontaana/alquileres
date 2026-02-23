@@ -1,20 +1,24 @@
 @let localTitle = this.title();
 @let imageUrl = this.imgUrl();
 <mat-card class="custom-card" appearance="outlined">
+    @if (localTitle) {
     <mat-card-header>
         <mat-card-title-group>
             <mat-card-title>{{localTitle}}</mat-card-title>
         </mat-card-title-group>
     </mat-card-header>
-    @defer (on viewport) {
-        <img mat-card-image [src]="imageUrl" alt="Foto de {{localTitle}}"/>
-    } @placeholder {
-        <span>Cargando imagen...</span>
     }
+    <div class="card-image-wrapper">
+        @defer (on viewport) {
+        <img [src]="imageUrl" alt="Foto de {{localTitle}}" />
+        } @placeholder {
+        <div class="skeleton-image"></div>
+        }
+    </div>
     <mat-card-content>
-        <ng-content select="[content]"/>
+        <ng-content select="[content]" />
     </mat-card-content>
     <mat-card-actions>
-        <ng-content select="[actions]"/>
+        <ng-content select="[actions]" />
     </mat-card-actions>
 </mat-card>

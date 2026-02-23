@@ -1,6 +1,17 @@
-@let localvehicles = this.vehicles();
+@let localvehicles = vehicles();
 <div class="vehicle-list-container">
-  <h1>Vehiculos</h1>
+
+  <!-- Título mejorado con ícono y gradiente -->
+  <div class="list-title">
+    <div class="list-title-icon">
+      <mat-icon>directions_car</mat-icon>
+    </div>
+    <div class="list-title-text">
+      <h1>Vehículos disponibles</h1>
+      <p>Seleccioná tu auto ideal antes de confirmar las fechas</p>
+    </div>
+  </div>
+
   <div class="list-header">
     @if (isAdmin()) {
     <app-button label="+ Agregar vehiculo" (action)="createVehicle()" class="confirm-button"></app-button>
@@ -13,6 +24,13 @@
     <app-vehicle-card [vehicle]="vehicle" [actions]="actionsList()" (actionClicked)="handleAction($event, vehicle)">
     </app-vehicle-card>
     }@empty {
-    No hay vehiculos para listar....
+    <div class="empty-state">
+      <div class="empty-state-icon">
+        <mat-icon>search_off</mat-icon>
+      </div>
+      <h3>No hay vehículos disponibles</h3>
+      <p>Probá cambiando los filtros de categoría, sucursal o rango de fechas.</p>
+    </div>
     }
   </section>
+</div>

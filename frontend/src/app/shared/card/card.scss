@@ -39,19 +39,16 @@
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     display: flex;
     flex-direction: column;
+    transition: transform 0.28s cubic-bezier(.4, 0, .2, 1), box-shadow 0.28s cubic-bezier(.4, 0, .2, 1);
+    will-change: transform, box-shadow;
+
+    &:hover {
+        transform: translateY(-6px) scale(1.012);
+        box-shadow: 0 20px 44px rgba(0, 0, 0, 0.22), 0 4px 12px rgba(61, 93, 236, 0.18);
+    }
 
     @include mobile {
         max-width: 100%;
-    }
-
-    img {
-        width: 100%;
-        height: 200px;
-        object-fit: cover;
-
-        @include mobile {
-            height: 180px;
-        }
     }
 
     mat-card-content {
@@ -101,6 +98,39 @@ mat-card-header {
     padding: 15px 0;
 }
 
-.custom-card[_ngcontent-ng-c3106120474] img[_ngcontent-ng-c3106120474] {
-    height: 250px;
+// ── Image wrapper (enables badge positioning) ──────────────
+.card-image-wrapper {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background: #e2e8f0;
+    flex-shrink: 0;
+
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        transition: transform 0.28s cubic-bezier(.4, 0, .2, 1);
+    }
+}
+
+// ── Skeleton shimmer for deferred image placeholder ────────
+@keyframes skeleton-shimmer {
+    0% {
+        background-position: -400px 0;
+    }
+
+    100% {
+        background-position: 400px 0;
+    }
+}
+
+.skeleton-image {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, #e2e8f0 25%, #f8fafc 50%, #e2e8f0 75%);
+    background-size: 800px 100%;
+    animation: skeleton-shimmer 1.4s infinite linear;
 }

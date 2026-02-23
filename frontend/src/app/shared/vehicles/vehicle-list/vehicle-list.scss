@@ -1,14 +1,7 @@
 @use '../../../../styles/variables.scss' as *;
 @use '../../../../styles/mixins.scss' as *;
 
-h1 {
-  text-align: center;
-  font-size: 2rem;
-
-  @include mobile {
-    font-size: 1.5rem;
-  }
-}
+// Remove old plain h1 — replaced by .list-title block
 
 :host {
   display: flex;
@@ -79,4 +72,104 @@ h1 {
 .paginator {
   flex-shrink: 0;
   border-top: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+// ── Section title with gradient ────────────────────────────────────
+.list-title {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.25rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.list-title-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, $primary-color 0%, #818cf8 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+
+  mat-icon {
+    color: #fff;
+    font-size: 1.4rem;
+  }
+}
+
+.list-title-text {
+  h1 {
+    font-size: 1.5rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #ffffff 0%, #a5b4fc 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    margin: 0;
+
+    @include mobile {
+      font-size: 1.2rem;
+    }
+  }
+
+  p {
+    font-size: 0.78rem;
+    color: rgba(255, 255, 255, 0.45);
+    margin-top: 0.15rem;
+
+    @include mobile {
+      display: none;
+    }
+  }
+}
+
+// ── Empty state ────────────────────────────────────────────────────
+.empty-state {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 4rem 2rem;
+  border: 1.5px dashed rgba(255, 255, 255, 0.12);
+  border-radius: 16px;
+  text-align: center;
+}
+
+.empty-state-icon {
+  width: 72px;
+  height: 72px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.04);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  mat-icon {
+    font-size: 2.4rem;
+    height: 2.4rem;
+    width: 2.4rem;
+    color: rgba(255, 255, 255, 0.22);
+  }
+}
+
+.empty-state h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.5);
+  margin: 0;
+}
+
+.empty-state p {
+  font-size: 0.82rem;
+  color: rgba(255, 255, 255, 0.28);
+  max-width: 280px;
+  line-height: 1.5;
+  margin: 0;
 }

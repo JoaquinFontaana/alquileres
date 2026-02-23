@@ -1,25 +1,39 @@
 @let localVehicle = this.vehicle();
-<app-card [title]="this.title()" [imgUrl]="localVehicle.imgUrl">
+<app-card [title]="''" [imgUrl]="localVehicle.imgUrl">
+
     <div content class="vehicle-details">
+
+        <h3 class="vehicle-title">{{ title() }}</h3>
+
         <div class="vehicle-specs">
-            <span class="spec">{{ localVehicle.capacidad }} pasajeros</span>
-            <span class="spec">{{ localVehicle.rembolso }}</span>
-            <span class="spec">{{  localVehicle.categoria }}</span>
+            <span class="spec">
+                <mat-icon>people</mat-icon>
+                {{ localVehicle.capacidad }} pasajeros
+            </span>
+            <span class="spec">
+                <mat-icon>currency_exchange</mat-icon>
+                {{ localVehicle.rembolso }}
+            </span>
+            <span class="spec">
+                <mat-icon>category</mat-icon>
+                {{ localVehicle.categoria }}
+            </span>
         </div>
-        <span class="vehicle-price">${{ localVehicle.precioPorDia }}/día</span>
+
+        <div class="price-tag">
+            <span class="price-amount">${{ localVehicle.precioPorDia }}</span>
+            <span class="price-unit">/día</span>
+        </div>
     </div>
+
     <div actions class="vehicle-actions">
         @if (actions().length > 0) {
-            @for (action of actions(); track action) {
-                @let config = getActionConfig(action);
-                <app-button 
-                    [label]="config.label"
-                    (action)="onActionClick(action)"
-                    [class]="'vehicle-action-' + config.type"
-                />
-            }
+        @for (action of actions(); track action) {
+        @let config = getActionConfig(action);
+        <app-button [label]="config.label" (action)="onActionClick(action)" [class]="'vehicle-action-' + config.type" />
+        }
         } @else {
-            <ng-content select="[actions]"/>
+        <ng-content select="[actions]" />
         }
     </div>
 </app-card>

@@ -2,6 +2,7 @@ import { Component, Signal, computed, input, output } from '@angular/core';
 import { Vehicle, VehicleCardAction } from '@models';
 import { Card } from '@shared/card/card';
 import { Button } from '@shared/button/button';
+import { MatIconModule } from '@angular/material/icon';
 
 interface ActionConfig {
   label: string;
@@ -10,7 +11,7 @@ interface ActionConfig {
 
 @Component({
   selector: 'app-vehicle-card',
-  imports: [Card, Button],
+  imports: [Card, Button, MatIconModule],
   templateUrl: './vehicle-card.html',
   styleUrl: './vehicle-card.scss'
 })

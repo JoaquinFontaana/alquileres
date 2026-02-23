@@ -3,8 +3,6 @@ package inge2.com.alquileres.backend.configuration;
 import inge2.com.alquileres.backend.service.UsuarioService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.event.ApplicationReadyEvent;
-import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
 @Component
