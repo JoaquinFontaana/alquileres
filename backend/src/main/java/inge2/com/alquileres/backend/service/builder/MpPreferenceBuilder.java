@@ -18,29 +18,31 @@ import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.util.List;
+
 @Component
 public class MpPreferenceBuilder {
 
     @Value("${app.backend.url}")
     private String publicUrl;
-    public Preference crearPreferenceMulta(Cliente cliente, DatosPagoDTO datosPagoDTO){
+
+    public Preference crearPreferenceMulta(Cliente cliente, DatosPagoDTO datosPagoDTO) {
         return this.crearPreference(
                 cliente.getId().toString(),
                 cliente.getMontoMulta(),
                 datosPagoDTO,
-                "/checkOut/notificacion/multa"
-        );
-    }
-    public Preference crearPreferenceAlquiler(Alquiler alquiler, DatosPagoDTO datosPagoDTO) {
-            return this.crearPreference(
-                    alquiler.getId().toString(),
-                    alquiler.calcularTotal(),
-                    datosPagoDTO,
-                    "/checkOut/notificacion/alquiler"
-            );
+                "/checkOut/notificacion/multa");
     }
 
-    private Preference crearPreference(String externalReference, Double monto, DatosPagoDTO datosPagoDTO, String urlNotificacion){
+    public Preference crearPreferenceAlquiler(Alquiler alquiler, DatosPagoDTO datosPagoDTO) {
+        return this.crearPreference(
+                alquiler.getId().toString(),
+                alquiler.calcularTotal(),
+                datosPagoDTO,
+                "/checkOut/notificacion/alquiler");
+    }
+
+    private Preference crearPreference(String externalReference, Double monto, DatosPagoDTO datosPagoDTO,
+            String urlNotificacion) {
         try {
             PreferenceItemRequest item = this.crearPreferenceItemRequest(datosPagoDTO, monto);
             PreferenceBackUrlsRequest backUrlsRequest = this.crearPreferenceBackUrlsRequest(datosPagoDTO);
@@ -48,31 +50,26 @@ public class MpPreferenceBuilder {
             PreferenceRequest preferenceRequest = PreferenceRequest.builder()
                     .items(List.of(item))
                     .backUrls(backUrlsRequest)
-                    //Para implementar las notificaciones la API debe estar en un dominio accesible en internet
                     .notificationUrl(publicUrl + urlNotificacion)
-                    //Referencia a la tabla Pago guardada en la BD (id del alquiler)
                     .externalReference(externalReference)
                     .autoReturn("approved")
+                    .expires(true)
                     .expirationDateFrom(OffsetDateTime.now(ZoneOffset.UTC))
                     .expirationDateTo(OffsetDateTime.now(ZoneOffset.UTC).plusMinutes(15))
                     .build();
             PreferenceClient client = new PreferenceClient();
             return client.create(preferenceRequest);
-        }
-        catch (MPApiException ex){
-            System.out.println(publicUrl + urlNotificacion);
-            System.out.println(datosPagoDTO.getSuccessUrl());
+        } catch (MPApiException ex) {
             System.err.println("Status: " + ex.getStatusCode());
             System.err.println("Response body: " + ex.getApiResponse().getContent());
             throw new RuntimeException("No se pudo procesar el alquiler: " + ex.getApiResponse().getContent(), ex);
-        }
-        catch (MPException ex){
+        } catch (MPException ex) {
             System.err.println("Error al : " + ex.getMessage());
             throw new RuntimeException("No se pudo procesar el alquiler.", ex);
         }
     }
 
-    private PreferenceItemRequest crearPreferenceItemRequest(DatosPagoDTO datosPagoDTO, double total){
+    private PreferenceItemRequest crearPreferenceItemRequest(DatosPagoDTO datosPagoDTO, double total) {
         return PreferenceItemRequest.builder()
                 .title(datosPagoDTO.getTitulo())
                 .quantity(1)
@@ -81,25 +78,24 @@ public class MpPreferenceBuilder {
                 .build();
     }
 
-    private PreferenceBackUrlsRequest crearPreferenceBackUrlsRequest(DatosPagoDTO datosPagoDTO){
-        return  PreferenceBackUrlsRequest.builder()
-                .success(datosPagoDTO.getSuccessUrl()) //Rutas de redirrecion en el frontend
+    private PreferenceBackUrlsRequest crearPreferenceBackUrlsRequest(DatosPagoDTO datosPagoDTO) {
+        return PreferenceBackUrlsRequest.builder()
+                .success(datosPagoDTO.getSuccessUrl()) // Rutas de redirrecion en el frontend
                 .failure(datosPagoDTO.getFailureUrl())
                 .pending(datosPagoDTO.getPendingUrl())
                 .build();
     }
-    public void rembolsar(double monto,Long paymentId) {
+
+    public void rembolsar(double monto, Long paymentId) {
         try {
             PaymentRefundClient client = new PaymentRefundClient();
             System.out.println(BigDecimal.valueOf(monto));
             client.refund(paymentId, BigDecimal.valueOf(monto));
-        }
-        catch (MPApiException ex){
+        } catch (MPApiException ex) {
             System.err.println("Status: " + ex.getStatusCode());
             System.err.println("Response body: " + ex.getApiResponse().getContent());
             throw new RuntimeException("No se pudo procesar el reembolso: " + ex.getApiResponse().getContent(), ex);
-        }
-        catch (MPException ex){
+        } catch (MPException ex) {
             System.err.println("Error al : " + ex.getMessage());
             throw new RuntimeException("No se pudo procesar el reembolso.", ex);
         }
