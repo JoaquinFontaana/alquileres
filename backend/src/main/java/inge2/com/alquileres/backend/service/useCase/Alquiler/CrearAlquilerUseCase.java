@@ -13,9 +13,12 @@ import inge2.com.alquileres.backend.service.helper.AutoHelperService;
 import inge2.com.alquileres.backend.service.helper.ClienteHelperService;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-@Service @AllArgsConstructor
+@Slf4j
+@Service
+@AllArgsConstructor
 public class CrearAlquilerUseCase {
 
     private final AlquilerHelperService alquilerHelperService;
@@ -26,18 +29,20 @@ public class CrearAlquilerUseCase {
     private final AlquilerMapper alquilerMapper;
 
     @Transactional
-    public Alquiler crearAlquiler(AlquilerDTOCrear alquilerDTO, String email){
+    public Alquiler crearAlquiler(AlquilerDTOCrear alquilerDTO, String email) {
+        log.info("Creating rental. Client: {}, Auto: {}", email, alquilerDTO.getPatenteAuto());
         this.alquilerHelperService.checkDuracionAlquiler(alquilerDTO.getRangoFecha());
-        this.alquilerHelperService.checkDisponibilidadConductor(alquilerDTO.getRangoFecha(),alquilerDTO.getLicenciaConductor());
+        this.alquilerHelperService.checkDisponibilidadConductor(alquilerDTO.getRangoFecha(),
+                alquilerDTO.getLicenciaConductor());
 
         Auto auto = this.autoHelperService.findAutoByPatente(alquilerDTO.getPatenteAuto());
-        this.autoHelperService.verificarDisponibilidad(auto,alquilerDTO.getRangoFecha());
+        this.autoHelperService.verificarDisponibilidad(auto, alquilerDTO.getRangoFecha());
 
         Sucursal sucursal = this.sucursalService.findSucursalByCiudad(alquilerDTO.getSucursal());
 
         Cliente cliente = this.clienteHelperService.findClienteByEmail(email);
 
-        Alquiler alquiler = alquilerMapper.toEntity(alquilerDTO,auto,cliente,sucursal);
+        Alquiler alquiler = alquilerMapper.toEntity(alquilerDTO, auto, cliente, sucursal);
 
         return this.alquilerService.saveAlquiler(alquiler);
     }

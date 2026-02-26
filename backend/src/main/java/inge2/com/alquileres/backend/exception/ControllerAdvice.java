@@ -2,6 +2,7 @@ package inge2.com.alquileres.backend.exception;
 
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
+import lombok.extern.slf4j.Slf4j;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.core.Ordered;
@@ -25,6 +26,7 @@ import java.io.UncheckedIOException;
 import java.util.List;
 
 //Manejador de excepicones general, captura todas las excepicones de la aplicacion
+@Slf4j
 @RestControllerAdvice
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class ControllerAdvice extends ResponseEntityExceptionHandler {
@@ -36,48 +38,72 @@ public class ControllerAdvice extends ResponseEntityExceptionHandler {
             HttpStatusCode status,
             WebRequest request) {
 
+        log.warn("Validation failed: {}", ex.getMessage());
         List<FieldError> errors = ex.getFieldErrors();
         ValidationException validationException = new ValidationException(errors, HttpStatus.BAD_REQUEST);
-        return new ResponseEntity<>(validationException.toErrorResponse(),headers,status);
+        return new ResponseEntity<>(validationException.toErrorResponse(), headers, status);
     }
+
     @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity<String> handleEntityNotFound(EntityNotFoundException ex){
-        return new ResponseEntity<>(ex.getMessage(),HttpStatus.NOT_FOUND);
+    public ResponseEntity<String> handleEntityNotFound(EntityNotFoundException ex) {
+        log.warn("Entity not found: {}", ex.getMessage());
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
+
     @ExceptionHandler(EntityExistsException.class)
-    public ResponseEntity<String> handleEntityExist(EntityExistsException ex){
+    public ResponseEntity<String> handleEntityExist(EntityExistsException ex) {
+        log.warn("Entity conflict: {}", ex.getMessage());
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.CONFLICT);
     }
+
     @ExceptionHandler(MailException.class)
-    public ResponseEntity<String> handlerMailException(MailException ex){
-        return new ResponseEntity<>("La operación se completó correctamente, pero no se pudo enviar la notificación por email. Por favor, contacte al administrador del sistema.",HttpStatus.OK);
+    public ResponseEntity<String> handlerMailException(MailException ex) {
+        log.error("Mail delivery failed: {}", ex.getMessage(), ex);
+        return new ResponseEntity<>(
+                "La operación se completó correctamente, pero no se pudo enviar la notificación por email. Por favor, contacte al administrador del sistema.",
+                HttpStatus.OK);
     }
+
     @ExceptionHandler(JwtException.class)
-    public ResponseEntity<String> handlerTokenException(JwtException ex){
+    public ResponseEntity<String> handlerTokenException(JwtException ex) {
+        log.warn("JWT error: {}", ex.getMessage());
         return new ResponseEntity<String>(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
+
     @ExceptionHandler(ExpiredJwtException.class)
-    public ResponseEntity<String> handlerExpiredTokenException(ExpiredJwtException ex){
+    public ResponseEntity<String> handlerExpiredTokenException(ExpiredJwtException ex) {
+        log.warn("Expired JWT token: {}", ex.getMessage());
         return new ResponseEntity<String>("La sesión del token caducó.", HttpStatus.UNAUTHORIZED);
     }
+
     @ExceptionHandler(AuthenticationCredentialsNotFoundException.class)
-    public ResponseEntity<String> handlerCredentialsNotFound(AuthenticationCredentialsNotFoundException ex){
-        return new ResponseEntity<String>("El usuario no esta autenticado no se puede obtener el email del context", HttpStatus.UNAUTHORIZED);
+    public ResponseEntity<String> handlerCredentialsNotFound(AuthenticationCredentialsNotFoundException ex) {
+        log.warn("Auth credentials not found: {}", ex.getMessage());
+        return new ResponseEntity<String>("El usuario no esta autenticado no se puede obtener el email del context",
+                HttpStatus.UNAUTHORIZED);
     }
+
     @ExceptionHandler(UncheckedIOException.class)
-    public ResponseEntity<String> ioExceptionHandler(IOException ex){
-        return new ResponseEntity<>(ex.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
+    public ResponseEntity<String> ioExceptionHandler(IOException ex) {
+        log.error("IO error: {}", ex.getMessage(), ex);
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
     @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<String> ilegalArgumentHandler(IllegalArgumentException ex){
-        return new ResponseEntity<>(ex.getMessage(),HttpStatus.BAD_REQUEST);
+    public ResponseEntity<String> ilegalArgumentHandler(IllegalArgumentException ex) {
+        log.warn("Illegal argument: {}", ex.getMessage());
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
+
     @ExceptionHandler(DataIntegrityViolationException.class)
-    public ResponseEntity<String> handlerDataIntegrityViolation(DataIntegrityViolationException ex){
-        return new ResponseEntity<>("El dato que intentas ingresar ya existe",HttpStatus.CONFLICT);
+    public ResponseEntity<String> handlerDataIntegrityViolation(DataIntegrityViolationException ex) {
+        log.warn("Data integrity violation: {}", ex.getMessage());
+        return new ResponseEntity<>("El dato que intentas ingresar ya existe", HttpStatus.CONFLICT);
     }
+
     @ExceptionHandler(RuntimeException.class)
-    public ResponseEntity<String> handleGenericException(RuntimeException ex){
+    public ResponseEntity<String> handleGenericException(RuntimeException ex) {
+        log.error("Unhandled runtime exception: {}", ex.getMessage(), ex);
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
 }

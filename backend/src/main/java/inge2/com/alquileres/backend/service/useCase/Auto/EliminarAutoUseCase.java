@@ -4,23 +4,27 @@ import inge2.com.alquileres.backend.service.AlquilerService;
 import inge2.com.alquileres.backend.service.AutoService;
 import inge2.com.alquileres.backend.service.helper.AutoHelperService;
 import jakarta.transaction.Transactional;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 public class EliminarAutoUseCase {
     private final AutoHelperService autoHelperService;
     private final AlquilerService alquilerService;
     private final AutoService autoService;
 
-    public EliminarAutoUseCase(AutoHelperService autoHelperService, AlquilerService alquilerService, AutoService autoService) {
+    public EliminarAutoUseCase(AutoHelperService autoHelperService, AlquilerService alquilerService,
+            AutoService autoService) {
         this.autoHelperService = autoHelperService;
         this.alquilerService = alquilerService;
         this.autoService = autoService;
     }
 
     @Transactional
-    public void eliminarAuto(String patente){
-        this.autoHelperService.findAutoByPatente(patente).darDeBaja(alquilerService,autoService);
+    public void eliminarAuto(String patente) {
+        log.warn("Deleting (dar de baja) auto with plate: {}", patente);
+        this.autoHelperService.findAutoByPatente(patente).darDeBaja(alquilerService, autoService);
     }
 
 }

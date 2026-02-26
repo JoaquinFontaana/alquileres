@@ -10,15 +10,18 @@ import inge2.com.alquileres.backend.service.builder.MpPreferenceBuilder;
 import inge2.com.alquileres.backend.service.helper.CheckOutHelperService;
 import inge2.com.alquileres.backend.service.useCase.Alquiler.CrearAlquilerUseCase;
 import jakarta.transaction.Transactional;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 public class CheckOutAlquilerService extends AbstractCheckOutService {
 
     private final PagoService pagoService;
     private final CrearAlquilerUseCase crearAlquilerUseCase;
 
-    public CheckOutAlquilerService(CheckOutHelperService checkOutHelper, MpPreferenceBuilder mpPreferenceBuilder, AuthService authService, PagoService pagoService, CrearAlquilerUseCase crearAlquilerUseCase) {
+    public CheckOutAlquilerService(CheckOutHelperService checkOutHelper, MpPreferenceBuilder mpPreferenceBuilder,
+            AuthService authService, PagoService pagoService, CrearAlquilerUseCase crearAlquilerUseCase) {
         super(checkOutHelper, mpPreferenceBuilder, authService);
         this.pagoService = pagoService;
         this.crearAlquilerUseCase = crearAlquilerUseCase;
@@ -31,10 +34,13 @@ public class CheckOutAlquilerService extends AbstractCheckOutService {
 
     @Transactional
     public String registrarAlquiler(CheckOutAlquilerDTO checkOutAlquilerDTO, String email) {
-        Alquiler alquiler = this.crearAlquilerUseCase.crearAlquiler(checkOutAlquilerDTO.getAlquilerDTO(),email);
+        log.info("Registering rental for email: {}", email);
+        Alquiler alquiler = this.crearAlquilerUseCase.crearAlquiler(checkOutAlquilerDTO.getAlquilerDTO(), email);
 
-        Preference preference = this.getMpPreferenceBuilder().crearPreferenceAlquiler(alquiler,checkOutAlquilerDTO.getDatosPagoDTO());
-
-        return pagoService.crearPago(preference,alquiler).getInitPoint();//url de pago generada a partir de los datos obtenidos
+        Preference preference = this.getMpPreferenceBuilder().crearPreferenceAlquiler(alquiler,
+                checkOutAlquilerDTO.getDatosPagoDTO());
+        log.info("Payment preference created for rental id: {}", alquiler.getId());
+        return pagoService.crearPago(preference, alquiler).getInitPoint();// url de pago generada a partir de los datos
+                                                                          // obtenidos
     }
 }

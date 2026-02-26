@@ -6,8 +6,10 @@ import inge2.com.alquileres.backend.model.enums.EstadoPago;
 import inge2.com.alquileres.backend.repository.IRembolsoRepository;
 import inge2.com.alquileres.backend.service.builder.MpPreferenceBuilder;
 import jakarta.transaction.Transactional;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 public class RembolsoService {
 
@@ -18,9 +20,11 @@ public class RembolsoService {
         this.mpPreferenceBuilder = mpPreferenceBuilder;
         this.rembolsoRepository = rembolsoRepository;
     }
+
     @Transactional
-    public void crearRembolso(Alquiler reserva, double montoRembolso){
-        if(montoRembolso > 0) {
+    public void crearRembolso(Alquiler reserva, double montoRembolso) {
+        log.info("Processing refund. Amount: {}", montoRembolso);
+        if (montoRembolso > 0) {
             mpPreferenceBuilder.rembolsar(montoRembolso, reserva.getPago().getPaymentId());
         }
         reserva.getPago().setEstadoPago(EstadoPago.REMBOLSADO);

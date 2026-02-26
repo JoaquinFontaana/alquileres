@@ -11,6 +11,7 @@ import com.mercadopago.resources.preference.Preference;
 import inge2.com.alquileres.backend.dto.DatosPagoDTO;
 import inge2.com.alquileres.backend.model.Alquiler;
 import inge2.com.alquileres.backend.model.Cliente;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -19,6 +20,7 @@ import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.util.List;
 
+@Slf4j
 @Component
 public class MpPreferenceBuilder {
 
@@ -60,11 +62,11 @@ public class MpPreferenceBuilder {
             PreferenceClient client = new PreferenceClient();
             return client.create(preferenceRequest);
         } catch (MPApiException ex) {
-            System.err.println("Status: " + ex.getStatusCode());
-            System.err.println("Response body: " + ex.getApiResponse().getContent());
+            log.error("MercadoPago API error. Status: {}", ex.getStatusCode());
+            log.error("MercadoPago response body: {}", ex.getApiResponse().getContent());
             throw new RuntimeException("No se pudo procesar el alquiler: " + ex.getApiResponse().getContent(), ex);
         } catch (MPException ex) {
-            System.err.println("Error al : " + ex.getMessage());
+            log.error("MercadoPago MP error: {}", ex.getMessage(), ex);
             throw new RuntimeException("No se pudo procesar el alquiler.", ex);
         }
     }
@@ -89,14 +91,14 @@ public class MpPreferenceBuilder {
     public void rembolsar(double monto, Long paymentId) {
         try {
             PaymentRefundClient client = new PaymentRefundClient();
-            System.out.println(BigDecimal.valueOf(monto));
+            log.debug("Processing refund for amount: {}", BigDecimal.valueOf(monto));
             client.refund(paymentId, BigDecimal.valueOf(monto));
         } catch (MPApiException ex) {
-            System.err.println("Status: " + ex.getStatusCode());
-            System.err.println("Response body: " + ex.getApiResponse().getContent());
+            log.error("MercadoPago API error. Status: {}", ex.getStatusCode());
+            log.error("MercadoPago response body: {}", ex.getApiResponse().getContent());
             throw new RuntimeException("No se pudo procesar el reembolso: " + ex.getApiResponse().getContent(), ex);
         } catch (MPException ex) {
-            System.err.println("Error al : " + ex.getMessage());
+            log.error("MercadoPago MP error: {}", ex.getMessage(), ex);
             throw new RuntimeException("No se pudo procesar el reembolso.", ex);
         }
     }

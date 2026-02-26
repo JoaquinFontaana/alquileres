@@ -8,18 +8,23 @@ import inge2.com.alquileres.backend.service.AlquilerService;
 import inge2.com.alquileres.backend.service.helper.AlquilerHelperService;
 import inge2.com.alquileres.backend.service.helper.AutoHelperService;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service @AllArgsConstructor
+@Slf4j
+@Service
+@AllArgsConstructor
 public class CambiarAutoUseCase {
     private final AlquilerHelperService alquilerHelperService;
     private final AutoHelperService autoHelperService;
     private final AlquilerService alquilerService;
     private final SugerirVehiculosSimilaresUseCase sugerirVehiculosSimilares;
 
-    public void cambiarAuto(AlquilerDTOCambiarAuto alquilerDTOCambiarAuto){
+    public void cambiarAuto(AlquilerDTOCambiarAuto alquilerDTOCambiarAuto) {
+        log.info("Changing auto for rental id: {}. New plate: {}", alquilerDTOCambiarAuto.getCodigoAlquiler(),
+                alquilerDTOCambiarAuto.getPatenteAutoNuevo());
         Auto auto = this.autoHelperService.findAutoByPatente(alquilerDTOCambiarAuto.getPatenteAutoNuevo());
 
         checkVehiculoIsSimiliar(auto.getPatente(), alquilerDTOCambiarAuto.getCodigoAlquiler());
@@ -29,14 +34,13 @@ public class CambiarAutoUseCase {
         alquilerService.saveAlquiler(alquiler);
     }
 
-
-    private void checkVehiculoIsSimiliar(String patenteAutoNuevo,Long codigoAlquiler) {
+    private void checkVehiculoIsSimiliar(String patenteAutoNuevo, Long codigoAlquiler) {
         List<String> patentes = this.sugerirVehiculosSimilares.sugerirSimilares(codigoAlquiler)
                 .stream()
                 .map(AutoDTOListar::getPatente)
                 .toList();
 
-        if(!patentes.contains(patenteAutoNuevo)){
+        if (!patentes.contains(patenteAutoNuevo)) {
             throw new IllegalArgumentException("El auto seleccionado para el cambio no es similar al auto actual");
         }
     }
