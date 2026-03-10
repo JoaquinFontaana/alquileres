@@ -10,17 +10,6 @@
             <p class="vehicle-category">{{ localRental.auto.categoria }}</p>
         </div>
 
-        <div class="rental-dates">
-            <div class="date-item">
-                <span class="date-label">Desde:</span>
-                <span class="date-value">{{ localRental.fechaDesde | date: 'dd/MM/yyyy' }}</span>
-            </div>
-            <div class="date-item">
-                <span class="date-label">Hasta:</span>
-                <span class="date-value">{{ localRental.fechaHasta | date: 'dd/MM/yyyy' }}</span>
-            </div>
-        </div>
-
         @if (showClientInfo()) {
             <div class="client-info">
                 <p class="info-item"><strong>Cliente:</strong> {{ localRental.mailCliente }}</p>

@@ -3,8 +3,10 @@ export interface Rental {
     codigoReserva: number;
     auto: Vehicle;
     mailCliente: string;
-    fechaDesde: Date;
-    fechaHasta: Date;
+    rangoFechas: {
+        fechaDesde: Date;
+        fechaHasta: Date;
+    }
     estadoPago: string;
     estadoAlquilerEnum:string;
     monto: number;

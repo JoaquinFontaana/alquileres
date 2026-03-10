@@ -1,146 +1,197 @@
 @use '../../../../styles/variables' as *;
 @use '../../../../styles/mixins' as *;
 
+// ─── Host ────────────────────────────────────────────────────────────────────
 :host {
-  display: flex;
   margin: 20px 0;
-  width: 100%;
-  align-items: center;
-  justify-content: center;
 }
 
+// ─── Container ───────────────────────────────────────────────────────────────
 .rental-filter-container {
   display: flex;
   flex-direction: column;
-  background-color: $bg-light;
-  border-radius: $border-radius;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  padding: 30px;
-  gap: 10px;
-  width: 100%;
-  max-width: 1200px;
-
-  .error-message {
-    padding: 12px;
-    background-color: rgba($error-color, 0.1);
-    border: 1px solid $error-color;
-    border-radius: $border-radius;
-    color: $error-color;
-    font-size: 0.9rem;
-    text-align: center;
-  }
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 24px 28px;
+  background: linear-gradient(135deg, #ffffff 0%, #f8faff 100%);
+  border: 1px solid rgba($primary-color, 0.1);
+  border-radius: 14px;
+  box-shadow:
+    0 2px 6px rgba(0, 0, 0, 0.04),
+    0 8px 24px rgba($primary-color, 0.06);
 }
 
+// ─── Form Layout ─────────────────────────────────────────────────────────────
 .filter-form {
   display: flex;
   flex-direction: row;
   align-items: flex-end;
-  gap: 16px;
   flex-wrap: wrap;
+  gap: 12px 16px;
 
-  .form-group {
-    @include flex-column;
-    gap: 8px;
-    flex: 1;
-    min-width: 200px;
+  // Every mat-form-field host is a flex item that fills available space
+  app-input-select,
+  app-input,
+  app-date-range-picker {
+    flex: 1 1 180px;
+    min-width: 160px;
 
-    label {
-      color: $text-primary;
-      font-weight: 500;
-      font-size: 0.95rem;
-    }
-
-    .select-input,
-    .text-input {
-      padding: 10px 12px;
-      border: 1px solid #e2e8f0;
-      border-radius: $border-radius;
-      font-size: 1rem;
-      font-family: $font-family;
-      background-color: #f7fafc;
-      color: #2d3748;
-      transition: $transition;
-
-      &:focus {
-        outline: none;
-        border-color: $primary-color;
-        background-color: #fff;
-      }
-
-      &::placeholder {
-        color: #a0aec0;
-      }
-    }
-
-    .select-input {
-      cursor: pointer;
-      
-      option {
-        background-color: #fff;
-        color: #2d3748;
-      }
+    // Stretch inner mat-form-field to full width
+    mat-form-field,
+    ::ng-deep mat-form-field {
+      width: 100%;
     }
   }
 
+  app-date-range-picker {
+    flex: 2 1 300px; // date range gets a bit more space
+  }
+
+  // ─── Action Buttons ────────────────────────────────────────────────────
   .form-actions {
     display: flex;
-    gap: 12px;
+    gap: 10px;
     align-items: flex-end;
-    margin-top: 8px;
+    flex: 0 0 auto;          // never shrink/grow — stays right-aligned
+    margin-left: auto;       // push to the far right on wide screens
+    padding-bottom: 2px;     // align with mat-form-field baseline
   }
 }
 
-// Estilos para los botones
+// ─── Button Overrides (via ::ng-deep since hosted in Button component) ────────
 ::ng-deep .filter-button {
-  padding: 10px 24px;
-  background-color: $primary-color;
-  color: white;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 22px;
+  background: linear-gradient(135deg, $primary-color 0%, $primary-hover 100%);
+  color: #fff;
   border: none;
   border-radius: $border-radius;
-  font-weight: 500;
+  font-family: $font-family;
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.4px;
   cursor: pointer;
-  transition: all $transition;
   white-space: nowrap;
+  transition: all 0.25s ease;
+  box-shadow: 0 2px 8px rgba($primary-color, 0.30);
 
   &:hover {
-    background-color: $primary-hover;
+    background: linear-gradient(135deg, $primary-hover 0%, darken($primary-hover, 6%) 100%);
+    box-shadow: 0 4px 14px rgba($primary-color, 0.40);
+    transform: translateY(-1px);
+  }
+
+  &:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 6px rgba($primary-color, 0.25);
   }
 }
 
 ::ng-deep .clear-button {
-  padding: 10px 24px;
-  background-color: transparent;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 22px;
+  background: transparent;
   color: #64748b;
-  border: 2px solid #e2e8f0;
+  border: 1.5px solid #d1d9e6;
   border-radius: $border-radius;
+  font-family: $font-family;
+  font-size: 0.875rem;
   font-weight: 500;
+  letter-spacing: 0.3px;
   cursor: pointer;
-  transition: all $transition;
   white-space: nowrap;
+  transition: all 0.25s ease;
 
   &:hover {
-    border-color: #cbd5e0;
-    background-color: #f7fafc;
+    border-color: $primary-color;
+    color: $primary-color;
+    background: rgba($primary-color, 0.04);
+  }
+
+  &:active {
+    background: rgba($primary-color, 0.08);
   }
 }
 
-// Responsive
-@media (max-width: 768px) {
+// ─── Error Message ────────────────────────────────────────────────────────────
+.error-message {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  background: rgba($error-color, 0.07);
+  border: 1px solid rgba($error-color, 0.3);
+  border-radius: $border-radius;
+  color: $error-color;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+// ─── Angular Material Field Overrides ─────────────────────────────────────────
+// Make mat-form-field appearance consistent with the card look
+::ng-deep {
+  .rental-filter-container {
+    mat-form-field.mat-mdc-form-field {
+      width: 100%;
+
+      // Outlined variant tweaks
+      .mdc-notched-outline__leading,
+      .mdc-notched-outline__notch,
+      .mdc-notched-outline__trailing {
+        border-color: #d1d9e6;
+      }
+
+      &:hover .mdc-notched-outline__leading,
+      &:hover .mdc-notched-outline__notch,
+      &:hover .mdc-notched-outline__trailing {
+        border-color: rgba($primary-color, 0.5);
+      }
+
+      &.mat-focused .mdc-notched-outline__leading,
+      &.mat-focused .mdc-notched-outline__notch,
+      &.mat-focused .mdc-notched-outline__trailing {
+        border-color: $primary-color;
+        border-width: 2px;
+      }
+
+      .mat-mdc-text-field-wrapper {
+        background: #fff;
+        border-radius: $border-radius;
+      }
+    }
+  }
+}
+
+// ─── Responsive ──────────────────────────────────────────────────────────────
+@media (max-width: $breakpoint-tablet) {
+  .rental-filter-container {
+    padding: 18px 16px;
+  }
+
   .filter-form {
     flex-direction: column;
-    align-items: stretch;
+    gap: 8px;
 
-    .form-group {
+    app-input-select,
+    app-input,
+    app-date-range-picker {
+      flex: 1 1 100%;
       min-width: 100%;
     }
 
     .form-actions {
-      flex-direction: column;
+      flex-direction: row;
       width: 100%;
+      margin-left: 0;
 
       ::ng-deep .filter-button,
       ::ng-deep .clear-button {
-        width: 100%;
+        flex: 1;
       }
     }
   }

@@ -1,11 +1,10 @@
 import { Component, inject, computed } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { VehicleCarousel } from './vehicle-carousel/vehicle-carousel';
 import { VehiclesStore } from '@shared/stores/vehicles-store';
 
 @Component({
   selector: 'app-home',
-  imports: [RouterLink, VehicleCarousel],
+  imports: [RouterLink],
   templateUrl: './home.html',
   styleUrl: './home.scss'
 })
